@@ -1,7 +1,6 @@
 package com.debateApp.Main.dto;
 
 import jakarta.validation.constraints.*;
-import com.debateApp.Main.entities.Stance;
 import lombok.*;
 
 @Data
@@ -17,7 +16,7 @@ public class AddMessageDTO {
     private Long groupId;
 
     @NotNull
-    private Stance stance;
+    private String stance;
 
     @NotNull
     private Long userId;

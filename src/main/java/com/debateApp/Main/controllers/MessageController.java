@@ -24,7 +24,7 @@ public class MessageController{
     }
 
     @GetMapping("/{id}")
-    public Messages getMessage(@PathVariable Long id ){
+    public MessageResponseDTO getMessage(@PathVariable Long id ){
         return messageService.getMessage(id);
     }
 
