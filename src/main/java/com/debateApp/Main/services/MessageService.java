@@ -6,6 +6,7 @@ import com.debateApp.Main.repositories.*;
 import com.debateApp.Main.dto.MessageResponseDTO;
 import com.debateApp.Main.dto.AddMessageDTO;
 import com.debateApp.Main.entities.Messages;
+import com.debateApp.Main.entities.Stance;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +23,12 @@ public class MessageService {
         Messages message = new Messages();
 
         message.setMessage(dto.getMessage());
-        message.setStance(dto.getStance());
+
+        try {
+            message.setStance(Stance.valueOf(dto.getStance().toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid Stance");
+        }
 
         message.setGroup(groupRepository.findById(dto.getGroupId())
                 .orElseThrow(() -> new RuntimeException("Group not found, id : " + dto.getGroupId())));
@@ -30,8 +36,8 @@ public class MessageService {
         message.setAuthor(userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found, id : " + dto.getUserId())));
 
-        //TODO
-        //User JWT to authenticate the user.
+        // TODO
+        // User JWT to authenticate the user.
         if (dto.getParentId() != null)
             message.setParent(messageRepository.findById(dto.getParentId())
                     .orElseThrow(() -> new RuntimeException("Parent message not found, id : " + dto.getParentId())));
@@ -43,12 +49,22 @@ public class MessageService {
                 .message(message.getMessage())
                 .authorId(message.getAuthor().getId())
                 .authorName(message.getAuthor().getUserName())
+                .stance(message.getStance().toString())
                 .build();
     }
 
-    public Messages getMessage(Long id) {
-        return messageRepository.findById(id)
+    public MessageResponseDTO getMessage(Long id) {
+        Messages message = messageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Can not find the message, id : " + id));
+
+        return MessageResponseDTO.builder()
+                .id(message.getId())
+                .message(message.getMessage())
+                .authorId(message.getAuthor().getId())
+                .authorName(message.getAuthor().getUserName())
+                .stance(message.getStance().toString())
+                .build();
+
     }
 
     public void deleteMessage(Long id) {

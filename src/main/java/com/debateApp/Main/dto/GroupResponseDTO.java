@@ -1,6 +1,5 @@
 package com.debateApp.Main.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
