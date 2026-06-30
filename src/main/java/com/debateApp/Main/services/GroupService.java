@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import com.debateApp.Main.dto.GroupResponseDTO;
 import com.debateApp.Main.dto.CreateGroupDTO;
 import com.debateApp.Main.dto.UpdateGroupDTO;
+import com.debateApp.Main.dto.AddMemberDTO;
 
 import lombok.*;
 
@@ -19,8 +20,7 @@ import lombok.*;
 @RequiredArgsConstructor
 public class GroupService {
 
-    // TODO:Add addMembers() and validate the user to be the owner before deleting
-    // the group.
+    // TODO:Add addMembers() 
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
@@ -89,6 +89,18 @@ public class GroupService {
                 .creatorName(existingGroup.getCreator().getUserName())
                 .build();
 
+    }
+
+    @Transactional
+    public void addMember(Long id, AddMemberDTO dto){
+        Groups existingGroup = groupRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Group not found, id : " + id));
+
+        Users user = userRepository.findById(dto.getId())
+            .orElseThrow(() -> new RuntimeException("Group not found, id : " + dto.getId()));
+
+        user.getJoinedGroups().add(existingGroup);
+        userRepository.save(user);
     }
 
 }

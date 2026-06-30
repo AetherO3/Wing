@@ -6,6 +6,7 @@ import com.debateApp.Main.services.GroupService;
 import com.debateApp.Main.dto.GroupResponseDTO;
 import com.debateApp.Main.dto.CreateGroupDTO;
 import com.debateApp.Main.dto.UpdateGroupDTO;
+import com.debateApp.Main.dto.AddMemberDTO;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,10 @@ public class GroupController {
     @PatchMapping("/{id}")
     public GroupResponseDTO updateGroup(@PathVariable Long id, @Valid @RequestBody UpdateGroupDTO dto) {
         return groupService.updateGroup(id, dto);
+    }
+
+    @PostMapping("/{id}/addMember")
+    public void addMember(@PathVariable Long id, @Valid @RequestBody AddMemberDTO dto){
+        groupService.addMember(id, dto);
     }
 }
