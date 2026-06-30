@@ -2,10 +2,10 @@ package com.debateApp.Main.controllers;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.debateApp.Main.entities.Groups;
 import com.debateApp.Main.services.GroupService;
 import com.debateApp.Main.dto.GroupResponseDTO;
 import com.debateApp.Main.dto.CreateGroupDTO;
+import com.debateApp.Main.dto.UpdateGroupDTO;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,8 @@ public class GroupController {
         groupService.deleteGroup(id);
     }
 
-    @PutMapping("/{id}")
-    public Groups updateGroup(@PathVariable Long id, @Valid @RequestBody Groups group) {
-        return groupService.updateGroup(id, group);
+    @PatchMapping("/{id}")
+    public GroupResponseDTO updateGroup(@PathVariable Long id, @Valid @RequestBody UpdateGroupDTO dto) {
+        return groupService.updateGroup(id, dto);
     }
 }

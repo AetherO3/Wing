@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 
 import com.debateApp.Main.dto.GroupResponseDTO;
 import com.debateApp.Main.dto.CreateGroupDTO;
+import com.debateApp.Main.dto.UpdateGroupDTO;
 
 import lombok.*;
 
@@ -18,7 +19,8 @@ import lombok.*;
 @RequiredArgsConstructor
 public class GroupService {
 
-    //TODO:Add addMembers() and validate the user to be the owner before deleting the group.
+    // TODO:Add addMembers() and validate the user to be the owner before deleting
+    // the group.
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
@@ -40,7 +42,7 @@ public class GroupService {
     public GroupResponseDTO createGroup(CreateGroupDTO dto) {
 
         Users creator = userRepository.findById(dto.getAuthorId())
-            .orElseThrow(() -> new RuntimeException("The user was not found, id : " + dto.getAuthorId()));
+                .orElseThrow(() -> new RuntimeException("The user was not found, id : " + dto.getAuthorId()));
 
         Groups group = new Groups();
         group.setName(dto.getName());
@@ -62,19 +64,31 @@ public class GroupService {
 
     }
 
+    // TODO : Make sure that only the creator can delete the group.
     public void deleteGroup(Long id) {
         groupRepository.deleteById(id);
     }
 
-    public Groups updateGroup(Long id, Groups group) {
+    public GroupResponseDTO updateGroup(Long id, UpdateGroupDTO dto) {
 
         Groups existingGroup = groupRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Group not found, id : " + id));
+                .orElseThrow(() -> new RuntimeException("The group not found, id : " + id));
 
-        existingGroup.setName(group.getName());
-        existingGroup.setMembers(group.getMembers());
+        if(dto.getName() != null)   existingGroup.setName(dto.getName());
 
-        return groupRepository.save(existingGroup);
+        if(dto.getTopic() != null)   existingGroup.setTopic(dto.getTopic());
+
+
+        groupRepository.save(existingGroup);
+
+        return GroupResponseDTO.builder()
+                .id(existingGroup.getId())
+                .name(existingGroup.getName())
+                .topic(existingGroup.getTopic())
+                .creatorId(existingGroup.getCreator().getId())
+                .creatorName(existingGroup.getCreator().getUserName())
+                .build();
+
     }
 
 }
