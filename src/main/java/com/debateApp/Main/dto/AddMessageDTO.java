@@ -15,7 +15,7 @@ public class AddMessageDTO {
     @NotNull
     private Long groupId;
 
-    @NotNull
+    @NotBlank
     private String stance;
 
     @NotNull
