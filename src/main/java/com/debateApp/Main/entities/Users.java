@@ -42,8 +42,4 @@ public class Users {
     @JoinTable(name = "group_members", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
     @JsonIgnore
     private List<Groups> joinedGroups = new ArrayList<>();
-
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Messages> messages = new ArrayList<>();
 }
