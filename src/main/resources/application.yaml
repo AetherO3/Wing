@@ -2,13 +2,10 @@ spring:
   application:
     name: Main
 
-# Database Information
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
-
-    #Hibernate ORM Configuration
 
   jpa:
     hibernate:
@@ -17,3 +14,8 @@ spring:
     properties:
       hibernate:
         format-sql: true
+
+  security:
+    user:
+      name: ${USERNAME}
+      password: ${PASSWORD}
