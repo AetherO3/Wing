@@ -44,9 +44,4 @@ public class Groups {
     @ManyToMany(mappedBy = "joinedGroups")
     @JsonIgnore
     private List<Users> members = new ArrayList<>();
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Messages> messages = new ArrayList<>();
-
 }
