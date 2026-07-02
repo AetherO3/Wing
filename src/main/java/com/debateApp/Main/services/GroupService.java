@@ -20,7 +20,7 @@ import lombok.*;
 @RequiredArgsConstructor
 public class GroupService {
 
-    // TODO:Add addMembers() 
+    // TODO:Add addMembers()
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
@@ -74,10 +74,11 @@ public class GroupService {
         Groups existingGroup = groupRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("The group not found, id : " + id));
 
-        if(dto.getName() != null)   existingGroup.setName(dto.getName());
+        if (dto.getName() != null)
+            existingGroup.setName(dto.getName());
 
-        if(dto.getTopic() != null)   existingGroup.setTopic(dto.getTopic());
-
+        if (dto.getTopic() != null)
+            existingGroup.setTopic(dto.getTopic());
 
         groupRepository.save(existingGroup);
 
@@ -92,12 +93,12 @@ public class GroupService {
     }
 
     @Transactional
-    public void addMember(Long id, AddMemberDTO dto){
+    public void addMember(Long id, AddMemberDTO dto) {
         Groups existingGroup = groupRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Group not found, id : " + id));
+                .orElseThrow(() -> new RuntimeException("Group not found, id : " + id));
 
         Users user = userRepository.findById(dto.getId())
-            .orElseThrow(() -> new RuntimeException("Group not found, id : " + dto.getId()));
+                .orElseThrow(() -> new RuntimeException("Group not found, id : " + dto.getId()));
 
         user.getJoinedGroups().add(existingGroup);
         userRepository.save(user);
