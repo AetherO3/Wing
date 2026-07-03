@@ -20,7 +20,6 @@ import lombok.*;
 @RequiredArgsConstructor
 public class GroupService {
 
-    // TODO:Add addMembers()
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
