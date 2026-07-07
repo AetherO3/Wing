@@ -23,20 +23,20 @@ public class JWTService {
     }
 
 
-    public String generateToken(String userName){
+    public String generateToken(Long id){
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
-            .subject(userName)
+            .subject(id.toString())
             .issuedAt(now)
             .expiration(expiry)
             .signWith(key)
             .compact();
     }
 
-    public String extractUserName(String token){
-        return parseClaims(token).getSubject();
+    public Long extractUserName(String token){
+        return Long.valueOf(parseClaims(token).getSubject());
     }
 
     public boolean isTokenValid(String token){

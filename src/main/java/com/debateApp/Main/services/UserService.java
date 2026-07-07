@@ -1,10 +1,10 @@
 package com.debateApp.Main.services;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.debateApp.Main.dto.*;
 import com.debateApp.Main.entities.Users;
-import com.debateApp.Main.services.PasswordService;
 import com.debateApp.Main.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordService passwordService;
 
+    @PreAuthorize("#id == authentication.principal")
     public UserResponseDTO getUser(Long id) {
 
         Users user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found id : " + id));
@@ -45,6 +46,7 @@ public class UserService {
                 .build();
     }
 
+    @PreAuthorize("#id == authentication.principal")
     public void deleteUser(Long id, DeleteUserDTO dto) {
 
         if (validatePassword(id, dto.getPassword()))

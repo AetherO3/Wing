@@ -1,8 +1,6 @@
 package com.debateApp.Main.controllers;
 
 import org.springframework.web.bind.annotation.*;
-
-import com.debateApp.Main.entities.Messages;
 import com.debateApp.Main.services.MessageService;
 import com.debateApp.Main.dto.AddMessageDTO;
 import com.debateApp.Main.dto.MessageResponseDTO;
