@@ -1,5 +1,6 @@
 package com.debateApp.Main.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.debateApp.Main.services.GroupService;
@@ -29,8 +30,8 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteGroup(@PathVariable Long id) {
-        groupService.deleteGroup(id);
+    public ResponseEntity<String> deleteGroup(@PathVariable Long id) {
+        return groupService.deleteGroup(id);
     }
 
     @PatchMapping("/{id}")

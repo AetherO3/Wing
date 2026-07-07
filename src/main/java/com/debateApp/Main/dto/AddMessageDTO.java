@@ -18,9 +18,6 @@ public class AddMessageDTO {
     @NotBlank
     private String stance;
 
-    @NotNull
-    private Long userId;
-
     private Long parentId;
 
 }

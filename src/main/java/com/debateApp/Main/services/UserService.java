@@ -54,7 +54,6 @@ public class UserService {
 
         else
             System.out.println("Wrong Password.");
-        // TODO : Add better response and logging than just a print statement.
     }
 
     public UserResponseDTO updateUser(Long id, UpdateUserDTO dto) {

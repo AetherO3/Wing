@@ -1,5 +1,8 @@
 package com.debateApp.Main.services;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.debateApp.Main.entities.Groups;
@@ -63,9 +66,21 @@ public class GroupService {
 
     }
 
-    // TODO : Make sure that only the creator can delete the group.
-    public void deleteGroup(Long id) {
-        groupRepository.deleteById(id);
+    public ResponseEntity<String> deleteGroup(Long id) {
+        Groups group = groupRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("The groups does not exist, id : " + id));
+
+        Long userId = (Long)SecurityContextHolder.getContext()
+            .getAuthentication()
+            .getPrincipal();
+
+        if(group.getCreator().getId().equals(userId)){
+            groupRepository.deleteById(id);
+            return ResponseEntity.ok("The Group was Deleted!!!");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only the author can delete the group!");
+        }
     }
 
     public GroupResponseDTO updateGroup(Long id, UpdateGroupDTO dto) {
