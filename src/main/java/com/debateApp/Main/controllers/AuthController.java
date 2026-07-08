@@ -27,8 +27,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginDTO dto){
+        //same error to prevent from guesing the username depending on the type of error code received.
         Users user = userRepository.findByUserName(dto.getUserName())
-            .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+            .orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
 
         if(!passwordService.verifyPassword(dto.getPassword(), user.getPasswordHash())){
             throw new BadCredentialsException("Invalid username or password");

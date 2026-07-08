@@ -1,4 +1,5 @@
 package com.debateApp.Main.exceptions;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -13,31 +14,43 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Map<String, String>> handlebadCredentialException(BadCredentialsException e){
+    public ResponseEntity<Map<String, String>> handlebadCredentialException(BadCredentialsException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-            .body(Map.of("error",e.getMessage()));
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException e){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(Map.of("error", e.getMessage()));
+                .body(Map.of("error", e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
 
         e.getBindingResult().getFieldErrors()
-            .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+                .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(errors);
+                .body(errors);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException e){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN) 
-            .body(Map.of("error", e.getMessage()));
+    public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", e.getMessage()));
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleResourceNotFoundException(ResourceNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, String>> handleBadRequestException(BadRequestException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "Something went wrong."));
+    }
+
 }

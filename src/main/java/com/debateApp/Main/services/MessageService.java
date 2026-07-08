@@ -1,6 +1,5 @@
 package com.debateApp.Main.services;
 
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,8 @@ import com.debateApp.Main.dto.MessageResponseDTO;
 import com.debateApp.Main.dto.AddMessageDTO;
 import com.debateApp.Main.entities.Messages;
 import com.debateApp.Main.entities.Stance;
+import com.debateApp.Main.exceptions.BadRequestException;
+import com.debateApp.Main.exceptions.ResourceNotFoundException;
 import com.debateApp.Main.entities.Groups;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class MessageService {
                 .getPrincipal();
 
         Groups group = groupRepository.findById(dto.getGroupId())
-                .orElseThrow(() -> new RuntimeException("Group not found, id : " + dto.getGroupId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found, id : " + dto.getGroupId()));
 
         boolean isMember = group.getMembers().stream()
                 .anyMatch(member -> member.getId().equals(userId));
@@ -45,18 +46,23 @@ public class MessageService {
         try {
             message.setStance(Stance.valueOf(dto.getStance().toUpperCase()));
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid Stance");
+            throw new BadRequestException("Invalid Stance");
         }
 
-        message.setGroup(groupRepository.findById(dto.getGroupId())
-                .orElseThrow(() -> new RuntimeException("Group not found, id : " + dto.getGroupId())));
+        message.setGroup(group);
 
         message.setAuthor(userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found, id : " + userId)));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found, id : " + userId)));
 
         if (dto.getParentId() != null) {
-            message.setParent(messageRepository.findById(dto.getParentId())
-                    .orElseThrow(() -> new RuntimeException("Parent message not found, id : " + dto.getParentId())));
+            Messages parent = messageRepository.findById(dto.getParentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Parent message not found, id : " + dto.getParentId()));
+
+            if (!parent.getGroup().getId().equals(group.getId())) {
+                throw new BadRequestException("Parent message belongs to a different group.");
+            }
+
+            message.setParent(parent);
         }
 
         messageRepository.save(message);
@@ -64,7 +70,7 @@ public class MessageService {
         return MessageResponseDTO.builder()
                 .id(message.getId())
                 .message(message.getMessage())
-                .authorId(message.getAuthor().getId())
+                .authorId(userId)
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
                 .build();
@@ -72,7 +78,7 @@ public class MessageService {
 
     public MessageResponseDTO getMessage(Long id) {
         Messages message = messageRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not find the message, id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Can not find the message, id : " + id));
 
         return MessageResponseDTO.builder()
                 .id(message.getId())
@@ -86,13 +92,13 @@ public class MessageService {
 
     public void deleteMessage(Long id) {
         Messages message = messageRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Group not found, id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found, id : " + id));
 
-        Long userId = (Long)SecurityContextHolder.getContext()
-            .getAuthentication()
-            .getPrincipal();
+        Long userId = (Long) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        if(!message.getAuthor().getId().equals(userId)){
+        if (!message.getAuthor().getId().equals(userId)) {
             throw new AccessDeniedException("Only the author of this message can delete it!");
         }
 

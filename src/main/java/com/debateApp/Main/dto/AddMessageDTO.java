@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddMessageDTO {
-    // Take the author id from the JWT session.
     
     @NotBlank
     private String message;

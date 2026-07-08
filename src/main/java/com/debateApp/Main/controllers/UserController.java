@@ -1,5 +1,6 @@
 package com.debateApp.Main.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.debateApp.Main.dto.*;
@@ -29,8 +30,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id, @Valid @RequestBody DeleteUserDTO dto) {
-        userService.deleteUser(id, dto);
+    public ResponseEntity<String> deleteUser(@PathVariable Long id, @Valid @RequestBody DeleteUserDTO dto) {
+        return userService.deleteUser(id, dto);
     }
 
     @PutMapping("/{id}")
