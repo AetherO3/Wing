@@ -17,43 +17,45 @@ public class JWTService {
     private final SecretKey key;
     private final long expirationTime;
 
-    public JWTService(@Value("${JWT_SECRET}") String secret, @Value("${JWT_EXPIRATION_MS:3600000}") long expirationMs){
+    public JWTService(@Value("${JWT_SECRET}") String secret, @Value("${JWT_EXPIRATION_MS:3600000}") long expirationMs) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.expirationTime = expirationMs;
     }
 
-
-    public String generateToken(Long id){
+    public String generateToken(Long id) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
-            .subject(id.toString())
-            .issuedAt(now)
-            .expiration(expiry)
-            .signWith(key)
-            .compact();
+                .subject(id.toString())
+                .issuedAt(now)
+                .expiration(expiry)
+                .signWith(key)
+                .compact();
     }
 
-    public Long extractUserName(String token){
+    public long getExpirationSeconds() {
+        return expirationTime / 1000;
+    }
+
+    public Long extractUserName(String token) {
         return Long.valueOf(parseClaims(token).getSubject());
     }
 
-    public boolean isTokenValid(String token){
-        try{
+    public boolean isTokenValid(String token) {
+        try {
             Claims claim = parseClaims(token);
             return claim.getExpiration().after(new Date());
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public Claims parseClaims(String token){
+    public Claims parseClaims(String token) {
         return Jwts.parser()
-            .verifyWith(key)
-            .build()
-            .parseSignedClaims(token)
-            .getPayload();
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

@@ -15,7 +15,5 @@ spring:
       hibernate:
         format-sql: true
 
-  security:
-    user:
-      name: ${USERNAME}
-      password: ${PASSWORD}
+app:
+  cookie-secure: ${COOKIE_SECURE:false}
