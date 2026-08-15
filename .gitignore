@@ -1,7 +1,5 @@
-# OS
 .DS_Store
 
-# Backend (Maven / Spring Boot)
 backend/HELP.md
 backend/target/
 backend/.mvn/wrapper/maven-wrapper.jar
@@ -9,7 +7,6 @@ backend/.mvn/wrapper/maven-wrapper.jar
 !backend/**/src/test/**/target/
 backend/.env
 
-### STS ###
 backend/.apt_generated
 backend/.classpath
 backend/.factorypath
@@ -18,26 +15,10 @@ backend/.settings
 backend/.springBeans
 backend/.sts4-cache
 
-### IntelliJ IDEA ###
-backend/.idea
-backend/*.iws
-backend/*.iml
-backend/*.ipr
-
-### NetBeans ###
-backend/nbproject/private/
-backend/nbbuild/
-backend/dist/
-backend/nbdist/
-backend/.nb-gradle/
-backend/build/
-!backend/**/src/main/**/build/
-!backend/**/src/test/**/build/
-
-### VS Code ###
 backend/.vscode/
 
 # Frontend (Node / Vite)
 frontend/node_modules/
 frontend/dist/
 frontend/.env
+.aider*
