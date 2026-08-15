@@ -1,19 +1,19 @@
-import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Landing from './components/Landing.tsx'
+import Login from './components/Login.tsx'
 
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <div>Home page — logged in!</div>
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
-  );
+function App() {
+    return (
+        <div className="app">
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<Landing />} />
+                </Routes >
+            </BrowserRouter >
+        </div>)
 }
+
+
+export default App

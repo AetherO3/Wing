@@ -1,0 +1,10 @@
+.sidebar{
+    padding-top: 1rem;
+    width: 15%;
+    border-right: 1px solid white;
+    background-color: #1e1e2e;
+    overflow-y: auto;
+}
+
+.sidebar-group{
+}

@@ -1,0 +1,28 @@
+.header{
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2px solid white;
+    align-items: center;
+    height: 35px;
+    background:#1e1e2e;
+}
+
+#search{
+    width: 45rem;
+    text-align:left;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding:0.5em;
+}
+
+#search::placeholder{
+    /* font-size: 22px; */
+    color: #cdd6f4;
+}
+
+.header-logo{ 
+    height: 65px;
+    border-radius:100%;
+}
