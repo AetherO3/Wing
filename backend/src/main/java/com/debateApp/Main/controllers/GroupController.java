@@ -1,5 +1,7 @@
 package com.debateApp.Main.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,11 @@ public class GroupController {
     @GetMapping("/{id}")
     public GroupResponseDTO getGroup(@PathVariable Long id) {
         return groupService.getGroup(id);
+    }
+
+    @GetMapping("/search")
+    public List<GroupResponseDTO> searchGroups(@RequestParam String name){
+        return groupService.searchGroups(name);
     }
 
     @PostMapping

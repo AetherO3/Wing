@@ -14,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    // The error is because lombok works at the run time but the
-    // error analyzer works statically so it shows error even though
-    // it the code complies just fine
     private final UserService userService;
 
     @PostMapping

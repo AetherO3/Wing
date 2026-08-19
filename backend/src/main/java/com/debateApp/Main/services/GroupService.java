@@ -1,5 +1,7 @@
 package com.debateApp.Main.services;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -40,6 +42,19 @@ public class GroupService {
                 .creatorId(group.getCreator().getId())
                 .creatorName(group.getCreator().getUserName())
                 .build();
+    }
+
+    public List<GroupResponseDTO> searchGroups(String name) {
+        return groupRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(group -> GroupResponseDTO.builder()
+                        .id(group.getId())
+                        .name(group.getName())
+                        .topic(group.getTopic())
+                        .creatorId(group.getCreator().getId())
+                        .creatorName(group.getCreator().getUserName())
+                        .build())
+                .toList();
     }
 
     @Transactional
