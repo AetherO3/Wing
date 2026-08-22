@@ -27,8 +27,12 @@ function Search() {
         e.preventDefault();
 
         try {
-            const response = await api.get(`api/groups/${search}`);
-
+            // const response = await api.get(`api/groups/${search}`);
+            const response = await api.get("/api/groups/search", {
+                params: {
+                    name: search
+                }
+            });
             console.log(response.data);
 
             return;

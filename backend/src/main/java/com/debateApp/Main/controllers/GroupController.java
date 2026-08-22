@@ -27,12 +27,12 @@ public class GroupController {
     }
 
     @GetMapping("/search")
-    public List<GroupResponseDTO> searchGroups(@RequestParam String name){
+    public List<GroupResponseDTO> searchGroups(@RequestParam String name) {
         return groupService.searchGroups(name);
     }
 
     @GetMapping("/joinedGroups")
-    public List<GroupResponseDTO> getJoinedGroups(Authentication auth){
+    public List<GroupResponseDTO> getJoinedGroups(Authentication auth) {
         Long userId = (Long) auth.getPrincipal();
 
         return groupService.getJoinedGroups(userId);
@@ -54,7 +54,7 @@ public class GroupController {
     }
 
     @PostMapping("/{id}/addMember")
-    public void addMember(@PathVariable Long id){
+    public void addMember(@PathVariable Long id) {
         groupService.addMember(id);
     }
 }
