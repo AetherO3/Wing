@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import profile from "../assets/profile.jpg"
+import group from "../assets/group.jpg"
 import api from "../api"
 import "./Sidebar.css"
 
@@ -27,7 +27,7 @@ function Sidebar() {
 function Group({ name }: { name: string }) {
     return (
         <div className="sidebar-group">
-            <img src={profile} className='header-logo' alt="profile picture." />
+            <img src={group} className='group-logo' alt="profile picture." />
             <p>{name}</p>
         </div>
     )
