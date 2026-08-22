@@ -1,6 +1,7 @@
 package com.debateApp.Main.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.debateApp.Main.dto.*;
@@ -19,6 +20,13 @@ public class UserController {
     @PostMapping
     public UserResponseDTO createUser(@Valid @RequestBody CreateUserDTO dto) {
         return userService.createUser(dto);
+    }
+
+    @GetMapping("/me")
+    public UserResponseDTO getMe(Authentication auth){
+        Long userId = (Long) auth.getPrincipal();
+
+        return getUser(userId);
     }
 
     @GetMapping("/{id}")

@@ -3,6 +3,7 @@ package com.debateApp.Main.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.debateApp.Main.services.GroupService;
@@ -28,6 +29,13 @@ public class GroupController {
     @GetMapping("/search")
     public List<GroupResponseDTO> searchGroups(@RequestParam String name){
         return groupService.searchGroups(name);
+    }
+
+    @GetMapping("/joinedGroups")
+    public List<GroupResponseDTO> getJoinedGroups(Authentication auth){
+        Long userId = (Long) auth.getPrincipal();
+
+        return groupService.getJoinedGroups(userId);
     }
 
     @PostMapping

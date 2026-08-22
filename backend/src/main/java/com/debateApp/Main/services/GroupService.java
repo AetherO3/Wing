@@ -1,10 +1,12 @@
 package com.debateApp.Main.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,25 @@ public class GroupService {
 
     public List<GroupResponseDTO> searchGroups(String name) {
         return groupRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(group -> GroupResponseDTO.builder()
+                        .id(group.getId())
+                        .name(group.getName())
+                        .topic(group.getTopic())
+                        .creatorId(group.getCreator().getId())
+                        .creatorName(group.getCreator().getUserName())
+                        .build())
+                .toList();
+    }
+
+    @PreAuthorize("#id == authentication.principal")
+    public List<GroupResponseDTO> getJoinedGroups(Long id) {
+
+        Users user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not fonud"));
+
+
+        return user.getJoinedGroups()
                 .stream()
                 .map(group -> GroupResponseDTO.builder()
                         .id(group.getId())
