@@ -15,13 +15,20 @@ function Sidebar() {
         api.get("/api/groups/joinedGroups").then((response) => setGropus(response.data)).catch((error) => console.log(`Error found ${error}`));
     }, []);
 
-    return (
-        <div className="sidebar">
-            {groups.map((group) => (
-                <Group name={group.name} key={group.id} />
-            ))}
-        </div>
-    )
+    if (!groups || groups.length == 0)
+        return (
+            <div className="sidebar" >
+                No Joined Groups
+            </div>
+        )
+    else
+        return (
+            <div className="sidebar">
+                {groups.map((group) => (
+                    <Group name={group.name} key={group.id} />
+                ))}
+            </div>
+        )
 }
 
 function Group({ name }: { name: string }) {
