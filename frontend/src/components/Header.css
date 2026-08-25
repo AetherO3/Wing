@@ -26,3 +26,24 @@
     height: 3rem;
     border-radius:100%;
 }
+
+.header-buttons{
+    display: flex;
+    justify-content: space-around;
+    width: 13rem;
+}
+.header-buttons>button{
+    width: 5rem;
+    height: 50px;
+    border-radius: 25px;
+}
+
+#userNameAndPfp{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+    align-items:center;
+}
+#userNameAndPfp>p{
+    padding-right:1rem;
+}

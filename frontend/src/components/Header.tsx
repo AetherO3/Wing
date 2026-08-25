@@ -1,12 +1,21 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from './AuthProvider'
 import logo from '../assets/logo.png'
 import profile from '../assets/profile.jpg'
 import api from '../api'
 import "./Header.css"
 
 function Header() {
+    const nav = useNavigate();
+    const { user, isAuthenticated, loading } = useAuth();
+
+    if (loading)
+        return null;
+
     return (
         <div className="header">
+
             <div>
                 <img src={logo} className='header-logo' alt="logo." />
             </div>
@@ -14,7 +23,21 @@ function Header() {
             <Search />
 
             <div>
-                <img src={profile} className='header-logo' alt="profile picture." />
+                {isAuthenticated ? (
+                    <div id="userNameAndPfp">
+                        <p>{user?.userName}</p>
+                        <img src={profile} className='header-logo' alt="profile picture." />
+                    </div>
+                ) : (
+                    <div className='header-buttons'>
+
+                        <button className="header-btn" onClick={() => nav("/login")}>
+                            Log In
+                        </button>
+
+                        <button className="header-btn">Sign Up</button>
+                    </div>
+                )}
             </div>
         </div>
     )
