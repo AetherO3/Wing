@@ -45,6 +45,14 @@ public class Messages{
     private Stance stance;
 
     @CreationTimestamp
+    @Column(nullable = false)
+    @Builder.Default
+    private int agree = 0;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private int disagree = 0;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDateTime;
 
