@@ -38,6 +38,11 @@ public class GroupController {
         return groupService.getJoinedGroups(userId);
     }
 
+    @GetMapping("/{id}/leaveGroup")
+    public void leaveGroup(@PathVariable Long id){
+        groupService.removeMember(id);
+    }
+
     @PostMapping
     public GroupResponseDTO createGroup(@Valid @RequestBody CreateGroupDTO dto) {
         return groupService.createGroup(dto);

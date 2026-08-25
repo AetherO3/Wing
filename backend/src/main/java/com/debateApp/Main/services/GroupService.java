@@ -164,4 +164,22 @@ public class GroupService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public void removeMember(Long id){
+        Groups existingGroup = groupRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found, id : " + id));
+
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        boolean isMember = existingGroup.getMembers().stream().anyMatch(member->member.getId().equals(userId));
+
+        if(!isMember)
+            throw new BadRequestException("There exists no such member in the group.");
+        
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found, id : " + userId));
+
+        user.getJoinedGroups().removeIf(group->group.getId().equals(id));
+        userRepository.save(user);
+    }
 }
