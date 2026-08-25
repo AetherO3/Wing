@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, type ReactNode } from "react";
+import { useEffect, useState, createContext, useContext, type ReactNode} from "react";
 import api from "../api.ts";
 
 type User = {
@@ -18,7 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(
     undefined
 );
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+function AuthProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -53,3 +53,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
 }
 
+function useAuth(){
+    const context = useContext(AuthContext);
+
+    if(context === undefined)   
+        throw new Error("useAuth must be used within AuthProvider");
+
+    return context;
+}
+
+export {AuthContext, AuthProvider, useAuth};
