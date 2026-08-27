@@ -2,11 +2,12 @@ import { useState, type SubmitEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider.tsx';
 import api from '../api.ts'
+import './login.css'
 
 function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const { setIsAuthenticated } = useAuth();
+    const { refreshUser } = useAuth();
     const nav = useNavigate();
 
     async function submit(event: SubmitEvent<HTMLFormElement>) {
@@ -18,8 +19,8 @@ function Login() {
                 password: password
             });
 
+            await refreshUser();
             console.log("We're in");
-            setIsAuthenticated(true);
             nav("/");
         }
         catch (error) {
@@ -28,7 +29,7 @@ function Login() {
     }
 
     return (<>
-        <form onSubmit={submit}>
+        <form onSubmit={submit} className='login'>
 
             <label htmlFor="Username">
                 <input type='text' value={username} placeholder='username' onChange={(e) => setUserName(e.target.value)} />

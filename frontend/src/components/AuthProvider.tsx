@@ -12,6 +12,7 @@ type AuthContextType = {
     isAuthenticated: boolean;
     loading: boolean;
     setIsAuthenticated: (value: boolean) => void;
+    refreshUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(
@@ -23,6 +24,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    async function refreshUser(){
+        const response = await api.get('/api/users/me');
+        setUser(response.data);    
+        setIsAuthenticated(true);
+    }
 
     useEffect(() => {
         api.get("/api/users/me")
@@ -45,7 +52,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
                 user,
                 isAuthenticated,
                 loading,
-                setIsAuthenticated
+                setIsAuthenticated,
+                refreshUser
             }}
         >
             {children}
