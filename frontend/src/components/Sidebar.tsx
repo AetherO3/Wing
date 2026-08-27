@@ -40,4 +40,4 @@ function Group({ name }: { name: string }) {
     )
 }
 
-export default Sidebar
+export default Sidebar;
