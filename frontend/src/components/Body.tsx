@@ -1,14 +1,16 @@
+import { useAuth } from "./AuthProvider"
 import Sidebar from "./Sidebar"
 import Group from "./Group"
 import "./Body.css"
 
-function Body(){
+function Body() {
+    const { isAuthenticated } = useAuth();
 
-    return(
+    return (
         <div className="body">
-            <Sidebar name = "hai"/>
+            <Sidebar />
 
-            <Group/>
+            {isAuthenticated ? <Group/> : <div />}
 
         </div>
     )

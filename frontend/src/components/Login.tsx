@@ -1,10 +1,12 @@
 import { useState, type SubmitEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthProvider.tsx';
 import api from '../api.ts'
 
 function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const { setIsAuthenticated } = useAuth();
     const nav = useNavigate();
 
     async function submit(event: SubmitEvent<HTMLFormElement>) {
@@ -17,6 +19,7 @@ function Login() {
             });
 
             console.log("We're in");
+            setIsAuthenticated(true);
             nav("/");
         }
         catch (error) {
