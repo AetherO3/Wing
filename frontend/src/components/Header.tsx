@@ -35,7 +35,9 @@ function Header() {
                             Log In
                         </button>
 
-                        <button className="header-btn">Sign Up</button>
+                        <button className="header-btn" onClick={() => nav("/signup")}>
+                            Sign Up
+                        </button>
                     </div>
                 )}
             </div>
@@ -50,7 +52,6 @@ function Search() {
         e.preventDefault();
 
         try {
-            // const response = await api.get(`api/groups/${search}`);
             const response = await api.get("/api/groups/search", {
                 params: {
                     name: search
