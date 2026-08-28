@@ -22,12 +22,15 @@ function Header() {
 
             <Search />
 
-            <div>
+            <div id="loggedinInfo">
                 {isAuthenticated ? (
-                    <div id="userNameAndPfp">
-                        <p>{user?.userName}</p>
-                        <img src={profile} className='header-logo' alt="profile picture." />
-                    </div>
+                    <>
+                        <Logout />
+                        <div id='userNameAndPfp'>
+                            <img src={profile} className='header-logo' id='userPfp' alt="profile picture." />
+                            <p>{user?.userName}</p>
+                        </div>
+                    </>
                 ) : (
                     <div className='header-buttons'>
 
@@ -74,6 +77,21 @@ function Search() {
             </label>
         </form>
     </>);
+}
+function Logout() {
+    const { setUser, setIsAuthenticated } = useAuth();
+
+    async function handleLogout() {
+        api.post('api/logout');
+        setUser(null);
+        setIsAuthenticated(false);
+    }
+
+    return (
+        <button onClick={handleLogout} className='header-buttons' id='logoutBtn'>
+            Logout
+        </button>
+    );
 }
 
 export default Header; 

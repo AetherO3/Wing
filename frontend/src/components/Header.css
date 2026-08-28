@@ -38,12 +38,31 @@
     border-radius: 25px;
 }
 
-#userNameAndPfp{
+#loggedinInfo{
     display: flex;
     flex-direction:row;
     justify-content: space-around;
     align-items:center;
+    height:100%;
 }
-#userNameAndPfp>p{
-    padding-right:1rem;
+
+#userNameAndPfp{
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+#userPfp{
+    height: 40px;
+    width: 40px;
+}
+#loggedinInfo>p{
+    padding-right:2rem;
+}
+#logoutBtn{
+    display: flex;
+    align-items:center;
+    width: 5rem;
+    height: 50px;
+    border-radius: 25px;
 }

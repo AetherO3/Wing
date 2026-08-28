@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useContext, type ReactNode} from "react";
+import { useEffect, useState, createContext, useContext, type ReactNode } from "react";
 import api from "../api.ts";
 
 type User = {
@@ -12,6 +12,7 @@ type AuthContextType = {
     isAuthenticated: boolean;
     loading: boolean;
     setIsAuthenticated: (value: boolean) => void;
+    setUser: (user: User | null) => void;
     refreshUser: () => Promise<void>;
 };
 
@@ -25,9 +26,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    async function refreshUser(){
+    async function refreshUser() {
         const response = await api.get('/api/users/me');
-        setUser(response.data);    
+        setUser(response.data);
         setIsAuthenticated(true);
     }
 
@@ -53,7 +54,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
                 isAuthenticated,
                 loading,
                 setIsAuthenticated,
-                refreshUser
+                refreshUser,
+                setUser
             }}
         >
             {children}
@@ -61,13 +63,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
     );
 }
 
-function useAuth(){
+function useAuth() {
     const context = useContext(AuthContext);
 
-    if(context === undefined)   
+    if (context === undefined)
         throw new Error("useAuth must be used within AuthProvider");
 
     return context;
 }
 
-export {AuthContext, AuthProvider, useAuth};
+export { AuthContext, AuthProvider, useAuth };
