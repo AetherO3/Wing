@@ -8,11 +8,11 @@ type GroupType = {
     name: string;
 };
 
-function Sidebar() {
-    const [groups, setGropus] = useState<GroupType[]>([]);
+function Sidebar({ setSelectedGroup }: { setSelectedGroup: (id: number) => void }) {
+    const [groups, setGroups] = useState<GroupType[]>([]);
 
     useEffect(() => {
-        api.get("/api/groups/joinedGroups").then((response) => setGropus(response.data)).catch((error) => console.log(`Error found ${error}`));
+        api.get("/api/groups/joinedGroups").then((response) => setGroups(response.data)).catch((error) => console.log(`Error found ${error}`));
     }, []);
 
     if (!groups || groups.length == 0)
@@ -23,17 +23,17 @@ function Sidebar() {
         )
     else
         return (
-            <div className="sidebar">
+            <div className="sidebar" >
                 {groups.map((group) => (
-                    <Group name={group.name} key={group.id} />
+                    <SideGroup name={group.name} id={group.id} key={group.id} setSelectedGroup={setSelectedGroup} />
                 ))}
             </div>
         )
 }
 
-function Group({ name }: { name: string }) {
+function SideGroup({ name, id, setSelectedGroup }: { name: string, id: number, setSelectedGroup: (id: number) => void }) {
     return (
-        <div className="sidebar-group">
+        <div className="sidebar-group" onClick={()=>setSelectedGroup(id)}>
             <img src={group} className='group-logo' alt="profile picture." />
             <p>{name}</p>
         </div>
