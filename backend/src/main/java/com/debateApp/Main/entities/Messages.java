@@ -37,6 +37,7 @@ public class Messages{
     @JoinColumn(name = "parent_id")
     private Messages parent;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Messages> replies = new ArrayList<>();
 
@@ -44,7 +45,6 @@ public class Messages{
     @Column(nullable = false)
     private Stance stance;
 
-    @CreationTimestamp
     @Column(nullable = false)
     @Builder.Default
     private int agree = 0;
@@ -53,6 +53,7 @@ public class Messages{
     @Builder.Default
     private int disagree = 0;
 
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDateTime;
 

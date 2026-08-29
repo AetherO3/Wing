@@ -15,6 +15,8 @@ import com.debateApp.Main.entities.Groups;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MessageService {
@@ -56,7 +58,8 @@ public class MessageService {
 
         if (dto.getParentId() != null) {
             Messages parent = messageRepository.findById(dto.getParentId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Parent message not found, id : " + dto.getParentId()));
+                    .orElseThrow(
+                            () -> new ResourceNotFoundException("Parent message not found, id : " + dto.getParentId()));
 
             if (!parent.getGroup().getId().equals(group.getId())) {
                 throw new BadRequestException("Parent message belongs to a different group.");
@@ -88,6 +91,21 @@ public class MessageService {
                 .stance(message.getStance().toString())
                 .build();
 
+    }
+
+    public List<MessageResponseDTO> getGroupMessages(Long id) {
+        List<Messages> messages = messageRepository.findByGroupId(id);
+
+        return messages.stream()
+                .map(
+                        message -> MessageResponseDTO.builder()
+                                .id(message.getId())
+                                .message(message.getMessage())
+                                .authorId(message.getAuthor().getId())
+                                .authorName(message.getAuthor().getUserName())
+                                .stance(message.getStance().toString())
+                                .build())
+                .toList();
     }
 
     public void deleteMessage(Long id) {
