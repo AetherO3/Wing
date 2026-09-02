@@ -2,6 +2,8 @@ package com.debateApp.Main.controllers;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +29,8 @@ public class GroupController {
     }
 
     @GetMapping("/search")
-    public List<GroupResponseDTO> searchGroups(@RequestParam String name) {
-        return groupService.searchGroups(name);
+    public Page<GroupResponseDTO> searchGroups(@RequestParam String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+        return groupService.searchGroups(name, PageRequest.of(page, size));
     }
 
     @GetMapping("/joinedGroups")

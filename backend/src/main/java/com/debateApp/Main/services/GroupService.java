@@ -1,8 +1,9 @@
 package com.debateApp.Main.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -46,25 +47,24 @@ public class GroupService {
                 .build();
     }
 
-    public List<GroupResponseDTO> searchGroups(String name) {
-        return groupRepository.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(group -> GroupResponseDTO.builder()
-                        .id(group.getId())
-                        .name(group.getName())
-                        .topic(group.getTopic())
-                        .creatorId(group.getCreator().getId())
-                        .creatorName(group.getCreator().getUserName())
-                        .build())
-                .toList();
-    }
+    // public List<GroupResponseDTO> searchGroups(String name) {
+    // return groupRepository.findByNameContainingIgnoreCase(name)
+    // .stream()
+    // .map(group -> GroupResponseDTO.builder()
+    // .id(group.getId())
+    // .name(group.getName())
+    // .topic(group.getTopic())
+    // .creatorId(group.getCreator().getId())
+    // .creatorName(group.getCreator().getUserName())
+    // .build())
+    // .toList();
+    // }
 
     @PreAuthorize("#id == authentication.principal")
     public List<GroupResponseDTO> getJoinedGroups(Long id) {
 
         Users user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not fonud"));
-
 
         return user.getJoinedGroups()
                 .stream()
@@ -165,21 +165,34 @@ public class GroupService {
     }
 
     @Transactional
-    public void removeMember(Long id){
+    public void removeMember(Long id) {
         Groups existingGroup = groupRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Group not found, id : " + id));
 
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        boolean isMember = existingGroup.getMembers().stream().anyMatch(member->member.getId().equals(userId));
+        boolean isMember = existingGroup.getMembers().stream().anyMatch(member -> member.getId().equals(userId));
 
-        if(!isMember)
+        if (!isMember)
             throw new BadRequestException("There exists no such member in the group.");
-        
+
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found, id : " + userId));
 
-        user.getJoinedGroups().removeIf(group->group.getId().equals(id));
+        user.getJoinedGroups().removeIf(group -> group.getId().equals(id));
         userRepository.save(user);
     }
+
+    public Page<GroupResponseDTO> searchGroups(String name, Pageable pageable) {
+        return groupRepository.searchByNameFuzzy(name, pageable)
+                .map(group -> GroupResponseDTO.builder()
+                        .id(group.getId())
+                        .name(group.getName())
+                        .topic(group.getTopic())
+                        .creatorId(group.getCreator().getId())
+                        .creatorName(group.getCreator().getUserName())
+                        .build());
+
+    }
+
 }
