@@ -10,9 +10,17 @@ type Message = {
     authorName: string,
     stance: "PRO" | "AGAINST" | "NEUTRAl"
 }
+type GroupInfo = {
+    id: number,
+    name: string,
+    topic: string,
+    creatorId: number,
+    creatorName: string
+}
 
-function Group({ title = "Group Title", id }: { title?: string, id: number }) {
+function Group({ id }: { id: number }) {
     const [messages, setMessages] = useState<Message[]>([]);
+    const [groupInfo, setGroupInfo] = useState<GroupInfo | null>(null);
 
     useEffect(() => {
         async function getMessages() {
@@ -29,6 +37,21 @@ function Group({ title = "Group Title", id }: { title?: string, id: number }) {
     }, [id]);
 
 
+    useEffect(() => {
+        async function getGroupInfo() {
+            try {
+                const response = await api.get(`/api/groups/${id}`);
+                setGroupInfo(response.data);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        getGroupInfo();
+
+    }, [id]);
+
+
     return (
         <div className="group">
 
@@ -36,7 +59,7 @@ function Group({ title = "Group Title", id }: { title?: string, id: number }) {
 
                 <div className="group-header-img-and-title">
                     <img id="group-header-img" src={profile} alt="group picture" />
-                    <p id="group-header-title"> {title} </p>
+                    <p id="group-header-title"> {groupInfo?.name} </p>
                 </div>
 
                 <div id="group-header-buttons">
