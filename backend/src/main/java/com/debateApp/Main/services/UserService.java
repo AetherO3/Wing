@@ -103,8 +103,8 @@ public class UserService {
             throw new BadCredentialsException("Invalid Password.");
     }
 
-    public boolean validatePassword(Long id, String password) {
 
+    public boolean validatePassword(Long id, String password) {
         Users user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found id:" + id));
 

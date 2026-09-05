@@ -47,18 +47,6 @@ public class GroupService {
                 .build();
     }
 
-    // public List<GroupResponseDTO> searchGroups(String name) {
-    // return groupRepository.findByNameContainingIgnoreCase(name)
-    // .stream()
-    // .map(group -> GroupResponseDTO.builder()
-    // .id(group.getId())
-    // .name(group.getName())
-    // .topic(group.getTopic())
-    // .creatorId(group.getCreator().getId())
-    // .creatorName(group.getCreator().getUserName())
-    // .build())
-    // .toList();
-    // }
 
     @PreAuthorize("#id == authentication.principal")
     public List<GroupResponseDTO> getJoinedGroups(Long id) {

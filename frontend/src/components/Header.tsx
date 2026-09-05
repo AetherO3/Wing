@@ -82,7 +82,7 @@ function Logout() {
     const { setUser, setIsAuthenticated } = useAuth();
 
     async function handleLogout() {
-        api.post('api/logout');
+        api.post('auth/logout');
         setUser(null);
         setIsAuthenticated(false);
     }

@@ -74,7 +74,7 @@ function Group({ id }: { id: number }) {
                 <div className="agree">
                     <h2><u>Agree</u></h2>
                     <br />
-                    {renderFor(messages.filter(message => message.stance === "PRO" || message.stance === "NEUTRAl"))}
+                    {renderFor(messages.filter(message => message.stance === "PRO" || message.stance === "NEUTRAL"))}
                 </div>
 
                 <div className="divider"> </div>
