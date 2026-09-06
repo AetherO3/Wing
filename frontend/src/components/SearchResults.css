@@ -1,0 +1,18 @@
+.searchResults {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #181825;
+}
+.searchResultCard {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    background-color: #1e1e2e;
+    cursor: pointer;
+}
+.searchResultCard:hover {
+    background-color: #313244;
+}
+.searchResultName { font-weight: bold; }
+.searchResultTopic, .search-result-creator { font-size: 0.85rem; color: #a6adc8; }

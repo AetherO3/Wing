@@ -6,7 +6,14 @@ import profile from '../assets/profile.jpg'
 import api from '../api'
 import "./Header.css"
 
-function Header() {
+type groupResult = {
+    id: number,
+    name: string,
+    topic: string,
+    creatorName: string
+};
+
+function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] | null) => void }) {
     const nav = useNavigate();
     const { user, isAuthenticated, loading } = useAuth();
 
@@ -20,7 +27,7 @@ function Header() {
                 <img src={logo} className='header-logo' alt="logo." />
             </div>
 
-            <Search />
+            <Search onSearchResults={onSearchResults} />
 
             <div id="loggedinInfo">
                 {isAuthenticated ? (
@@ -48,11 +55,16 @@ function Header() {
     )
 }
 
-function Search() {
+function Search({ onSearchResults }: { onSearchResults: (results: groupResult[] | null) => void }) {
     const [search, setSearch] = useState("");
 
     async function handleSearch(e: React.SubmitEvent) {
         e.preventDefault();
+
+        if(!search.trim()){
+            onSearchResults(null);
+            return;
+        }
 
         try {
             const response = await api.get("/api/groups/search", {
@@ -61,6 +73,7 @@ function Search() {
                 }
             });
             console.log(response.data);
+            onSearchResults(response.data.content);
 
             return;
         }

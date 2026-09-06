@@ -8,7 +8,7 @@ type Message = {
     message: string,
     authorId: number,
     authorName: string,
-    stance: "PRO" | "AGAINST" | "NEUTRAl"
+    stance: "PRO" | "AGAINST" | "NEUTRAL"
 }
 type GroupInfo = {
     id: number,
