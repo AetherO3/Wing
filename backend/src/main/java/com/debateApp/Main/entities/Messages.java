@@ -3,6 +3,7 @@ package com.debateApp.Main.entities;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -45,10 +46,12 @@ public class Messages{
     @Column(nullable = false)
     private Stance stance;
 
+    @ColumnDefault("0")
     @Column(nullable = false)
     @Builder.Default
     private int agree = 0;
 
+    @ColumnDefault("0")
     @Column(nullable = false)
     @Builder.Default
     private int disagree = 0;
