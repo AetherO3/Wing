@@ -40,7 +40,7 @@ public class GroupController {
         return groupService.getJoinedGroups(userId);
     }
 
-    @GetMapping("/{id}/leaveGroup")
+    @DeleteMapping("/{id}/leaveGroup")
     public void leaveGroup(@PathVariable Long id){
         groupService.removeMember(id);
     }
