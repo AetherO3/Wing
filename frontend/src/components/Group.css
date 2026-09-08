@@ -67,3 +67,24 @@
     flex: 1;
     padding-top: 1rem;
 }
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postForm{
+    display: flex;
+    flex-direction:column;
+}
+
+.addMessageButtons{
+    display: flex;
+    justify-content: space-between;
+}

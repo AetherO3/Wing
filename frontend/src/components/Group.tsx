@@ -1,15 +1,17 @@
 import profile from "../assets/profile.jpg"
 import "./Group.css"
-import { useState, useEffect } from "react"
+import { useState, useEffect, type SubmitEvent } from "react"
 import { useAuth } from "./AuthProvider"
 import api from '../api'
+
+type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 
 type Message = {
     id: number,
     message: string,
     authorId: number,
     authorName: string,
-    stance: "PRO" | "AGAINST" | "NEUTRAL"
+    stance: Stance
 }
 type GroupInfo = {
     id: number,
@@ -21,6 +23,9 @@ type GroupInfo = {
 
 function Group({ id }: { id: number }) {
     const [messages, setMessages] = useState<Message[]>([]);
+    const [message, setMessage] = useState("");
+    const [stance, setStance] = useState<Stance>("PRO");
+    const [showAddMessage, setShowAddMessage] = useState(false);
     const [groupInfo, setGroupInfo] = useState<GroupInfo | null>(null);
     const [isMember, setIsMember] = useState(false);
     const { user } = useAuth();
@@ -100,6 +105,53 @@ function Group({ id }: { id: number }) {
     }
 
 
+    function addMessage() {
+        return (
+            <form onSubmit={submit} className="postForm">
+                <label htmlFor="Message">
+                    <input type="text" placeholder="add message...." onChange={(e) => setMessage(e.target.value)} />
+                </label>
+                <div>
+                    <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
+                    <label > agree</label>
+
+                    <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
+                    <label > disagree</label>
+                </div>
+
+                <div className="addMessageButtons">
+                    <button type="submit"> POST </button>
+
+                    <button type="button" onClick={() => { setShowAddMessage(false) }}> [X] </button>
+                </div>
+            </form>
+        );
+    }
+
+    async function submit(event: SubmitEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        try {
+            const response = await api.post("/api/messages", {
+                message: message,
+                groupId: id,
+                stance: stance,
+                parentId: null
+            });
+
+            setMessages(prev => [...prev, response.data]);
+            setMessage("");
+            setStance("PRO");
+            setShowAddMessage(false);
+
+        }
+        catch (error) {
+            console.log(`Login failed because: ${error}`)
+        }
+    }
+
+
+
     return (
         <div className="group">
 
@@ -111,12 +163,12 @@ function Group({ id }: { id: number }) {
                 </div>
 
                 <div id="group-header-buttons">
-                    {isMember == false?
+                    {isMember == false ?
                         (<div onClick={joinGroup}> <Button text={"Join"} /> </div>)
                         :
                         (<>
                             <div onClick={leaveGroup}> <Button text={"Leave"} /> </div>
-                            <div> <Button text={"Post"} /> </div>
+                            <div onClick={() => setShowAddMessage(true)}> <Button text={"Post"} /> </div>
                         </>)
                     }
                 </div>
@@ -140,6 +192,14 @@ function Group({ id }: { id: number }) {
                 </div>
 
             </div>
+
+            {showAddMessage && (
+                <div className="modal-backdrop">
+                    <div className="message-window">
+                        {addMessage()}
+                    </div>
+                </div>
+            )}
 
         </div>
     )
