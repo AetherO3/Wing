@@ -1,6 +1,9 @@
 #-- Stage 1
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app 
+
+RUN apt-get update && apt-get install -y zip && rm -rf /var/lib/apt/lists/*
+
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./ 
 RUN ./mvnw dependency:go-offline
