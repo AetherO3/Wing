@@ -1,6 +1,7 @@
 import profile from "../assets/profile.jpg"
 import "./Group.css"
 import { useState, useEffect } from "react"
+import { useAuth } from "./AuthProvider"
 import api from '../api'
 
 type Message = {
@@ -21,6 +22,8 @@ type GroupInfo = {
 function Group({ id }: { id: number }) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [groupInfo, setGroupInfo] = useState<GroupInfo | null>(null);
+    const [isMember, setIsMember] = useState(false);
+    const { user } = useAuth();
 
     useEffect(() => {
         async function getMessages() {
@@ -51,6 +54,51 @@ function Group({ id }: { id: number }) {
 
     }, [id]);
 
+    useEffect(() => {
+        async function checkMembership() {
+            try {
+                const response = await api.get(`/api/groups/joinedGroups`);
+
+                setIsMember(
+                    response.data.some((group: GroupInfo) => group.id === id)
+                );
+            }
+            catch (error) {
+                console.log(`An error occured : ${error}`)
+            }
+        }
+
+        if (user?.id)
+            checkMembership();
+    }, [id, user?.id]);
+
+    async function joinGroup() {
+        if (!id)
+            return;
+
+        try {
+            await api.post(`/api/groups/${id}/addMember`)
+            setIsMember(true);
+        }
+        catch (error) {
+            console.log(`Encountered an error : ${error}`)
+        }
+    }
+
+    async function leaveGroup() {
+        if (!id)
+            return;
+
+        try {
+            await api.delete(`/api/groups/${id}/leaveGroup`)
+            setIsMember(false);
+        }
+        catch (error) {
+            console.log(`Encountered an error : ${error}`)
+        }
+
+    }
+
 
     return (
         <div className="group">
@@ -63,8 +111,14 @@ function Group({ id }: { id: number }) {
                 </div>
 
                 <div id="group-header-buttons">
-                    <Button text={"Join"} />
-                    <Button text={"Post"} />
+                    {isMember == false?
+                        (<div onClick={joinGroup}> <Button text={"Join"} /> </div>)
+                        :
+                        (<>
+                            <div onClick={leaveGroup}> <Button text={"Leave"} /> </div>
+                            <div> <Button text={"Post"} /> </div>
+                        </>)
+                    }
                 </div>
 
             </div>
