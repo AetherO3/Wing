@@ -1,7 +1,7 @@
 import { useState, type SubmitEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css"
-import api from "../api.ts";
+import api from "../../api/api.ts";
 
 function SignUp() {
     const nav = useNavigate();

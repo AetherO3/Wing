@@ -1,8 +1,8 @@
-import { useAuth } from "./AuthProvider"
-import SearchResults from "./SearchResults"
+import { useAuth } from "../context/AuthProvider"
+import SearchResults from "../pages/Search/SearchResults"
 import { useState } from "react"
 import Sidebar from "./Sidebar"
-import Group from "./Group"
+import Group from "../pages/Group/Group"
 import "./Body.css"
 
 type groupResult = {

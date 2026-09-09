@@ -1,5 +1,5 @@
-import Header from "./Header"
-import Body from "./Body"
+import Header from "../../components/Header"
+import Body from "../../components/Body"
 import { useState } from "react";
 
 type groupResult = {

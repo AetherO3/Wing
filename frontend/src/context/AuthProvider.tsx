@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext, useContext, type ReactNode } from "react";
-import api from "../api.ts";
+import api from "../api/api.ts";
 
 type User = {
     id: number;

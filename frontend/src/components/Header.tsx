@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from './AuthProvider'
+import { useAuth } from '../context/AuthProvider'
 import logo from '../assets/logo.png'
 import profile from '../assets/profile.jpg'
-import api from '../api'
+import api from '../api/api'
 import "./Header.css"
 
 type groupResult = {

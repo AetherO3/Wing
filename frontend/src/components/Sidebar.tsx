@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import group from "../assets/group.jpg"
-import api from "../api"
+import api from "../api/api"
 import "./Sidebar.css"
 
 type GroupType = {

@@ -1,8 +1,8 @@
-import profile from "../assets/profile.jpg"
+import profile from "../../assets/profile.jpg"
 import "./Group.css"
 import { useState, useEffect, type SubmitEvent } from "react"
-import { useAuth } from "./AuthProvider"
-import api from '../api'
+import { useAuth } from "../../context/AuthProvider"
+import api from '../../api/api.ts'
 
 type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 

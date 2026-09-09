@@ -1,9 +1,9 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Landing from './components/Landing.tsx'
-import Login from './components/Login.tsx'
-import SignUp from './components/SignUp.tsx'
-import { AuthProvider } from './components/AuthProvider.tsx'
+import Landing from './pages/Landing/Landing'
+import Login from './pages/Login/Login.tsx'
+import SignUp from './pages/SignUp/SignUp'
+import { AuthProvider } from './context/AuthProvider'
 
 function App() {
     return (
