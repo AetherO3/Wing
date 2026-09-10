@@ -76,8 +76,6 @@ public class MessageService {
                 .authorId(userId)
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
-                .agree(message.getAgree())
-                .disagree(message.getDisagree())
                 .build();
     }
 
@@ -91,8 +89,6 @@ public class MessageService {
                 .authorId(message.getAuthor().getId())
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
-                .agree(message.getAgree())
-                .disagree(message.getDisagree())
                 .build();
 
     }
@@ -108,8 +104,6 @@ public class MessageService {
                                 .authorId(message.getAuthor().getId())
                                 .authorName(message.getAuthor().getUserName())
                                 .stance(message.getStance().toString())
-                                .agree(message.getAgree())
-                                .disagree(message.getDisagree())
                                 .build())
                 .toList();
     }

@@ -15,6 +15,4 @@ public class MessageResponseDTO{
     private Long authorId;
     private String authorName;
     private String stance;
-    private int agree;
-    private int disagree;
 }

@@ -46,16 +46,6 @@ public class Messages{
     @Column(nullable = false)
     private Stance stance;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
-    @Builder.Default
-    private int agree = 0;
-
-    @ColumnDefault("0")
-    @Column(nullable = false)
-    @Builder.Default
-    private int disagree = 0;
-
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDateTime;
