@@ -1,6 +1,5 @@
-*{ 
-    background:#1e1e2e; 
-}
+*{ background:#1e1e2e; }
+
 .group{
     width: 85%;
     display: flex;
@@ -14,7 +13,6 @@
     justify-content: space-around;
     background: #1e1e2e;
     width: 100%;
-    min-height: 0;
 }
 
 .group-header{
@@ -45,7 +43,8 @@
     justify-content: space-around;
     width: 15rem;
 }
-#group-header-buttons>button{
+
+.button>*{
     width: 100px;
     height: 50px;
     border-radius: 25px;
@@ -79,12 +78,40 @@
     align-items: center;
 }
 
+#radioBtns{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 0.2rem;
+}
+
 .postForm{
+    border: 1px white solid;
+    border-radius: 10px;
+    padding: 1rem;
     display: flex;
     flex-direction:column;
+    height: 10rem;
+    justify-content: space-around;
+    width: 20rem;
+}
+
+#message{
+    width: 100%;
+    height: 50px;
+    border: 1px gray solid;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .addMessageButtons{
     display: flex;
     justify-content: space-between;
+}
+
+.addMessageButtons>button{
+    /* font-size: 10px; */
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
 }

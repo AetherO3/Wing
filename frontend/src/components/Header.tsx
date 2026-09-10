@@ -23,29 +23,27 @@ function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] 
     return (
         <div className="header">
 
-            <div>
-                <img src={logo} className='header-logo' alt="logo." />
-            </div>
+            <div> <img src={logo} className='header-logo' alt="logo." /> </div>
 
             <Search onSearchResults={onSearchResults} />
 
-            <div id="loggedinInfo">
+            <div>
                 {isAuthenticated ? (
-                    <>
+                    <div className='header-buttons'>
                         <Logout />
                         <div id='userNameAndPfp'>
                             <img src={profile} className='header-logo' id='userPfp' alt="profile picture." />
                             <p>{user?.userName}</p>
                         </div>
-                    </>
+                    </div>
                 ) : (
                     <div className='header-buttons'>
 
-                        <button className="header-btn" onClick={() => nav("/login")}>
+                        <button  onClick={() => nav("/login")}>
                             Log In
                         </button>
 
-                        <button className="header-btn" onClick={() => nav("/signup")}>
+                        <button  onClick={() => nav("/signup")}>
                             Sign Up
                         </button>
                     </div>
@@ -101,9 +99,7 @@ function Logout() {
     }
 
     return (
-        <button onClick={handleLogout} className='header-buttons' id='logoutBtn'>
-            Logout
-        </button>
+        <button onClick={handleLogout}> Logout </button>
     );
 }
 

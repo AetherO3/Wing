@@ -1,13 +1,16 @@
-import profile from "../../assets/profile.jpg"
-import "./Group.css"
 import { useState, useEffect, type SubmitEvent } from "react"
 import { useAuth } from "../../context/AuthProvider"
+import "./Group.css"
+import MessageCard from "../MessageCard/MessageCard.tsx"
 import api from '../../api/api.ts'
+import profile from "../../assets/profile.jpg"
 
 type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 
 type Message = {
     id: number,
+    agree: number,
+    disagree: number,
     message: string,
     authorId: number,
     authorName: string,
@@ -108,21 +111,25 @@ function Group({ id }: { id: number }) {
     function addMessage() {
         return (
             <form onSubmit={submit} className="postForm">
-                <label htmlFor="Message">
-                    <input type="text" placeholder="add message...." onChange={(e) => setMessage(e.target.value)} />
+                <label htmlFor="Message" >
+                    <input type="text" id='message' placeholder="add message...." onChange={(e) => setMessage(e.target.value)} />
                 </label>
-                <div>
-                    <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
-                    <label > agree</label>
+                <div id="radioBtns">
+                    <div>
+                        <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
+                        <label > agree</label>
+                    </div>
 
-                    <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
-                    <label > disagree</label>
+                    <div>
+                        <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
+                        <label > disagree</label>
+                    </div>
                 </div>
 
                 <div className="addMessageButtons">
                     <button type="submit"> POST </button>
 
-                    <button type="button" onClick={() => { setShowAddMessage(false) }}> [X] </button>
+                    <button type="button" onClick={() => { setShowAddMessage(false) }}> CANCEL </button>
                 </div>
             </form>
         );
@@ -164,11 +171,11 @@ function Group({ id }: { id: number }) {
 
                 <div id="group-header-buttons">
                     {isMember == false ?
-                        (<div onClick={joinGroup}> <Button text={"Join"} /> </div>)
+                        (<div onClick={joinGroup} className="button"> <Button text={"Join"} /> </div>)
                         :
                         (<>
-                            <div onClick={leaveGroup}> <Button text={"Leave"} /> </div>
-                            <div onClick={() => setShowAddMessage(true)}> <Button text={"Post"} /> </div>
+                            <div onClick={leaveGroup} className="button"> <Button text={"Leave"} /> </div>
+                            <div onClick={() => setShowAddMessage(true)} className="button"> <Button text={"Post"} /> </div>
                         </>)
                     }
                 </div>
@@ -208,14 +215,16 @@ function Group({ id }: { id: number }) {
 function renderFor(fMessages: Message[]) {
 
     return (<div>
-        {fMessages.map(message => (<div className="forTheNotion" key={message.id}>{message.message}</div>))}
+        {/* {fMessages.map(message => (<div className="forTheNotion" key={message.id}>{message.message}</div>))} */}
+        {fMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} agreers={message.agree} disagreers={message.disagree} />))}
     </div>);
 }
 
 function renderAgainst(aMessages: Message[]) {
 
     return (<div>
-        {aMessages.map(message => (<div className="againstTheNotion" key={message.id}>{message.message}</div>))}
+        {/* {aMessages.map(message => (<div className="againstTheNotion" key={message.id}>{message.message}</div>))} */}
+        {aMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} agreers={message.agree} disagreers={message.disagree} />))}
     </div>);
 }
 
