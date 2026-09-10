@@ -46,16 +46,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     return (
-        <AuthContext.Provider
-            value={{
-                user,
-                isAuthenticated,
-                loading,
-                setIsAuthenticated,
-                refreshUser,
-                setUser
-            }}
-        >
+        <AuthContext.Provider value={{ user, isAuthenticated, loading, setIsAuthenticated, refreshUser, setUser }} >
             {children}
         </AuthContext.Provider>
     );
