@@ -1,38 +1,59 @@
-import './MessageCard.css'
+import { useEffect, useState } from 'react';
+import api from '../../api/api';
+
+import './MessageCard.css';
 
 type MessageCardProp = {
-    id: number,
-    agreers: number,
-    disagreers: number,
-    message: string,
-    author: string
-    stance: "PRO" | "AGAINST" | "NEUTRAL"
+    id: number;
+    message: string;
+    author: string;
+    stance: "PRO" | "AGAINST" | "NEUTRAL";
 };
 
-function MessageCard({ message, stance, id, author, agreers, disagreers }: MessageCardProp) {
+function MessageCard({ message, stance, id, author }: MessageCardProp) {
+
+    const [agreeCount, setAgreeCount] = useState(0);
+    const [disagreeCount, setDisagreeCount] = useState(0);
+
+    useEffect(() => {
+        async function getCounts() {
+            const agreeResponse = await api.get( `/api/messagevote/agreers/${id}`);
+
+            const disagreeResponse = await api.get( `/api/messagevote/disagreers/${id}`);
+
+            setAgreeCount(agreeResponse.data);
+            setDisagreeCount(disagreeResponse.data);
+        }
+
+        getCounts();
+
+    }, [id]);
+
+    async function addPro() {
+        const response = await api.post( `/api/messagevote/addAgree?messageId=${id}`);
+        setAgreeCount(response.data.agreeCount);
+        setDisagreeCount(response.data.disagreeCount);
+    }
+
+    async function addAgainst() {
+        const response = await api.post( `/api/messagevote/addDisagree?messageId=${id}`);
+        setAgreeCount(response.data.agreeCount);
+        setDisagreeCount(response.data.disagreeCount);
+    }
 
     return (
-        <div className='message'>
+        <div className="message">
 
-            <p id='author'>{author} </p>
-
-            <p className={stance.toLowerCase()} key={id}> {message} </p>
-
-            {/* <div> */}
-            {/**/}
-            {/*     <div id="agreers"> </div> */}
-            {/**/}
-            {/*     <div id="disagreers"> </div> */}
-            {/**/}
-            {/* </div> */}
+            <p id="author">{author}</p>
+            <p className={stance.toLowerCase()}> {message} </p>
 
             <div id="count">
-                <button>{agreers}-agreers</button>
-                <button>{disagreers}-disagreers</button>
+                <button onClick={addPro}> {agreeCount}-agreers </button>
+                <button onClick={addAgainst}> {disagreeCount}-disagreers </button>
             </div>
+
         </div>
     );
 }
 
 export default MessageCard;
-
