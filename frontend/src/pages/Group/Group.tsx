@@ -215,16 +215,14 @@ function Group({ id }: { id: number }) {
 function renderFor(fMessages: Message[]) {
 
     return (<div>
-        {/* {fMessages.map(message => (<div className="forTheNotion" key={message.id}>{message.message}</div>))} */}
-        {fMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} agreers={message.agree} disagreers={message.disagree} />))}
+        {fMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} />))}
     </div>);
 }
 
 function renderAgainst(aMessages: Message[]) {
 
     return (<div>
-        {/* {aMessages.map(message => (<div className="againstTheNotion" key={message.id}>{message.message}</div>))} */}
-        {aMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} agreers={message.agree} disagreers={message.disagree} />))}
+        {aMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} />))}
     </div>);
 }
 
