@@ -46,6 +46,11 @@ public class Messages{
     @Column(nullable = false)
     private Stance stance;
 
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    @Builder.Default
+    private Boolean edited = false;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDateTime;

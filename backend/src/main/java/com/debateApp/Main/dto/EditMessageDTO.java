@@ -1,5 +1,6 @@
 package com.debateApp.Main.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageResponseDTO{
-    private Long id;
-    private String message;
-    private Long authorId;
-    private String authorName;
-    private String stance;
-    private boolean edited;
+public class EditMessageDTO {
+
+    @NotBlank(message = "New message cannot be blank.")
+    private String newMessage;
+    
 }

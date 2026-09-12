@@ -14,7 +14,8 @@ type Message = {
     message: string,
     authorId: number,
     authorName: string,
-    stance: Stance
+    stance: Stance,
+    edited: boolean
 }
 type GroupInfo = {
     id: number,
@@ -215,14 +216,14 @@ function Group({ id }: { id: number }) {
 function renderFor(fMessages: Message[]) {
 
     return (<div>
-        {fMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} />))}
+        {fMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId}/>))}
     </div>);
 }
 
 function renderAgainst(aMessages: Message[]) {
 
     return (<div>
-        {aMessages.map(message => (<MessageCard message={message.message} stance={message.stance} id={message.id} author={message.authorName} />))}
+        {aMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId}/>))}
     </div>);
 }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.debateApp.Main.repositories.*;
 import com.debateApp.Main.dto.MessageResponseDTO;
 import com.debateApp.Main.dto.AddMessageDTO;
+import com.debateApp.Main.dto.EditMessageDTO;
 import com.debateApp.Main.entities.Messages;
 import com.debateApp.Main.entities.Stance;
 import com.debateApp.Main.exceptions.BadRequestException;
@@ -76,6 +77,7 @@ public class MessageService {
                 .authorId(userId)
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
+                .edited(false)
                 .build();
     }
 
@@ -89,6 +91,7 @@ public class MessageService {
                 .authorId(message.getAuthor().getId())
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
+                .edited(message.getEdited())
                 .build();
 
     }
@@ -104,6 +107,7 @@ public class MessageService {
                                 .authorId(message.getAuthor().getId())
                                 .authorName(message.getAuthor().getUserName())
                                 .stance(message.getStance().toString())
+                                .edited(message.getEdited())
                                 .build())
                 .toList();
     }
@@ -121,5 +125,44 @@ public class MessageService {
         }
 
         messageRepository.deleteById(id);
+    }
+
+    public void editMessage(Long id, EditMessageDTO dto) {
+        Messages message = messageRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found, id : " + id));
+
+        Long userId = (Long) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        if (!message.getAuthor().getId().equals(userId)) {
+            throw new AccessDeniedException("Only the author of this message can edit it!");
+        }
+
+        message.setMessage(dto.getNewMessage());
+        message.setEdited(true);
+
+        messageRepository.save(message);
+    }
+
+    public void editStance(Long id, String stance) {
+        Messages message = messageRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found, id : " + id));
+
+        Long userId = (Long) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        if (!message.getAuthor().getId().equals(userId)) {
+            throw new AccessDeniedException("Only the author of this message can edit it!");
+        }
+
+        try {
+            message.setStance(Stance.valueOf(stance.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("Invalid Stance");
+        }
+
+        messageRepository.save(message);
     }
 }

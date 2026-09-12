@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 import com.debateApp.Main.services.MessageService;
 import com.debateApp.Main.dto.AddMessageDTO;
+import com.debateApp.Main.dto.EditMessageDTO;
 import com.debateApp.Main.dto.MessageResponseDTO;
 
 import jakarta.validation.Valid;
@@ -37,4 +38,13 @@ public class MessageController {
         messageService.deleteMessage(id);
     }
 
+    @PostMapping("/edit/message/{id}")
+    public void editMessage(@PathVariable Long id, @RequestBody EditMessageDTO dto) {
+        messageService.editMessage(id, dto);
+    }
+
+    @PostMapping("/edit/stance/{id}")
+    public void editStance(@PathVariable Long id, @RequestBody String stance) {
+        messageService.editStance(id, stance);
+    }
 }

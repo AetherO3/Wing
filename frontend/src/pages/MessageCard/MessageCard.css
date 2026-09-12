@@ -28,3 +28,37 @@
     color:gray;
     border-radius: 10px;
 }
+
+.messageHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#threeDot{
+    border: none;
+    font-size: 15px;
+}
+
+.menu-wrapper{
+    position: relative;
+}
+
+.menu-dropdown {
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    width: 5.5rem;
+}
+
+.menu-dropdown>button{
+    border: 0.5px solid gray;
+    border-radius: 15px;
+    margin: 2px;
+}
+
+.menu-dropdown>button:hover{
+    background: #cba6f7;
+}
