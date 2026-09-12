@@ -158,7 +158,9 @@ function Group({ id }: { id: number }) {
         }
     }
 
-
+    function handleStanceChange(id: number, newStance: "PRO" | "AGAINST") {
+        setMessages(prev => prev.map(m => m.id === id ? { ...m, stance: newStance } : m));
+    }
 
     return (
         <div className="group">
@@ -188,7 +190,7 @@ function Group({ id }: { id: number }) {
                 <div className="agree">
                     <h2><u>Agree</u></h2>
                     <br />
-                    {renderFor(messages.filter(message => message.stance === "PRO" || message.stance === "NEUTRAL"))}
+                    {renderFor(messages.filter(message => message.stance === "PRO" || message.stance === "NEUTRAL"), handleStanceChange)}
                 </div>
 
                 <div className="divider"> </div>
@@ -196,7 +198,7 @@ function Group({ id }: { id: number }) {
                 <div className="disagree">
                     <h2><u>Disagree</u></h2>
                     <br />
-                    {renderAgainst(messages.filter(message => message.stance === "AGAINST"))}
+                    {renderAgainst(messages.filter(message => message.stance === "AGAINST"), handleStanceChange)}
                 </div>
 
             </div>
@@ -213,17 +215,17 @@ function Group({ id }: { id: number }) {
     )
 }
 
-function renderFor(fMessages: Message[]) {
+function renderFor(fMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST")=>void){
 
     return (<div>
-        {fMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId}/>))}
+        {fMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId} onStanceChange={handleStanceChange} />))}
     </div>);
 }
 
-function renderAgainst(aMessages: Message[]) {
+function renderAgainst(aMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST")=>void){
 
     return (<div>
-        {aMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId}/>))}
+        {aMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId} onStanceChange={handleStanceChange} />))}
     </div>);
 }
 
@@ -234,5 +236,6 @@ function Button({ text }: { text: string }) {
     )
 
 }
+
 
 export default Group;

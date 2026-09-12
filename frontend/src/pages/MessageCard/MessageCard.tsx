@@ -11,9 +11,10 @@ type MessageCardProp = {
     stance: "PRO" | "AGAINST" | "NEUTRAL";
     edited: boolean;
     authorId: number;
+    onStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void;
 };
 
-function MessageCard({ message, stance, id, author, edited, authorId }: MessageCardProp) {
+function MessageCard({ message, stance, id, author, edited, authorId, onStanceChange }: MessageCardProp) {
     const { user } = useAuth();
     const [showMenu, setShowMenu] = useState(false);
     const [agreeCount, setAgreeCount] = useState(0);
@@ -22,6 +23,7 @@ function MessageCard({ message, stance, id, author, edited, authorId }: MessageC
     const [currentMessage, setCurrentMessage] = useState(message);
     const [editText, setEditText] = useState(currentMessage);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [currentStance, setCurrentStance] = useState(stance);
 
     useEffect(() => {
         async function getCounts() {
@@ -65,27 +67,37 @@ function MessageCard({ message, stance, id, author, edited, authorId }: MessageC
         setIsEditing(false);
     }
 
+    async function changeStance() {
+        const newStance = currentStance == "PRO" ? "AGAINST" : "PRO";
+        api.post(`/api/messages/edit/stance/${id}`, newStance, {
+            headers: {"Content-Type":"plain/text"}
+        });
+        setCurrentStance(newStance);
+        onStanceChange(id, newStance);
+        setShowMenu(false);
+    }
+
     return (
         <div className="message">
 
             <div className="messageHeader">
 
-                <div> <p id="author">{author}</p> {edited ? <p>edited</p> : <></>} </div>
+                <div> <p id="author">{author}</p> {edited && <p>edited</p>} </div>
 
                 {user?.id == authorId &&
                     <div ref={menuRef} className='menu-wrapper'>
                         <button id='threeDot' onClick={() => setShowMenu(prev => !prev)}> ⋮ </button>
 
                         {showMenu && (<div className='menu-dropdown'>
-                            <button onClick={()=>setIsEditing(true)}>Edit message</button>
-                            <button>Flip stance</button>
+                            <button onClick={() => setIsEditing(true)}>Edit message</button>
+                            <button onClick={changeStance}>Change stance</button>
                             <button>Delete</button>
 
                         </div>)}
 
                     </div>}
             </div>
-            <p className={stance.toLowerCase()}> {currentMessage} </p>
+            <p className={currentStance.toLowerCase()}> {currentMessage} </p>
 
             <div id="count">
                 <button onClick={addPro}> {agreeCount}-agreers </button>
@@ -97,7 +109,7 @@ function MessageCard({ message, stance, id, author, edited, authorId }: MessageC
                     <div className='message-window'>
                         <input value={editText} onChange={(e) => setEditText(e.target.value)} />
                         <button onClick={saveEdit}> Save </button>
-                        <button onClick={() => { setIsEditing(false); setEditText(message) }}>CANCEL</button>
+                        <button onClick={() => { setIsEditing(false); setEditText(currentMessage) }}>CANCEL</button>
                     </div>
                 </div>
 
