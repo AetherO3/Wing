@@ -12,9 +12,10 @@ type MessageCardProp = {
     edited: boolean;
     authorId: number;
     onStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void;
+    onDelete: (id: number) => void;
 };
 
-function MessageCard({ message, stance, id, author, edited, authorId, onStanceChange }: MessageCardProp) {
+function MessageCard({ message, stance, id, author, edited, authorId, onStanceChange, onDelete }: MessageCardProp) {
     const { user } = useAuth();
     const [showMenu, setShowMenu] = useState(false);
     const [agreeCount, setAgreeCount] = useState(0);
@@ -70,10 +71,23 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
     async function changeStance() {
         const newStance = currentStance == "PRO" ? "AGAINST" : "PRO";
         api.post(`/api/messages/edit/stance/${id}`, newStance, {
-            headers: {"Content-Type":"plain/text"}
+            headers: { "Content-Type": "plain/text" }
         });
         setCurrentStance(newStance);
         onStanceChange(id, newStance);
+        setShowMenu(false);
+    }
+
+    async function deleteMessage() {
+        try{
+            await api.delete(`/api/messages/${id}`);
+            onDelete(id);
+        }
+
+        catch (error){
+            console.log(`Failed to delete message: ${error}`);
+        }
+
         setShowMenu(false);
     }
 
@@ -91,7 +105,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
                         {showMenu && (<div className='menu-dropdown'>
                             <button onClick={() => setIsEditing(true)}>Edit message</button>
                             <button onClick={changeStance}>Change stance</button>
-                            <button>Delete</button>
+                            <button onClick={deleteMessage}>Delete</button>
 
                         </div>)}
 
