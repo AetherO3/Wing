@@ -21,7 +21,9 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
     const [agreeCount, setAgreeCount] = useState(0);
     const [disagreeCount, setDisagreeCount] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [currentMessage, setCurrentMessage] = useState(message);
+    const [isItEdited, setIsItEdited] = useState(edited);
     const [editText, setEditText] = useState(currentMessage);
     const menuRef = useRef<HTMLDivElement>(null);
     const [currentStance, setCurrentStance] = useState(stance);
@@ -65,6 +67,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
     async function saveEdit() {
         await api.post(`/api/messages/edit/message/${id}`, { newMessage: editText });
         setCurrentMessage(editText);
+        setIsItEdited(true);
         setIsEditing(false);
     }
 
@@ -79,16 +82,17 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
     }
 
     async function deleteMessage() {
-        try{
+        setShowMenu(false);
+
+        try {
             await api.delete(`/api/messages/${id}`);
             onDelete(id);
+            setShowDeleteConfirmation(false);
         }
 
-        catch (error){
+        catch (error) {
             console.log(`Failed to delete message: ${error}`);
         }
-
-        setShowMenu(false);
     }
 
     return (
@@ -96,7 +100,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
 
             <div className="messageHeader">
 
-                <div> <p id="author">{author}</p> {edited && <p>edited</p>} </div>
+                <div id="author"> <p>{author}</p> {isItEdited && <p>EDITED</p>} </div>
 
                 {user?.id == authorId &&
                     <div ref={menuRef} className='menu-wrapper'>
@@ -105,7 +109,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
                         {showMenu && (<div className='menu-dropdown'>
                             <button onClick={() => setIsEditing(true)}>Edit message</button>
                             <button onClick={changeStance}>Change stance</button>
-                            <button onClick={deleteMessage}>Delete</button>
+                            <button onClick={() => setShowDeleteConfirmation(true)}>Delete</button>
 
                         </div>)}
 
@@ -129,6 +133,21 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
 
             )}
 
+            {showDeleteConfirmation && (
+                <div className='modal-backdrop'>
+                    <div className='message-window'>
+
+                        <p>Delete Message?(This process is not reversible.)</p>
+
+                        <br />
+
+                        <button onClick={deleteMessage}>DELETE</button>
+                        <button onClick={() => setShowDeleteConfirmation(false)}>CANCEL</button>
+
+                    </div>
+                </div>
+
+            )}
 
         </div>
     );
