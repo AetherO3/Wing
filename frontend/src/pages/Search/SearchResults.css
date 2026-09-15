@@ -15,4 +15,5 @@
     background-color: #313244;
 }
 .searchResultName { font-weight: bold; }
-.searchResultTopic, .search-result-creator { font-size: 0.85rem; color: #a6adc8; }
+.searchResultTopic { font-size: 0.85rem; color: #a6adc8; }
+.searchResultCreator{ font-size: 0.55rem; color: white; }
