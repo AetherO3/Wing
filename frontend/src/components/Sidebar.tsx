@@ -21,14 +21,14 @@ function Sidebar({ setSelectedGroup, creation }: { setSelectedGroup: (id: number
                 (!groups || groups.length == 0) ?
                     (<div  >
                         No Joined Groups
-                        <div className="sidebar" onClick={() => creation(true)}> Add New Group? </div>
+                        <div id="newGroup" onClick={() => creation(true)}> Add New Group </div>
                     </div>)
                     :
                     (<div>
                         {groups.map((group) => (
                             <SideGroup name={group.name} id={group.id} key={group.id} setSelectedGroup={setSelectedGroup} />
                         )) }
-                        < div onClick={() => creation(true)}> Add New Group? </div>
+                        < div id="newGroup" onClick={() => creation(true)}> Add New Group </div>
                     </div>)
             }
 

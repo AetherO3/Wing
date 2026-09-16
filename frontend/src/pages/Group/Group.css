@@ -11,7 +11,6 @@
     display: flex;
     flex: 1;
     justify-content: space-around;
-    background: #1e1e2e;
     width: 100%;
 }
 
@@ -20,7 +19,6 @@
     align-items: center;
     justify-content: space-between;
     height: 8%;
-    background : #1e1e2e;
     border-bottom: 2px solid white;
     font-size: 32px;
 }
@@ -40,8 +38,10 @@
 #group-header-buttons{
     display: flex;
     flex-direction:row;
-    justify-content: space-around;
-    width: 15rem;
+    align-items: center;
+    gap: 1rem;
+    padding-right: 1.5rem;
+    flex-shrink: 0;
 }
 
 .button>*{
@@ -57,12 +57,10 @@
 }
 
 .agree{
-    background: #1e1e2e;
     flex: 1;
     padding-top: 1rem;
 }
 .disagree{
-    background:#1e1e2e; 
     flex: 1;
     padding-top: 1rem;
 }

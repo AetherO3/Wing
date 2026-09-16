@@ -1,12 +1,11 @@
 .sidebar{
     padding-top: 1rem;
     border-right: 1px solid white;
-    background-color: #1e1e2e;
     overflow-y: auto;
 }
 
 .sidebar>div>div{
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .group-logo {
@@ -14,4 +13,17 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+#newGroup{
+    padding: .4rem;
+    margin-top:.2rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#newGroup:hover{
+    background-color: #313244;
 }

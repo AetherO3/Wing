@@ -186,7 +186,7 @@ function Group({ id }: { id: number }) {
                             <div onClick={leaveGroup} className="button"> <Button text={"Leave"} /> </div>
                             <div onClick={() => setShowAddMessage(true)} className="button"> <Button text={"Post"} /> </div>
                             {groupInfo?.creatorId == user?.id && (
-                                <div onClick={()=>setShowEditGroup(true)} className="button">Edit</div>
+                                <div onClick={()=>setShowEditGroup(true)} className="button"><Button text="Edit"/></div>
                             ) }
                         </>)
                     }

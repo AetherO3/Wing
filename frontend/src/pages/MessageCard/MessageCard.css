@@ -10,9 +10,9 @@
     margin: 0;
 }
 
-.neutral, .pro{ color: #6B9A5B; }
+.neutral, .pro{ color: var(--teal); }
 
-.against{ color: coral; }
+.against{ color: var(--maroon); }
 
 #author{
     font-size: 0.5rem;
@@ -87,9 +87,4 @@
     padding: 7px 12px;
     border: 1px solid gray;
     border-radius: 8px;
-}
-
-
-.message-window>button:hover{
-    background: #cba6f7;
 }
