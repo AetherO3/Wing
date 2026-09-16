@@ -3,3 +3,9 @@
     flex: 1;
     min-height: 0;
 }
+.createGroupPage{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

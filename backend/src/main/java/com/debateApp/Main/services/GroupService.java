@@ -12,10 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.debateApp.Main.entities.Groups;
+import com.debateApp.Main.entities.Messages;
 import com.debateApp.Main.entities.Users;
 import com.debateApp.Main.exceptions.BadRequestException;
 import com.debateApp.Main.exceptions.ResourceNotFoundException;
 import com.debateApp.Main.repositories.GroupRepository;
+import com.debateApp.Main.repositories.MessageRepository;
 import com.debateApp.Main.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -32,6 +34,7 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
 
     public GroupResponseDTO getGroup(Long id) {
 
@@ -46,7 +49,6 @@ public class GroupService {
                 .creatorName(group.getCreator().getUserName())
                 .build();
     }
-
 
     @PreAuthorize("#id == authentication.principal")
     public List<GroupResponseDTO> getJoinedGroups(Long id) {
@@ -94,18 +96,29 @@ public class GroupService {
 
     }
 
+    @Transactional
     public ResponseEntity<String> deleteGroup(Long id) {
         Groups group = groupRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The groups does not exist, id : " + id));
 
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (group.getCreator().getId().equals(userId)) {
-            groupRepository.deleteById(id);
-            return ResponseEntity.ok("The Group was Deleted!!!");
-        } else {
+        if (!group.getCreator().getId().equals(userId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only the author can delete the group!");
-        }
+
+        for (Users user : group.getMembers())
+            user.getJoinedGroups().removeIf(g -> g.getId().equals(id));
+
+        List<Messages> messages = messageRepository.findByGroupId(id);
+
+        for (Messages message : messages)
+            if (message.getParent() == null)
+                messageRepository.delete(message);
+
+        groupRepository.delete(group);
+
+        return ResponseEntity.ok("The group was deleted.");
+
     }
 
     public GroupResponseDTO updateGroup(Long id, UpdateGroupDTO dto) {

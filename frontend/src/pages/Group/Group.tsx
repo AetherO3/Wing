@@ -4,6 +4,7 @@ import "./Group.css"
 import MessageCard from "../MessageCard/MessageCard.tsx"
 import api from '../../api/api.ts'
 import profile from "../../assets/profile.jpg"
+import EditGroup from "../EditGroup/EditGroup.tsx"
 
 type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 
@@ -30,6 +31,7 @@ function Group({ id }: { id: number }) {
     const [message, setMessage] = useState("");
     const [stance, setStance] = useState<Stance>("PRO");
     const [showAddMessage, setShowAddMessage] = useState(false);
+    const [showEditGroup, setShowEditGroup] = useState(false);
     const [groupInfo, setGroupInfo] = useState<GroupInfo | null>(null);
     const [isMember, setIsMember] = useState(false);
     const { user } = useAuth();
@@ -183,6 +185,9 @@ function Group({ id }: { id: number }) {
                         (<>
                             <div onClick={leaveGroup} className="button"> <Button text={"Leave"} /> </div>
                             <div onClick={() => setShowAddMessage(true)} className="button"> <Button text={"Post"} /> </div>
+                            {groupInfo?.creatorId == user?.id && (
+                                <div onClick={()=>setShowEditGroup(true)} className="button">Edit</div>
+                            ) }
                         </>)
                     }
                 </div>
@@ -213,6 +218,10 @@ function Group({ id }: { id: number }) {
                         {addMessage()}
                     </div>
                 </div>
+            )}
+
+            {showEditGroup && (
+                <EditGroup id={id} edit={setShowEditGroup} />
             )}
 
         </div>

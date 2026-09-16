@@ -38,7 +38,7 @@ function Body({ searchResult, clearSearch }: { searchResult: groupResult[] | nul
 
                     :
 
-                    (<CreateGroup creation={setCreatingNewGroup} />)
+                    (< div className="createGroupPage" ><CreateGroup creation={setCreatingNewGroup} group={openGroup} /></div>)
             }
         </div>
     );

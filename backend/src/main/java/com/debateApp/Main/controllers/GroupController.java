@@ -45,17 +45,17 @@ public class GroupController {
         groupService.removeMember(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public GroupResponseDTO createGroup(@Valid @RequestBody CreateGroupDTO dto) {
         return groupService.createGroup(dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteGroup(@PathVariable Long id) {
         return groupService.deleteGroup(id);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update/{id}")
     public GroupResponseDTO updateGroup(@PathVariable Long id, @Valid @RequestBody UpdateGroupDTO dto) {
         return groupService.updateGroup(id, dto);
     }
