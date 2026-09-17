@@ -107,7 +107,7 @@ code {
   background: var(--code-bg);
 }
 
-* {
+body{
   background: var(--bg);
   color: var(--text);
 }

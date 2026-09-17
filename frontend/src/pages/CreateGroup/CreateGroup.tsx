@@ -34,7 +34,7 @@ function CreateGroup({ creation, group }: { creation: (value: boolean) => void, 
 
     return (
         <div className="createGroup">
-            <h3 className="header">CREATE GROUP</h3>
+            <h3 className="formHeader">CREATE GROUP</h3>
 
             <br />
 

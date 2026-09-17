@@ -41,7 +41,7 @@ function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void })
 
     return (
         <div className="createGroup">
-            <h3 className="header">CREATE GROUP</h3>
+            <h3 className="formHeader">EDIT GROUP</h3>
 
             <br />
 

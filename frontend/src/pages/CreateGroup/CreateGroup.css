@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     border: 1px white solid;
     border-radius: 20px;
     padding: 2rem;
@@ -40,4 +41,18 @@
 .createGroup .buttons > button{
     padding: 5px 15px;
     border-radius: 5px;
+}
+
+.createGroup .formHeader{
+    text-align: center;
+    padding-bottom: 1rem;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.createGroup label{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
