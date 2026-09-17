@@ -221,7 +221,9 @@ function Group({ id }: { id: number }) {
             )}
 
             {showEditGroup && (
+                < div className="modal-backdrop">
                 <EditGroup id={id} edit={setShowEditGroup} />
+                </div >
             )}
 
         </div>

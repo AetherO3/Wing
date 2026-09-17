@@ -11,7 +11,7 @@ function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void })
 
     async function updateGroup() {
         try {
-            const response = await api.post(`api/groups/update/${id}`, {
+            const response = await api.post(`/api/groups/update/${id}`, {
                 name: groupName,
                 topic: groupDesc
             });
@@ -32,7 +32,7 @@ function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void })
 
     async function deleteGroup() {
         try {
-            api.delete(`/api/groups/delete/${id}`)
+            await api.delete(`/api/groups/delete/${id}`)
             edit(false);
         } catch (error) {
             console.log(`Error occured ${error}`);
