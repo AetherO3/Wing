@@ -39,7 +39,7 @@ public class UserController {
         return userService.deleteUser(id, dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public UserResponseDTO updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserDTO dto) {
         return userService.updateUser(id, dto);
     }

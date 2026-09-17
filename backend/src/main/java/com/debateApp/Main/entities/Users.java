@@ -27,7 +27,7 @@ public class Users {
     @NotBlank(message = "User name cannot be blank")
     private String userName;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "Email cannot be blank")
     private String email;
 

@@ -9,11 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateUserDTO {
-@NotBlank
-@Size(min = 5, max = 20)
+    @NotBlank
+    @Size(min = 5, max = 20)
     private String userName;
 
-@NotBlank
-@Email
+    @NotBlank
+    @Email
     private String email;
 }

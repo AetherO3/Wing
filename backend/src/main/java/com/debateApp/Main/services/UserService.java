@@ -78,9 +78,6 @@ public class UserService {
         user.setUserName(dto.getUserName());
         user = userRepository.save(user);
 
-        // TODO Email is set as not updateable rn, but later an otp confirmation can be
-        // used to update the email.
-
         return UserResponseDTO.builder()
                 .id(user.getId())
                 .userName(user.getUserName())

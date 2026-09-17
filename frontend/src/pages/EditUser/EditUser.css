@@ -1,0 +1,30 @@
+.editUser{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.userInput{
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.button{
+    width: 100px;
+    height: 50px;
+    border-radius: 25px;
+}

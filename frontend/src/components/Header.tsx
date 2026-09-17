@@ -13,7 +13,7 @@ type groupResult = {
     creatorName: string
 };
 
-function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] | null) => void }) {
+function Header({ onSearchResults, editing }: { onSearchResults: (results: groupResult[] | null) => void, editing: (flag: boolean) => void }) {
     const nav = useNavigate();
     const { user, isAuthenticated, loading } = useAuth();
 
@@ -31,7 +31,7 @@ function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] 
                 {isAuthenticated ? (
                     <div className='header-buttons'>
                         <Logout />
-                        <div id='userNameAndPfp'>
+                        <div id='userNameAndPfp' onClick={()=>editing(true)} >
                             <img src={profile} className='header-logo' id='userPfp' alt="profile picture." />
                             <p>{user?.userName}</p>
                         </div>
@@ -39,11 +39,11 @@ function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] 
                 ) : (
                     <div className='header-buttons'>
 
-                        <button  onClick={() => nav("/login")}>
+                        <button onClick={() => nav("/login")}>
                             Log In
                         </button>
 
-                        <button  onClick={() => nav("/signup")}>
+                        <button onClick={() => nav("/signup")}>
                             Sign Up
                         </button>
                     </div>
@@ -59,7 +59,7 @@ function Search({ onSearchResults }: { onSearchResults: (results: groupResult[] 
     async function handleSearch(e: React.SubmitEvent) {
         e.preventDefault();
 
-        if(!search.trim()){
+        if (!search.trim()) {
             onSearchResults(null);
             return;
         }
