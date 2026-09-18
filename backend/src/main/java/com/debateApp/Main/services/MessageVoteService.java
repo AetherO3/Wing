@@ -45,4 +45,9 @@ public class MessageVoteService {
                     .build());
         }
     }
+
+    public String getUserVote(Long userId, Long messageId) {
+        return messageVoteRepository.findByUserIdAndMessageId(userId, messageId)
+                .map(vote -> vote.getStance().name()).orElse(null);
+    }
 }

@@ -42,13 +42,19 @@ public class MessageVoteController {
         return castVote(messageId, Stance.AGAINST);
     }
 
-    private Map<String, Long> castVote(Long messageId, Stance stance){
-        Long userId = (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private Map<String, Long> castVote(Long messageId, Stance stance) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         messageVoteService.vote(userId, messageId, stance);
 
-        return Map.of( "agreeCount",messageVoteService.getAgreeCount(messageId),
-                "disagreeCount",messageVoteService.getDisagreeCount(messageId));
+        return Map.of("agreeCount", messageVoteService.getAgreeCount(messageId),
+                "disagreeCount", messageVoteService.getDisagreeCount(messageId));
+    }
+
+    @GetMapping("/myVote/{id}")
+    public String getUserVote(@PathVariable Long id) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return messageVoteService.getUserVote(userId, id);
     }
 
 }

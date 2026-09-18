@@ -27,6 +27,16 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
     const [editText, setEditText] = useState(currentMessage);
     const menuRef = useRef<HTMLDivElement>(null);
     const [currentStance, setCurrentStance] = useState(stance);
+    const [myVote, setMyVote] = useState<"PRO" | "AGAINST" | null>(null);
+
+    useEffect(() => {
+        async function getMyVote() {
+            const response = await api.get(`/api/messagevote/myVote/${id}`);
+            setMyVote(response.data || null);
+        }
+
+        getMyVote();
+    }, [id]);
 
     useEffect(() => {
         async function getCounts() {
@@ -118,8 +128,8 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
             <p className={currentStance.toLowerCase()}> {currentMessage} </p>
 
             <div id="count">
-                <button onClick={addPro}> {agreeCount}-agreers </button>
-                <button onClick={addAgainst}> {disagreeCount}-disagreers </button>
+                <button onClick={addPro} className={myVote === "PRO" ? "agree-selected" : ""}> {agreeCount}-agreers </button>
+                <button onClick={addAgainst} className={myVote === "AGAINST" ? "disagree-selected" : ""}> {disagreeCount}-disagreers </button>
             </div>
 
             {isEditing && (
@@ -131,25 +141,28 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
                     </div>
                 </div>
 
-            )}
+            )
+            }
 
-            {showDeleteConfirmation && (
-                <div className='modal-backdrop'>
-                    <div className='message-window'>
+            {
+                showDeleteConfirmation && (
+                    <div className='modal-backdrop'>
+                        <div className='message-window'>
 
-                        <p>Delete Message?(This process is not reversible.)</p>
+                            <p>Delete Message?(This process is not reversible.)</p>
 
-                        <br />
+                            <br />
 
-                        <button onClick={deleteMessage}>DELETE</button>
-                        <button onClick={() => setShowDeleteConfirmation(false)}>CANCEL</button>
+                            <button onClick={deleteMessage}>DELETE</button>
+                            <button onClick={() => setShowDeleteConfirmation(false)}>CANCEL</button>
 
+                        </div>
                     </div>
-                </div>
 
-            )}
+                )
+            }
 
-        </div>
+        </div >
     );
 }
 
