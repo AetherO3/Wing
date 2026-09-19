@@ -66,14 +66,14 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
         const response = await api.post(`/api/messagevote/addAgree?messageId=${id}`);
         setAgreeCount(response.data.agreeCount);
         setDisagreeCount(response.data.disagreeCount);
-        setMyVote("PRO");
+        setMyVote(prev=> prev == "PRO" ? null : "PRO");
     }
 
     async function addAgainst() {
         const response = await api.post(`/api/messagevote/addDisagree?messageId=${id}`);
         setAgreeCount(response.data.agreeCount);
         setDisagreeCount(response.data.disagreeCount);
-        setMyVote("AGAINST");
+        setMyVote(prev=> prev == "AGAINST" ? null : "AGAINST");
     }
 
     async function saveEdit() {
