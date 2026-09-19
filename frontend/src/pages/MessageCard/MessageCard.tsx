@@ -66,12 +66,14 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
         const response = await api.post(`/api/messagevote/addAgree?messageId=${id}`);
         setAgreeCount(response.data.agreeCount);
         setDisagreeCount(response.data.disagreeCount);
+        setMyVote("PRO");
     }
 
     async function addAgainst() {
         const response = await api.post(`/api/messagevote/addDisagree?messageId=${id}`);
         setAgreeCount(response.data.agreeCount);
         setDisagreeCount(response.data.disagreeCount);
+        setMyVote("AGAINST");
     }
 
     async function saveEdit() {
@@ -127,10 +129,12 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
             </div>
             <p className={currentStance.toLowerCase()}> {currentMessage} </p>
 
+
             <div id="count">
-                <button onClick={addPro} className={myVote === "PRO" ? "agree-selected" : ""}> {agreeCount}-agreers </button>
-                <button onClick={addAgainst} className={myVote === "AGAINST" ? "disagree-selected" : ""}> {disagreeCount}-disagreers </button>
+                <button onClick={addPro} className={myVote === "PRO" ? "agree-selected" : ""}> {agreeCount} : agreement{agreeCount == 1 ? "" : "s"}</button>
+                <button onClick={addAgainst} className={myVote === "AGAINST" ? "disagree-selected" : ""}> {disagreeCount} : disagreement{disagreeCount == 1 ? "" : "s"} </button>
             </div>
+
 
             {isEditing && (
                 <div className='modal-backdrop'>

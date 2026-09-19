@@ -5,7 +5,7 @@
 }
 
 .sidebar>div>div{
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .group-logo {
@@ -17,7 +17,6 @@
 
 #newGroup{
     padding: .4rem;
-    margin-top:.2rem;
     margin-right: 1rem;
     margin-left: 1rem;
     border: 1px solid white;
@@ -25,5 +24,6 @@
 }
 
 #newGroup:hover{
-    background-color: #313244;
+    background-color: var(--lavender);
+    color: black;
 }

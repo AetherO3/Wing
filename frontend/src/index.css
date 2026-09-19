@@ -92,8 +92,16 @@ p {
   margin: 0;
 }
 
-code,
-.counter {
+button{
+  color: var(--text);
+  background: var(--bg);
+}
+
+button:hover{
+    color: black;
+    background: var(--lavender);
+}
+code, .counter {
   font-family: var(--mono);
   display: inline-flex;
   border-radius: 4px;

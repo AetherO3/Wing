@@ -25,7 +25,6 @@
     padding: 3px;
     margin-top: 17px;
     margin-right: 17px;
-    color:gray;
     border-radius: 10px;
 }
 
@@ -91,8 +90,19 @@
 
 .agree-selected{
     background: var(--green );
+    color: black;
 }
 
 .disagree-selected{
+    background: var(--red);
+    color: black;
+}
+
+
+.agree-selected:hover{
+    background: var(--green);
+}
+
+.disagree-selected:hover{
     background: var(--red);
 }
