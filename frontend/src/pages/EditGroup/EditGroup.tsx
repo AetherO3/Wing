@@ -1,6 +1,7 @@
 import api from "../../api/api";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function EditGroup() {
     const [groupName, setGroupName] = useState("");
@@ -12,10 +13,25 @@ function EditGroup() {
     const id = Number(idParams);
     const nav = useNavigate();
 
+    useEffect(() => {
+        async function getInitialData() {
+            try {
+                const response = await api.get(`/api/groups/${id}`);
+                setGroupName(response.data.name);
+                setGroupDesc(response.data.topic);
+            } catch (e) {
+                console.error(`Error fetching group: ${e}`);
+            }
+        }
+
+        if (id) {
+            getInitialData();
+        }
+    }, [id]);
 
     async function updateGroup() {
         try {
-            const response = await api.post(`/api/groups/update/${id}`, {
+            const response = await api.patch(`/api/groups/update/${id}`, {
                 name: groupName,
                 topic: groupDesc
             });
