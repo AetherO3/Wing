@@ -1,12 +1,16 @@
 import api from "../../api/api";
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void }) {
+function EditGroup() {
     const [groupName, setGroupName] = useState("");
     const [groupDesc, setGroupDesc] = useState("");
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [error, setError] = useState("");
+    const { id: idParams } = useParams();
+    const id = Number(idParams);
+    const nav = useNavigate();
 
 
     async function updateGroup() {
@@ -17,7 +21,7 @@ function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void })
             });
 
             if (response.status == 200) {
-                edit(false);
+                nav(`/group/${id}`);
             }
 
             else {
@@ -33,7 +37,7 @@ function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void })
     async function deleteGroup() {
         try {
             await api.delete(`/api/groups/delete/${id}`)
-            edit(false);
+            nav("/");
         } catch (error) {
             console.log(`Error occured ${error}`);
         }
@@ -54,8 +58,8 @@ function EditGroup({ id, edit }: { id: number, edit: (value: boolean) => void })
 
                 <div className="buttons">
                     <button onClick={updateGroup}>UPDATE</button>
-                    <button onClick={() => edit(false)}>CANCEL</button>
-                    <button onClick={()=>setShowDeleteConfirmation(true)}>DELETE</button>
+                    <button onClick={() => nav(`/group/${id}`)}>CANCEL</button>
+                    <button onClick={() => setShowDeleteConfirmation(true)}>DELETE</button>
                 </div>
 
                 {showErrorMessage && <div> There was some issue ${error}</div>}

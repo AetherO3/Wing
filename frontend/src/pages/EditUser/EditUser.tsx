@@ -1,16 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import './EditUser.css'
 import api from '../../api/api';
 
-export function EditUser({ editing }: { editing: (flag: boolean) => void }) {
+function EditUser() {
     const { user } = useAuth();
     const [userName, setUserName] = useState(user?.userName);
     const [email, setEmail] = useState(user?.email);
+    const nav = useNavigate();
 
     async function editUser() {
         if (user?.id == null) {
-            editing(false);
+            nav(-1);
         }
         else {
             try {
@@ -18,7 +20,7 @@ export function EditUser({ editing }: { editing: (flag: boolean) => void }) {
                     userName: userName,
                     email: email
                 })
-                editing(false);
+                nav(-1);
             } catch (error) {
                 console.log(error);
             }
@@ -38,9 +40,11 @@ export function EditUser({ editing }: { editing: (flag: boolean) => void }) {
 
             < div className='buttons'>
                 <button className='button' onClick={() => editUser()}> Submit </button >
-                <button className='button' onClick={() => editing(false)}> cancel </button >
+                <button className='button' onClick={() => nav(-1)}> cancel </button >
             </div >
 
         </div>
     );
 } 
+
+export default EditUser;

@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import './SearchResults.css'
+
 type groupResult = {
     id: number
     name: string,
@@ -6,20 +8,23 @@ type groupResult = {
     creatorName: string
 };
 
-function SearchResults({ results, onSelect }: { results: groupResult[], onSelect: (id: number) => void }) {
+function SearchResults({ results, clearSearch }: { results: groupResult[], clearSearch: () => void }) {
+    const nav = useNavigate();
+
     if (results.length == 0) {
         return (<div className="searchResults">No groups found.</div>);
     }
 
     return (<div className="searchResults">
         {results.map((group) => (
-            <div className="searchResultsCard" key={group.id} onClick={() => onSelect(group.id)}>
+            <div className="searchResultsCard" key={group.id} onClick={() => { clearSearch(); nav(`/group/${group.id}`); }}>
                 <p className="searchResultName">{group.name}</p>
                 <p className="searchResultTopic">{group.topic}</p>
                 <p className="searchResultCreator"> with luv from {group.creatorName}</p>
             </div>
-        ))}
-    </div>);
+        ))
+        }
+    </div >);
 }
 
 export default SearchResults;

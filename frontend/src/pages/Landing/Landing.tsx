@@ -1,9 +1,12 @@
+import { useAuth } from "../../context/AuthProvider";
 import { useState } from "react";
-import Body from "../../components/Body"
-import Header from "../../components/Header"
-import { EditUser } from "../EditUser/EditUser";
+import { Outlet } from "react-router-dom";
+import Header from "../../components/Header";
+import Sidebar from "../../components/Sidebar";
+import SearchResults from "../Search/SearchResults";
+import "../../components/Body.css"
 
-type groupResult = {
+type GroupResults = {
     id: number,
     name: string,
     topic: string,
@@ -11,17 +14,23 @@ type groupResult = {
 };
 
 function Landing() {
-    const [searchResults, setSearchResults] = useState<groupResult[] | null>(null);
-    const [showEditUser, setShowEditUser] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const [searchResults, setSearchResults] = useState<GroupResults[] | null>(null);
 
-    return (<>
-        <Header onSearchResults={setSearchResults} editing={setShowEditUser} />
-        {!showEditUser ?
-            <Body searchResult={searchResults} clearSearch={() => setSearchResults(null)} />
-            :
-            <EditUser editing={setShowEditUser} />
-        }
-    </>);
+    return (
+        <>
+            <Header onSearchResults={setSearchResults} />
+            <div className="body">
+                {isAuthenticated && <Sidebar />}
+                {isAuthenticated && searchResults != null ?
+                    <SearchResults results={searchResults} clearSearch={() => setSearchResults(null)} />
+                    :
+                    <Outlet />
+                }
+            </div>
+
+        </>
+    );
 }
 
 export default Landing;

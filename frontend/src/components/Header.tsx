@@ -13,7 +13,7 @@ type groupResult = {
     creatorName: string
 };
 
-function Header({ onSearchResults, editing }: { onSearchResults: (results: groupResult[] | null) => void, editing: (flag: boolean) => void }) {
+function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] | null) => void }) {
     const nav = useNavigate();
     const { user, isAuthenticated, loading } = useAuth();
 
@@ -31,7 +31,7 @@ function Header({ onSearchResults, editing }: { onSearchResults: (results: group
                 {isAuthenticated ? (
                     <div className='header-buttons'>
                         <Logout />
-                        <div id='userNameAndPfp' onClick={()=>editing(true)} >
+                        <div id='userNameAndPfp' onClick={() => nav("/user/edit")} >
                             <img src={profile} className='header-logo' id='userPfp' alt="profile picture." />
                             <p>{user?.userName}</p>
                         </div>

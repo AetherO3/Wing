@@ -1,12 +1,14 @@
 import api from "../../api/api";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./CreateGroup.css"
 
-function CreateGroup({ creation, group }: { creation: (value: boolean) => void, group: (id: number) => void }) {
+function CreateGroup() {
     const [groupName, setGroupName] = useState("");
     const [groupDesc, setGroupDesc] = useState("");
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [error, setError] = useState("");
+    const nav = useNavigate();
 
 
     async function createGroup() {
@@ -17,9 +19,7 @@ function CreateGroup({ creation, group }: { creation: (value: boolean) => void, 
             });
 
             if (response.status == 200) {
-                const { id } = response.data;
-                group(id);
-                creation(false);
+                nav(`group/${response.data.id}`);
             }
 
             else {
@@ -47,7 +47,7 @@ function CreateGroup({ creation, group }: { creation: (value: boolean) => void, 
 
                 <div className="buttons">
                     <button onClick={createGroup}>CREATE</button>
-                    <button onClick={() => creation(false)}>CANCEL</button>
+                    <button onClick={() => nav(-1)}>CANCEL</button>
                 </div>
 
                 {showErrorMessage && <div> There was some issue ${error}</div>}
@@ -57,6 +57,5 @@ function CreateGroup({ creation, group }: { creation: (value: boolean) => void, 
     );
 
 }
-
 
 export default CreateGroup;

@@ -1,4 +1,6 @@
 .createGroup{
+    margin-left: 25%;
+    padding-top: 2rem;
     text-align: center;
     border: none;
 }
@@ -13,6 +15,7 @@
     border: 1px white solid;
     border-radius: 20px;
     padding: 2rem;
+    background: var(--mantle);
 }
 
 .createGroup .inputs{
@@ -29,8 +32,13 @@
     border-radius: 10px;
     height: 50px;
     text-align: center;
+    background: var(--mantle);
+    color: var(--text);
 }
 
+.createGroup input:hover{
+    border-color: var(--pink);
+}
 .createGroup .buttons{
     display: flex;
     flex-direction: row;

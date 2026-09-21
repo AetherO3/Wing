@@ -1,10 +1,10 @@
+import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect, type SubmitEvent } from "react"
 import { useAuth } from "../../context/AuthProvider"
 import "./Group.css"
 import MessageCard from "../MessageCard/MessageCard.tsx"
 import api from '../../api/api.ts'
 import profile from "../../assets/profile.jpg"
-import EditGroup from "../EditGroup/EditGroup.tsx"
 
 type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 
@@ -26,15 +26,17 @@ type GroupInfo = {
     creatorName: string
 }
 
-function Group({ id }: { id: number }) {
+function Group() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState("");
     const [stance, setStance] = useState<Stance>("PRO");
     const [showAddMessage, setShowAddMessage] = useState(false);
-    const [showEditGroup, setShowEditGroup] = useState(false);
     const [groupInfo, setGroupInfo] = useState<GroupInfo | null>(null);
     const [isMember, setIsMember] = useState(false);
     const { user } = useAuth();
+    const { id: idParam } = useParams();
+    const id = Number(idParam);
+    const nav = useNavigate();
 
     useEffect(() => {
         async function getMessages() {
@@ -186,8 +188,8 @@ function Group({ id }: { id: number }) {
                             <div onClick={leaveGroup} className="button"> <Button text={"Leave"} /> </div>
                             <div onClick={() => setShowAddMessage(true)} className="button"> <Button text={"Post"} /> </div>
                             {groupInfo?.creatorId == user?.id && (
-                                <div onClick={()=>setShowEditGroup(true)} className="button"><Button text="Edit"/></div>
-                            ) }
+                                <div onClick={() => nav(`/group/edit/${id}`)} className="button"><Button text="Edit" /></div>
+                            )}
                         </>)
                     }
                 </div>
@@ -219,25 +221,18 @@ function Group({ id }: { id: number }) {
                     </div>
                 </div>
             )}
-
-            {showEditGroup && (
-                < div className="modal-backdrop">
-                <EditGroup id={id} edit={setShowEditGroup} />
-                </div >
-            )}
-
         </div>
     )
 }
 
-function renderFor(fMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void, deleteMessage: (id: number)=>void) {
+function renderFor(fMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void, deleteMessage: (id: number) => void) {
 
     return (<div>
         {fMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId} onStanceChange={handleStanceChange} onDelete={deleteMessage} />))}
     </div>);
 }
 
-function renderAgainst(aMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void, deleteMessage: (id: number)=>void){
+function renderAgainst(aMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void, deleteMessage: (id: number) => void) {
 
     return (<div>
         {aMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId} onStanceChange={handleStanceChange} onDelete={deleteMessage} />))}
