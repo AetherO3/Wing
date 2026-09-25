@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import api from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthProvider';
 
 import './MessageCard.css';
@@ -11,11 +12,12 @@ type MessageCardProp = {
     stance: "PRO" | "AGAINST" | "NEUTRAL";
     edited: boolean;
     authorId: number;
+    noOfReplies: number;
     onStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void;
     onDelete: (id: number) => void;
 };
 
-function MessageCard({ message, stance, id, author, edited, authorId, onStanceChange, onDelete }: MessageCardProp) {
+function MessageCard({ message, stance, id, author, edited, authorId, noOfReplies, onStanceChange, onDelete }: MessageCardProp) {
     const { user } = useAuth();
     const [showMenu, setShowMenu] = useState(false);
     const [agreeCount, setAgreeCount] = useState(0);
@@ -28,6 +30,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
     const menuRef = useRef<HTMLDivElement>(null);
     const [currentStance, setCurrentStance] = useState(stance);
     const [myVote, setMyVote] = useState<"PRO" | "AGAINST" | null>(null);
+    const nav = useNavigate();
 
     useEffect(() => {
         async function getMyVote() {
@@ -66,14 +69,14 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
         const response = await api.post(`/api/messagevote/addAgree?messageId=${id}`);
         setAgreeCount(response.data.agreeCount);
         setDisagreeCount(response.data.disagreeCount);
-        setMyVote(prev=> prev == "PRO" ? null : "PRO");
+        setMyVote(prev => prev == "PRO" ? null : "PRO");
     }
 
     async function addAgainst() {
         const response = await api.post(`/api/messagevote/addDisagree?messageId=${id}`);
         setAgreeCount(response.data.agreeCount);
         setDisagreeCount(response.data.disagreeCount);
-        setMyVote(prev=> prev == "AGAINST" ? null : "AGAINST");
+        setMyVote(prev => prev == "AGAINST" ? null : "AGAINST");
     }
 
     async function saveEdit() {
@@ -112,7 +115,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
 
             <div className="messageHeader">
 
-                <div id="author"> <p>{author}</p> {isItEdited && <p>EDITED</p>} </div>
+                <div id="author"> {isItEdited ? <p>{user?.id != authorId ? author : "You"}-EDITED</p> : <p>{user?.id != authorId ? author : "You"}</p>} </div>
 
                 {user?.id == authorId &&
                     <div ref={menuRef} className='menu-wrapper'>
@@ -133,6 +136,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, onStanceCh
             <div id="count">
                 <button onClick={addPro} className={myVote === "PRO" ? "agree-selected" : ""}> {agreeCount} : agreement{agreeCount == 1 ? "" : "s"}</button>
                 <button onClick={addAgainst} className={myVote === "AGAINST" ? "disagree-selected" : ""}> {disagreeCount} : disagreement{disagreeCount == 1 ? "" : "s"} </button>
+                <button onClick={() => nav(`/group/replies/${id}`)}>{noOfReplies}    Replies</button>
             </div>
 
 

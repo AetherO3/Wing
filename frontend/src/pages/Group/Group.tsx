@@ -16,8 +16,10 @@ type Message = {
     authorId: number,
     authorName: string,
     stance: Stance,
-    edited: boolean
+    edited: boolean,
+    replyCount: number
 }
+
 type GroupInfo = {
     id: number,
     name: string,
@@ -228,14 +230,41 @@ function Group() {
 function renderFor(fMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void, deleteMessage: (id: number) => void) {
 
     return (<div>
-        {fMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId} onStanceChange={handleStanceChange} onDelete={deleteMessage} />))}
+        {
+            fMessages.map(message => (
+                <MessageCard key={message.id}
+                    message={message.message}
+                    stance={message.stance}
+                    id={message.id}
+                    author={message.authorName}
+                    edited={message.edited}
+                    authorId={message.authorId}
+                    noOfReplies={message.replyCount}
+                    onStanceChange={handleStanceChange}
+                    onDelete={deleteMessage}
+                />
+            ))
+        }
     </div>);
 }
 
 function renderAgainst(aMessages: Message[], handleStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void, deleteMessage: (id: number) => void) {
 
     return (<div>
-        {aMessages.map(message => (<MessageCard key={message.id} message={message.message} stance={message.stance} id={message.id} author={message.authorName} edited={message.edited} authorId={message.authorId} onStanceChange={handleStanceChange} onDelete={deleteMessage} />))}
+        {
+            aMessages.map(message => (
+                <MessageCard key={message.id}
+                    message={message.message}
+                    stance={message.stance}
+                    id={message.id}
+                    author={message.authorName}
+                    edited={message.edited}
+                    authorId={message.authorId}
+                    noOfReplies={message.replyCount}
+                    onStanceChange={handleStanceChange}
+                    onDelete={deleteMessage}
+                />
+            ))}
     </div>);
 }
 

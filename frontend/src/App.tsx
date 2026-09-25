@@ -7,6 +7,7 @@ import EditGroup from './pages/EditGroup/EditGroup'
 import EditUser from './pages/EditUser/EditUser'
 import Login from './pages/Login/Login'
 import SignUp from './pages/SignUp/SignUp'
+import { Replies } from './pages/Replies/Replies'
 import { AuthProvider } from './context/AuthProvider'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                             <Route path="/group/:id" element={<Group />} />
                             <Route path="/group/create" element={<CreateGroup />} />
                             <Route path="/group/edit/:id" element={<EditGroup />} />
+                            <Route path="/group/replies/:id" element={<Replies />} />
                             <Route path="/user/edit" element={<EditUser />} />
                         </Route>
                     </Routes >
