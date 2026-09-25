@@ -119,7 +119,7 @@ function Group() {
         return (
             <form onSubmit={submit} className="postForm">
                 <label htmlFor="Message" >
-                    <input type="text" id='message' placeholder="add message...." onChange={(e) => setMessage(e.target.value)} />
+                    <textarea  className="growInput" id='message' placeholder="add message...." onChange={(e) => setMessage(e.target.value)} />
                 </label>
                 <div id="radioBtns">
                     <div>

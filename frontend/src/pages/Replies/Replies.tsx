@@ -63,40 +63,27 @@ export function Replies() {
     }, [parentMessage?.id]);
 
     async function onDelete(id: number) {
-        try {
-            const response = await api.delete(`api/message/${id}`);
-            if (response.status == 200)
-                console.log("deleted");
-            else
-                console.log(`error ${response.statusText}`);
-        }
-        catch (error) {
-            console.log(`Error occured : ${error}`);
-        }
+        setReplies(prev => prev.filter(m => m.id !== id));
     }
 
     async function setChangeStance(id: number, newStance: "PRO" | "AGAINST") {
-        try {
-            api.post(`/api/messages/edit/stance/${id}`, newStance, {
-                headers: { "Content-Type": "plain/text" }
-            });
-
-            setReplies(prev => prev?.map(m => m.id === id ? { ...m, stance: newStance } : m));
-
-        } catch (error) {
-            console.log(`Couldn't chane the stance for message id : ${id} with error ${error}`);
-        }
+        setReplies(prev => prev?.map(m => m.id === id ? { ...m, stance: newStance } : m));
     }
 
     async function addReply(newReply: string) {
         const groupId = await api.get(`/api/messages/groupid/${id}`);
+
         try {
-            await api.post("/api/messages", {
+            const response = await api.post("/api/messages", {
                 message: newReply,
                 parentId: parentMessage?.id,
                 groupId: groupId.data,
                 stance: stance
             });
+
+            setReplies(prev=>[...prev, response.data]);
+            setNewReply("");
+
         } catch (error) {
             console.log(`An error occured ${error}`);
         }
@@ -124,7 +111,7 @@ export function Replies() {
         </div>
 
         <div>
-            <input placeholder="addReply" onChange={(e) => setNewReply(e.target.value)} />
+            <textarea className="growInput" placeholder="addReply" onChange={(e) => setNewReply(e.target.value)} value={newReply} />
             <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
             <label > agree</label>
             <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
