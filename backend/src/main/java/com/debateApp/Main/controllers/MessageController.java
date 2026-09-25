@@ -47,4 +47,14 @@ public class MessageController {
     public void editStance(@PathVariable Long id, @RequestBody String stance) {
         messageService.editStance(id, stance);
     }
+
+    @GetMapping("/replies/{id}")
+    public List<MessageResponseDTO> findReplies(@PathVariable Long id){
+        return messageService.findReplies(id);
+    }
+
+    @GetMapping("/groupid/{id}")
+    public Long findGroupId(@PathVariable Long id){
+        return messageService.findGroupId(id);
+    }
 }
