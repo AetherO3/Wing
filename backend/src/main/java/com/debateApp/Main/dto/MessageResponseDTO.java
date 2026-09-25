@@ -16,4 +16,5 @@ public class MessageResponseDTO{
     private String authorName;
     private String stance;
     private boolean edited;
+    private int replyCount;
 }
