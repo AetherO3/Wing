@@ -78,6 +78,7 @@ public class MessageService {
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
                 .edited(false)
+                .replyCount(message.getReplies().size())
                 .build();
     }
 
@@ -92,6 +93,7 @@ public class MessageService {
                 .authorName(message.getAuthor().getUserName())
                 .stance(message.getStance().toString())
                 .edited(message.getEdited())
+                .replyCount(message.getReplies().size())
                 .build();
 
     }
@@ -108,6 +110,7 @@ public class MessageService {
                                 .authorName(message.getAuthor().getUserName())
                                 .stance(message.getStance().toString())
                                 .edited(message.getEdited())
+                                .replyCount(message.getReplies().size())
                                 .build())
                 .toList();
     }
@@ -164,5 +167,30 @@ public class MessageService {
         }
 
         messageRepository.save(message);
+    }
+
+    public List<MessageResponseDTO> findReplies(Long id) {
+        Messages messages = messageRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found id : " + id));
+
+        return messages.getReplies().stream()
+                .map(
+                        message -> MessageResponseDTO.builder()
+                                .id(message.getId())
+                                .message(message.getMessage())
+                                .authorId(message.getAuthor().getId())
+                                .authorName(message.getAuthor().getUserName())
+                                .stance(message.getStance().toString())
+                                .edited(message.getEdited())
+                                .replyCount(message.getReplies().size())
+                                .build())
+                .toList();
+    }
+
+    public Long findGroupId(Long id){
+        Messages message = messageRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found id : " + id));
+
+        return message.getGroup().getId();
     }
 }
