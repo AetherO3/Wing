@@ -1,0 +1,10 @@
+.repliesBody{
+    flex: 1;
+}
+
+.parentMessage{
+    width: 100%;
+    text-align: center;
+}
+
+
