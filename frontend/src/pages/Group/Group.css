@@ -5,13 +5,15 @@
     width: 100%;
     min-height: 0;
     min-width: 0;
+    background: var(--mantle);
 }
 
 .discussion-area{
     display: flex;
     flex: 1;
-    justify-content: space-around;
     width: 100%;
+    min-width: 0;
+    justify-content: space-around;
 }
 
 .group-header{
@@ -19,25 +21,26 @@
     align-items: center;
     justify-content: space-between;
     height: 8%;
-    border-bottom: 2px solid white;
+    border-bottom: 1px solid var(--surface1);
+    background: var(--mantle);
     font-size: 32px;
 }
 
 .group-header-img-and-title{
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: space-between;
 }
 #group-header-img{
     height: 60px;
     padding-right: 30px;
     padding-left: 30px;
-    border-radius:100%;
+    border-radius: 100%;
 }
 
 #group-header-buttons{
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     align-items: center;
     gap: 1rem;
     padding-right: 1.5rem;
@@ -48,21 +51,67 @@
     width: 100px;
     height: 50px;
     border-radius: 25px;
+    border: 1px solid var(--accent-border);
+}
+
+.button.join>*, .button.post>*{
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--surface0);
+}
+
+.button.join>*:hover, .button.post>*:hover{
+    background: var(--accent);
+    color: var(--base);
+    border: 1px solid var(--accent-border);
+}
+
+.button.leave>*{
+    color: var(--red);
+    border: 1px solid var(--red);
+}
+
+.button.leave>*:hover{
+    background: var(--red);
+    color: var(--base);
+    border: 1px solid var(--red);
+}
+
+.button.edit>*{
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+}
+
+.button.edit>*:hover{
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
 }
 
 .divider{
-    align-self: stretch;
-    width: 1px;
-    background: white;
+     flex: 0 0 1px;
+     width: 1px;
+     background: var(--surface1);
+ }
+
+.agree-heading, .disagree-heading {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-top: 1rem;
 }
 
-.agree{
-    flex: 1;
-    padding-top: 1rem;
+.agree-heading{
+    display: inline-block;
+    color: var(--green);
+    border-bottom: 2px solid var(--green);
+    padding-bottom: 4px;
 }
-.disagree{
-    flex: 1;
-    padding-top: 1rem;
+
+.disagree-heading{
+    display: inline-block;
+    color: var(--red);
+    border-bottom: 2px solid var(--red);
+    padding-bottom: 4px;
 }
 
 .modal-backdrop {
@@ -80,23 +129,32 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
-    margin-bottom: 0.2rem;
 }
 
 .postForm{
-    border: 1px white solid;
-    border-radius: 10px;
-    padding: 1rem;
+    background: transparent;
+    border: none;
+    padding: 0;
     display: flex;
-    flex-direction:column;
-    height: 10rem;
-    justify-content: space-around;
+    flex-direction: column;
+    gap: 1.25rem;
     width: 20rem;
+}
+
+#textField{
+    margin-bottom: 1.5rem;
+}
+
+#textField>textarea{
+    width: 85%;
+    color: var(--text);
 }
 
 .addMessageButtons{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
 }
 
 .addMessageButtons>button{

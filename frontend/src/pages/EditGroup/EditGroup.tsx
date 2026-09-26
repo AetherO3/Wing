@@ -60,46 +60,43 @@ function EditGroup() {
     }
 
     return (
-        <div className="createGroup">
-            <h3 className="formHeader">EDIT GROUP</h3>
+        <div className="form-page">
+            <div className="form-card">
+                <h3>Edit Group</h3>
 
-            <br />
-
-            <div className="body">
-                <div className="inputs">
-                    <label>Name: <input value={groupName} type="text" placeholder="Group Name." onChange={(e) => setGroupName(e.target.value)} /> </label>
-
-                    <label> Topic: <input value={groupDesc} type="text" placeholder="Group Desc....." onChange={(e) => setGroupDesc(e.target.value)} /> </label>
+                <div className="form-fields">
+                    <label>
+                        Name
+                        <input value={groupName} type="text" placeholder="Group Name" onChange={(e) => setGroupName(e.target.value)} />
+                    </label>
+                    <label>
+                        Topic
+                        <input value={groupDesc} type="text" placeholder="Group Description" onChange={(e) => setGroupDesc(e.target.value)} />
+                    </label>
                 </div>
 
-                <div className="buttons">
-                    <button onClick={updateGroup}>UPDATE</button>
-                    <button onClick={() => nav(`/group/${id}`)}>CANCEL</button>
-                    <button onClick={() => setShowDeleteConfirmation(true)}>DELETE</button>
+                <div className="modalButtons">
+                    <button className="btn-primary" onClick={updateGroup}>Update</button>
+                    <button className="btn-secondary" onClick={() => nav(`/group/${id}`)}>Cancel</button>
+                    <button className="btn-danger" onClick={() => setShowDeleteConfirmation(true)}>Delete</button>
                 </div>
 
-                {showErrorMessage && <div> There was some issue ${error}</div>}
-
-                {showDeleteConfirmation && (
-                    <div className='modal-backdrop'>
-                        <div className='message-window'>
-
-                            <p>Delete Message?(This process is not reversible.)</p>
-
-                            <br />
-
-                            <button onClick={deleteGroup}>DELETE</button>
-                            <button onClick={() => setShowDeleteConfirmation(false)}>CANCEL</button>
-
-                        </div>
-                    </div>
-
-                )}
+                {showErrorMessage && <p className="formError">There was some issue: {error}</p>}
             </div>
 
+            {showDeleteConfirmation && (
+                <div className="modal-backdrop">
+                    <div className="message-window deleteForm">
+                        <p>Delete this group? This can't be undone.</p>
+                        <div className="modalButtons">
+                            <button className="btn-danger" onClick={deleteGroup}>Delete</button>
+                            <button className="btn-secondary" onClick={() => setShowDeleteConfirmation(false)}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
-
 }
 
 

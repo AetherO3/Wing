@@ -1,11 +1,11 @@
 .sidebar{
     padding-top: 1rem;
-    border-right: 1px solid white;
-    overflow-y: auto;
+    border-right: 1px solid var(--surface1);
+    background: var(--mantle);
 }
 
 .sidebar>div>div{
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .group-logo {
@@ -15,15 +15,37 @@
     object-fit: cover;
 }
 
-#newGroup{
-    padding: .4rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    border: 1px solid white;
+.sidebar-group{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    margin: .1rem;
+}
+
+.sidebar-group:hover{
+    background: var(--surface0);
+}
+
+.sidebar-group.active{
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+}
+
+
+.add-group-btn{
+    padding: 0.4rem;
+    margin: 0 .4rem;
+    text-align: center;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
     border-radius: 10px;
 }
 
-#newGroup:hover{
-    background-color: var(--lavender);
-    color: black;
+.add-group-btn:hover{
+    background: var(--accent);
+    color: var(--base);
 }

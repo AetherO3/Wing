@@ -81,7 +81,7 @@ export function Replies() {
                 stance: stance
             });
 
-            setReplies(prev=>[...prev, response.data]);
+            setReplies(prev => [...prev, response.data]);
             setNewReply("");
 
         } catch (error) {
@@ -91,33 +91,29 @@ export function Replies() {
 
     return (<div className="repliesBody">
         <h3 className="parentMessage">{parentMessage?.message}</h3>
-        <hr />
-        <div>
-            {
-                replies?.map(
-                    reply => (<MessageCard key={reply.id}
-                        message={reply.message}
-                        stance={reply.stance}
-                        id={reply.id}
-                        author={reply.authorName}
-                        edited={reply.edited}
-                        authorId={reply.authorId}
-                        noOfReplies={reply.replyCount}
-                        onStanceChange={setChangeStance}
-                        onDelete={onDelete}
-                    />
-                    ))
-            }
+        <div className="repliesList">
+            {replies?.map(reply => (
+                <MessageCard key={reply.id}
+                    message={reply.message} stance={reply.stance} id={reply.id}
+                    author={reply.authorName} edited={reply.edited} authorId={reply.authorId}
+                    noOfReplies={reply.replyCount} onStanceChange={setChangeStance} onDelete={onDelete}
+                />
+            ))}
         </div>
 
-        <div>
-            <textarea className="growInput" placeholder="addReply" onChange={(e) => setNewReply(e.target.value)} value={newReply} />
-            <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
-            <label > agree</label>
-            <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
-            <label > disagree</label>
-            <button onClick={() => addReply(newReply)}> Submit </button>
+        <div className="replyBar">
+            <textarea className="growInput" placeholder="Write a reply..." onChange={(e) => setNewReply(e.target.value)} value={newReply} />
+            <div className="stanceGroup">
+                <label className="stanceOption">
+                    <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
+                    Agree
+                </label>
+                <label className="stanceOption">
+                    <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
+                    Disagree
+                </label>
+                <button className="btn-primary" onClick={() => addReply(newReply)}>Submit</button>
+            </div>
         </div>
-
     </div>);
 }

@@ -39,28 +39,37 @@ function SignUp() {
     }
 
     return (
+        <div className="form-page">
+            <div className="form-card">
+                <h2>Create an account</h2>
 
-        <div >
+                <form onSubmit={submit} className="form-fields">
+                    <label>
+                        Username
+                        <input type="text" placeholder="Username" value={userName} onChange={(e) => setUsername(e.target.value)} required />
+                    </label>
 
-            <form onSubmit={submit} className="SignUp">
+                    <label>
+                        Email
+                        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </label>
 
-                <input type="text" placeholder="Username" value={userName} onChange={(e) => setUsername(e.target.value)} required/>
+                    <label>
+                        Password
+                        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </label>
 
-                <input type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                    <label>
+                        Confirm password
+                        <input type="password" placeholder="Re-enter the password" value={rePassword} onChange={(e) => setRePassword(e.target.value)} required />
+                    </label>
 
-                <input type="password" placeholder="Password." value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                    {error && <p className="formError">{error}</p>}
 
-                {error && <div>{error}</div>}
-                <input type="password" placeholder="Re-enter the Password." value={rePassword} onChange={(e) => setRePassword(e.target.value)} required/>
-
-                <button type="submit">
-                    Submit
-                </button>
-
-            </form>
-
+                    <button type="submit" className="btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-
     );
 }
 

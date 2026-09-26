@@ -33,29 +33,30 @@ function CreateGroup() {
     }
 
     return (
-        <div className="createGroup">
-            <h3 className="formHeader">CREATE GROUP</h3>
+        <div className="form-page">
+            <div className="form-card">
+                <h3>Create Group</h3>
 
-            <br />
-
-            <div className="body">
-                <div className="inputs">
-                    <label>Name: <input type="text" placeholder="Group Name." onChange={(e) => setGroupName(e.target.value)} /> </label>
-
-                    <label> Topic: <input type="text" placeholder="Group Desc....." onChange={(e) => setGroupDesc(e.target.value)} /> </label>
+                <div className="form-fields">
+                    <label>
+                        Name
+                        <input type="text" placeholder="Group Name" onChange={(e) => setGroupName(e.target.value)} />
+                    </label>
+                    <label>
+                        Topic
+                        <input type="text" placeholder="Group Description" onChange={(e) => setGroupDesc(e.target.value)} />
+                    </label>
                 </div>
 
-                <div className="buttons">
-                    <button onClick={createGroup}>CREATE</button>
-                    <button onClick={() => nav(-1)}>CANCEL</button>
+                <div className="modalButtons">
+                    <button className="btn-primary" onClick={createGroup}>Create</button>
+                    <button className="btn-secondary" onClick={() => nav(-1)}>Cancel</button>
                 </div>
 
-                {showErrorMessage && <div> There was some issue ${error}</div>}
+                {showErrorMessage && <p className="formError">There was some issue: {error}</p>}
             </div>
-
         </div>
     );
-
 }
 
 export default CreateGroup;

@@ -118,25 +118,22 @@ function Group() {
     function addMessage() {
         return (
             <form onSubmit={submit} className="postForm">
-                <label htmlFor="Message" >
-                    <textarea  className="growInput" id='message' placeholder="add message...." onChange={(e) => setMessage(e.target.value)} />
-                </label>
-                <div id="radioBtns">
-                    <div>
-                        <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
-                        <label > agree</label>
-                    </div>
+                <textarea className="growInput" id='message' placeholder="Enter Message" onChange={(e) => setMessage(e.target.value)} />
 
-                    <div>
+                <div className="stanceGroup">
+                    <label className="stanceOption">
+                        <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />
+                        Agree
+                    </label>
+                    <label className="stanceOption">
                         <input type="radio" name="agreeOrNot" value="AGAINST" onChange={() => setStance("AGAINST")} />
-                        <label > disagree</label>
-                    </div>
+                        Disagree
+                    </label>
                 </div>
 
-                <div className="addMessageButtons">
-                    <button type="submit"> POST </button>
-
-                    <button type="button" onClick={() => { setShowAddMessage(false) }}> CANCEL </button>
+                <div className="modalButtons">
+                    <button type="submit" className="btn-primary">Post</button>
+                    <button type="button" className="btn-secondary" onClick={() => setShowAddMessage(false)}>Cancel</button>
                 </div>
             </form>
         );
@@ -184,13 +181,13 @@ function Group() {
 
                 <div id="group-header-buttons">
                     {isMember == false ?
-                        (<div onClick={joinGroup} className="button"> <Button text={"Join"} /> </div>)
+                        (<div onClick={joinGroup} className="button join"> <Button text={"Join"} /> </div>)
                         :
                         (<>
-                            <div onClick={leaveGroup} className="button"> <Button text={"Leave"} /> </div>
-                            <div onClick={() => setShowAddMessage(true)} className="button"> <Button text={"Post"} /> </div>
+                            <div onClick={leaveGroup} className="button leave"> <Button text={"Leave"} /> </div>
+                            <div onClick={() => setShowAddMessage(true)} className="button post"> <Button text={"Post"} /> </div>
                             {groupInfo?.creatorId == user?.id && (
-                                <div onClick={() => nav(`/group/edit/${id}`)} className="button"><Button text="Edit" /></div>
+                                <div onClick={() => nav(`/group/edit/${id}`)} className="button edit"><Button text="Edit" /></div>
                             )}
                         </>)
                     }
@@ -200,16 +197,16 @@ function Group() {
 
             <div className="discussion-area">
 
-                <div className="agree">
-                    <h2><u>Agree</u></h2>
+                <div className="agree-heading">
+                    <h2>Agree</h2>
                     <br />
                     {renderFor(messages.filter(message => message.stance === "PRO" || message.stance === "NEUTRAL"), handleStanceChange, deleteMessage)}
                 </div>
 
                 <div className="divider"> </div>
 
-                <div className="disagree">
-                    <h2><u>Disagree</u></h2>
+                <div className="disagree-heading">
+                    <h2>Disagree</h2>
                     <br />
                     {renderAgainst(messages.filter(message => message.stance === "AGAINST"), handleStanceChange, deleteMessage)}
                 </div>

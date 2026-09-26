@@ -142,34 +142,27 @@ function MessageCard({ message, stance, id, author, edited, authorId, noOfReplie
 
             {isEditing && (
                 <div className='modal-backdrop'>
-                    <div className='message-window'>
+                    <div className='message-window editForm'>
                         <textarea className="growInput" value={editText} onChange={(e) => setEditText(e.target.value)} />
-                        <button onClick={saveEdit}> Save </button>
-                        <button onClick={() => { setIsEditing(false); setEditText(currentMessage) }}>CANCEL</button>
-                    </div>
-                </div>
-
-            )
-            }
-
-            {
-                showDeleteConfirmation && (
-                    <div className='modal-backdrop'>
-                        <div className='message-window'>
-
-                            <p>Delete Message?(This process is not reversible.)</p>
-
-                            <br />
-
-                            <button onClick={deleteMessage}>DELETE</button>
-                            <button onClick={() => setShowDeleteConfirmation(false)}>CANCEL</button>
-
+                        <div className="modalButtons">
+                            <button className="btn-primary" onClick={saveEdit}>Save</button>
+                            <button className="btn-secondary" onClick={() => { setIsEditing(false); setEditText(currentMessage) }}>Cancel</button>
                         </div>
                     </div>
+                </div>
+            )}
 
-                )
-            }
-
+            {showDeleteConfirmation && (
+                <div className='modal-backdrop'>
+                    <div className='message-window deleteForm'>
+                        <p>Delete this message? This can't be undone.</p>
+                        <div className="modalButtons">
+                            <button className="btn-danger" onClick={deleteMessage}>Delete</button>
+                            <button className="btn-secondary" onClick={() => setShowDeleteConfirmation(false)}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     );
 }

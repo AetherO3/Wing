@@ -39,11 +39,11 @@ function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] 
                 ) : (
                     <div className='header-buttons'>
 
-                        <button onClick={() => nav("/login")}>
+                        <button className="header-btn" onClick={() => nav("/login")}>
                             Log In
                         </button>
 
-                        <button onClick={() => nav("/signup")}>
+                        <button className="header-btn" onClick={() => nav("/signup")}>
                             Sign Up
                         </button>
                     </div>
@@ -99,8 +99,8 @@ function Logout() {
     }
 
     return (
-        <button onClick={handleLogout}> Logout </button>
+        <button className="header-btn header-btn-ghost" onClick={handleLogout}> Logout </button>
     );
 }
 
-export default Header; 
+export default Header;

@@ -1,10 +1,27 @@
 .repliesBody{
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
 }
-
 .parentMessage{
     width: 100%;
     text-align: center;
+    padding: 1rem 0;
+}
+.repliesList{
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 1rem;
 }
 
-
+.replyBar{
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1rem 1.5rem;
+    background: var(--mantle);
+    border-top: 1px solid var(--surface1);
+}

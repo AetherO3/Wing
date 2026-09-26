@@ -3,38 +3,49 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 2px solid white;
     align-items: center;
     height: 35px;
+    background: var(--mantle);
+    border-bottom: 1px solid var(--surface1);
 }
 
 #search{
     width: 40rem;
-    text-align:left;
-    border: 1px solid white;
+    height: 2rem;
+    text-align: left;
+    border: none;
     border-radius: 5px;
-    padding:0.5em;
-    background: var(--bg);
+    padding: 0.5em;
+    background: var(--surface0);
     color: var(--text);
+    box-shadow: 0 0 0 1px var(--surface1);
 }
 
-#search::placeholder{ color: #cdd6f4; }
+#search:focus{
+    outline: none;
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+#search::placeholder{
+    color: var(--subtext0); 
+}
 
 .header-buttons{
     display: flex;
+    align-items: center;
     gap: 1rem;
     width: 12rem;
 }
 
-.header-logo{ 
+.header-logo{
     height: 3rem;
-    border-radius:100%;
+    border-radius: 100%;
 }
 
 #userNameAndPfp{
     display: flex;
-    flex-direction:column;
-    align-items:center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #userPfp{
@@ -43,11 +54,29 @@
 }
 
 #loggedinInfo>p{
-    padding-right:2rem;
+    padding-right: 2rem;
 }
 
-.header button{
+.header-btn{
     width: 100px;
     height: 50px;
     border-radius: 25px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+}
+
+.header-btn:hover{
+    background: var(--accent);
+    color: var(--base);
+}
+
+.header-btn-ghost{
+    color: var(--subtext0);
+    border: 1px solid var(--surface1);
+}
+
+.header-btn-ghost:hover{
+    background: var(--surface0);
+    color: var(--text);
 }

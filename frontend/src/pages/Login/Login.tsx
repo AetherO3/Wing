@@ -27,23 +27,24 @@ function Login() {
         }
     }
 
-    return (<>
-        <form onSubmit={submit} className='login'>
+    return (
+        <div className="form-page">
+            <div className="form-card">
+                <h2>Welcome back</h2>
+                <p className="login-subtitle">Log in to join the debate!!</p>
 
-            <label htmlFor="Username">
-                <input type='text' value={username} placeholder='username' onChange={(e) => setUserName(e.target.value)} />
-            </label>
-
-            <label htmlFor="Password">
-                <input type='password' value={password} placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-            </label>
-
-            <button type='submit'>
-                Login
-            </button>
-
-        </form>
-    </>);
+                <form onSubmit={submit} className="form-fields">
+                    <label htmlFor="username">
+                        <input id="username" type="text" value={username} placeholder="Username" onChange={(e) => setUserName(e.target.value)} />
+                    </label>
+                    <label htmlFor="password">
+                        <input id="password" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                    </label>
+                    <button type="submit" className="btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    );
 }
 
 export default Login;

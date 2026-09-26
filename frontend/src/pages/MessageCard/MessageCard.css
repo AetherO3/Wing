@@ -1,31 +1,37 @@
 .message{
     text-align: left;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #5c5f77;
-    /* border-radius: 10px; */
+    margin: .7rem .3rem;
+    border: 1px solid var(--surface1);
+    border-radius: 10px;
     padding: 10px;
-    margin: 0;
+    background: var(--base);
 }
 
-.neutral, .pro{ color: var(--teal); }
+.neutral, .pro{
+    color: var(--teal); 
+}
 
-.against{ color: var(--maroon); }
+.against{
+color: var(--maroon); 
+}
 
 #author{
     font-size: 0.5rem;
     font-style: italic;
 }
+#count{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+}
 
 #count>button{
-    margin-right: 5px;
-    border: 1px gray solid;
-    padding: 3px;
+    border: 1px solid var(--surface1);
     margin-top: 17px;
-    margin-right: 17px;
-    border-radius: 10px;
+    border-radius: 7px;
+    padding: .2rem .5rem;
 }
 
 .messageHeader{
@@ -36,6 +42,7 @@
 
 #threeDot{
     border: none;
+    border-radius: 5px;
     font-size: 15px;
 }
 
@@ -49,55 +56,36 @@
     display: flex;
     flex-direction: column;
     z-index: 10;
-    width: 5.5rem;
+    width: 6rem;
 }
 
 .menu-dropdown>button{
-    border: 0.5px solid gray;
-    border-radius: 15px;
+    border: 1px solid var(--surface1);
+    border-radius: 10px;
     margin: 2px;
+    height: 1.5rem;
 }
 
-.menu-dropdown>button:hover{
-    background: #cba6f7;
-}
-
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-}
 
 .message-window {
-    background: #1e1e2e;
-    border: 1px solid #5c5f77;
+    background: var(--mantle);
+    border: 1px solid var(--surface1);
     border-radius: 10px;
-    padding: 20px;
     min-width: 250px;
+    padding: 1.75rem 2rem;
     text-align: center;
 }
 
-.message-window button {
-    margin: 5px;
-    padding: 7px 12px;
-    border: 1px solid gray;
-    border-radius: 8px;
-}
 
 .agree-selected{
     background: var(--green );
-    color: black;
+    color:var(--base); 
 }
 
 .disagree-selected{
     background: var(--red);
-    color: black;
+    color: var(--base);
 }
-
 
 .agree-selected:hover{
     background: var(--green);
@@ -105,4 +93,18 @@
 
 .disagree-selected:hover{
     background: var(--red);
+}
+
+.editForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 18rem; 
+}
+
+.deleteForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 16rem; 
 }

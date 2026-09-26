@@ -28,23 +28,28 @@ function EditUser() {
     }
 
     return (
-        <div className="editUser">
-            <h2>Edit User</h2>
+        <div className="form-page">
+            <div className="form-card">
+                <h2>Edit Profile</h2>
 
-            <br />
+                <div className="form-fields">
+                    <label>
+                        Username
+                        <input value={userName} onChange={(e) => setUserName(e.target.value)} />
+                    </label>
+                    <label>
+                        Email
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </label>
+                </div>
 
-            < div className='inputs'>
-                <label>UserName:<input value={userName} className='userInput' onChange={(e) => setUserName(e.target.value)} /></label>
-                <label>Email:<input value={email} className='userInput' onChange={(e) => setEmail(e.target.value)} /></label>
-            </div >
-
-            < div className='buttons'>
-                <button className='button' onClick={() => editUser()}> Submit </button >
-                <button className='button' onClick={() => nav(-1)}> cancel </button >
-            </div >
-
+                <div className="modalButtons">
+                    <button className="btn-primary" onClick={() => editUser()}>Submit</button>
+                    <button className="btn-secondary" onClick={() => nav(-1)}>Cancel</button>
+                </div>
+            </div>
         </div>
     );
-} 
+}
 
 export default EditUser;
