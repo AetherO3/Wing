@@ -19,7 +19,7 @@ function Landing() {
 
     return (
         <>
-            <Header onSearchResults={setSearchResults} />
+            { isAuthenticated && <Header onSearchResults={setSearchResults} /> }
             <div className="body">
                 {isAuthenticated && <Sidebar />}
                 {isAuthenticated && searchResults != null ?

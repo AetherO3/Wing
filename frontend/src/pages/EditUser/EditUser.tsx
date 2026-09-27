@@ -5,9 +5,11 @@ import './EditUser.css'
 import api from '../../api/api';
 
 function EditUser() {
-    const { user } = useAuth();
+    const { user, setIsAuthenticated, setUser} = useAuth();
     const [userName, setUserName] = useState(user?.userName);
     const [email, setEmail] = useState(user?.email);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [password, setPassword] = useState("");
     const nav = useNavigate();
 
     async function editUser() {
@@ -24,6 +26,18 @@ function EditUser() {
             } catch (error) {
                 console.log(error);
             }
+        }
+    }
+
+    async function deleteUser() {
+        try {
+            await api.delete(`/api/users/${user?.id}`, { data: { password } });
+            setUser(null);
+            setIsAuthenticated(false);
+            nav("/");
+
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -46,8 +60,26 @@ function EditUser() {
                 <div className="modalButtons">
                     <button className="btn-primary" onClick={() => editUser()}>Submit</button>
                     <button className="btn-secondary" onClick={() => nav(-1)}>Cancel</button>
+                    <button className="btn-danger" onClick={() => setShowDeleteConfirmation(true)}>Delete</button>
                 </div>
             </div>
+
+
+            {showDeleteConfirmation && (
+                <div className="modal-backdrop">
+                    <div className="message-window deleteForm">
+                        <p>Delete this User? This can't be undone.</p>
+
+                        <input type='password' placeholder='Enter the password.' onChange={(e) => setPassword(e.target.value)} />
+
+                        <div className="modalButtons">
+                            <button className="btn-danger" onClick={deleteUser}>Delete</button>
+                            <button className="btn-secondary" onClick={() => setShowDeleteConfirmation(false)}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }

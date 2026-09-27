@@ -12,13 +12,10 @@ function CreateGroup() {
 
     async function createGroup() {
         try {
-            const response = await api.post("api/groups/create", {
-                name: groupName,
-                topic: groupDesc
-            });
+            const response = await api.post("api/groups/create", { name: groupName, topic: groupDesc });
 
             if (response.status == 200) {
-                nav(`group/${response.data.id}`);
+                nav(`/group/${response.data.id}`);
             }
 
             else {

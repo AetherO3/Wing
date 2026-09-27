@@ -2,18 +2,31 @@
     flex: 1;
     padding: 1rem;
     overflow-y: auto;
-    background-color: #181825;
+    background-color: var(--mantle);
 }
-.searchResultCard {
+.searchResultsCard {
     padding: 0.75rem 1rem;
     margin-bottom: 0.5rem;
+    border: 1px solid var(--surface1);
     border-radius: 6px;
-    background-color: #1e1e2e;
+    background-color: var(--base);
     cursor: pointer;
 }
-.searchResultCard:hover {
-    background-color: #313244;
+
+.searchResultsCard:hover{
+    border: 1px solid var(--lavender);
 }
-.searchResultName { font-weight: bold; }
-.searchResultTopic { font-size: 0.85rem; color: #a6adc8; }
-.searchResultCreator{ font-size: 0.55rem; color: white; }
+
+.searchResultName {
+    font-weight: bold; 
+}
+
+.searchResultTopic {
+    font-size: 0.85rem;
+    color: var(--text); 
+}
+
+.searchResultCreator{
+    font-size: 0.5rem;
+    color: white; 
+}

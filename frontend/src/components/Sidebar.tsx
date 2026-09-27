@@ -13,7 +13,7 @@ function Sidebar() {
     const [groups, setGroups] = useState<GroupType[]>([]);
     const nav = useNavigate();
 
-    useEffect(() => { api.get("/api/groups/joinedGroups").then((response) => setGroups(response.data)).catch((error) => console.log(`Error found ${error}`)); }, []);
+    useEffect(() => { api.get("/api/groups/joinedGroups").then((response) => setGroups(response.data)).catch((error) => console.log(`Error found ${error}`)); } , []);
 
     return (
         <div className="sidebar">
@@ -27,7 +27,7 @@ function Sidebar() {
                     (<div>
                         {groups.map((group) => (
                             <SideGroup name={group.name} id={group.id} key={group.id} />
-                        )) }
+                        ))}
                         <div className="add-group-btn" onClick={() => nav("/group/create")}> Add New Group </div>
                     </div>)
             }
@@ -36,7 +36,7 @@ function Sidebar() {
     );
 }
 
-function SideGroup({ name, id}: { name: string, id: number }) {
+function SideGroup({ name, id }: { name: string, id: number }) {
     const nav = useNavigate();
     const { id: activeId } = useParams();
     const isActive = activeId === String(id);

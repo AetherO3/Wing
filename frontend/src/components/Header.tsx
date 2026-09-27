@@ -15,39 +15,20 @@ type groupResult = {
 
 function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] | null) => void }) {
     const nav = useNavigate();
-    const { user, isAuthenticated, loading } = useAuth();
-
-    if (loading)
-        return null;
+    const { user } = useAuth();
 
     return (
         <div className="header">
-
             <div> <img src={logo} className='header-logo' alt="logo." /> </div>
 
             <Search onSearchResults={onSearchResults} />
 
-            <div>
-                {isAuthenticated ? (
-                    <div className='header-buttons'>
-                        <Logout />
-                        <div id='userNameAndPfp' onClick={() => nav("/user/edit")} >
-                            <img src={profile} className='header-logo' id='userPfp' alt="profile picture." />
-                            <p>{user?.userName}</p>
-                        </div>
-                    </div>
-                ) : (
-                    <div className='header-buttons'>
-
-                        <button className="header-btn" onClick={() => nav("/login")}>
-                            Log In
-                        </button>
-
-                        <button className="header-btn" onClick={() => nav("/signup")}>
-                            Sign Up
-                        </button>
-                    </div>
-                )}
+            <div className='header-buttons'>
+                <Logout />
+                <div id='userNameAndPfp' onClick={() => nav("/user/edit")} >
+                    <img src={profile} className='header-logo' id='userPfp' alt="profile picture." />
+                    <p>{user?.userName}</p>
+                </div>
             </div>
         </div>
     )
@@ -58,37 +39,24 @@ function Search({ onSearchResults }: { onSearchResults: (results: groupResult[] 
 
     async function handleSearch(e: React.SubmitEvent) {
         e.preventDefault();
-
-        if (!search.trim()) {
-            onSearchResults(null);
-            return;
-        }
-
+        if (!search.trim()) { onSearchResults(null); return; }
         try {
-            const response = await api.get("/api/groups/search", {
-                params: {
-                    name: search
-                }
-            });
-            console.log(response.data);
+            const response = await api.get("/api/groups/search", { params: { name: search } });
             onSearchResults(response.data.content);
-
-            return;
-        }
-        catch (error) {
+        } catch (error) {
             console.log(`An error occured, ${error}`)
         }
-
     }
 
-    return (<>
+    return (
         <form onSubmit={handleSearch}>
             <label htmlFor="search">
                 <input type="text" id="search" placeholder="search....." value={search} onChange={(e) => setSearch(e.target.value)} />
             </label>
         </form>
-    </>);
+    );
 }
+
 function Logout() {
     const { setUser, setIsAuthenticated } = useAuth();
 

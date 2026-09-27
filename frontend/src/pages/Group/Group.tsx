@@ -17,7 +17,8 @@ type Message = {
     authorName: string,
     stance: Stance,
     edited: boolean,
-    replyCount: number
+    replyCount: number,
+    parentId: number | null
 }
 
 type GroupInfo = {
@@ -200,7 +201,7 @@ function Group() {
                 <div className="agree-heading">
                     <h2>Agree</h2>
                     <br />
-                    {renderFor(messages.filter(message => message.stance === "PRO" || message.stance === "NEUTRAL"), handleStanceChange, deleteMessage)}
+                    {renderFor(messages.filter(message => (message.stance === "PRO" || message.stance === "NEUTRAL") && message.parentId == null), handleStanceChange, deleteMessage)}
                 </div>
 
                 <div className="divider"> </div>
@@ -208,7 +209,7 @@ function Group() {
                 <div className="disagree-heading">
                     <h2>Disagree</h2>
                     <br />
-                    {renderAgainst(messages.filter(message => message.stance === "AGAINST"), handleStanceChange, deleteMessage)}
+                    {renderAgainst(messages.filter(message => (message.stance === "AGAINST") && message.parentId == null), handleStanceChange, deleteMessage)}
                 </div>
 
             </div>
