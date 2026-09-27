@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageResponseDTO{
     private Long id;
-    private String message;
+    private Long parentId;
     private Long authorId;
     private String authorName;
+    private String message;
     private String stance;
     private boolean edited;
     private int replyCount;

@@ -79,6 +79,9 @@ public class MessageService {
                 .stance(message.getStance().toString())
                 .edited(false)
                 .replyCount(message.getReplies().size())
+                .parentId(message.getParent() != null
+                        ? message.getParent().getId()
+                        : null)
                 .build();
     }
 
@@ -94,6 +97,9 @@ public class MessageService {
                 .stance(message.getStance().toString())
                 .edited(message.getEdited())
                 .replyCount(message.getReplies().size())
+                .parentId(message.getParent() != null
+                        ? message.getParent().getId()
+                        : null)
                 .build();
 
     }
@@ -111,6 +117,9 @@ public class MessageService {
                                 .stance(message.getStance().toString())
                                 .edited(message.getEdited())
                                 .replyCount(message.getReplies().size())
+                                .parentId(message.getParent() != null
+                                        ? message.getParent().getId()
+                                        : null)
                                 .build())
                 .toList();
     }
@@ -183,11 +192,14 @@ public class MessageService {
                                 .stance(message.getStance().toString())
                                 .edited(message.getEdited())
                                 .replyCount(message.getReplies().size())
+                                .parentId(message.getParent() != null
+                                        ? message.getParent().getId()
+                                        : null)
                                 .build())
                 .toList();
     }
 
-    public Long findGroupId(Long id){
+    public Long findGroupId(Long id) {
         Messages message = messageRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Message not found id : " + id));
 
