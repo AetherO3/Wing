@@ -5,6 +5,7 @@ import "./Group.css"
 import MessageCard from "../MessageCard/MessageCard.tsx"
 import api from '../../api/api.ts'
 import profile from "../../assets/profile.jpg"
+import { useGroups } from "../../context/GroupsProvider.tsx"
 
 type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 
@@ -35,10 +36,11 @@ function Group() {
     const [stance, setStance] = useState<Stance>("PRO");
     const [showAddMessage, setShowAddMessage] = useState(false);
     const [groupInfo, setGroupInfo] = useState<GroupInfo | null>(null);
-    const [isMember, setIsMember] = useState(false);
     const { user } = useAuth();
     const { id: idParam } = useParams();
     const id = Number(idParam);
+    const { groups, refreshGroups } = useGroups();
+    const isMember = groups.some(g => g.id === id);
     const nav = useNavigate();
 
     useEffect(() => {
@@ -70,31 +72,13 @@ function Group() {
 
     }, [id]);
 
-    useEffect(() => {
-        async function checkMembership() {
-            try {
-                const response = await api.get(`/api/groups/joinedGroups`);
-
-                setIsMember(
-                    response.data.some((group: GroupInfo) => group.id === id)
-                );
-            }
-            catch (error) {
-                console.log(`An error occured : ${error}`)
-            }
-        }
-
-        if (user?.id)
-            checkMembership();
-    }, [id, user?.id]);
-
     async function joinGroup() {
         if (!id)
             return;
 
         try {
             await api.post(`/api/groups/${id}/addMember`)
-            setIsMember(true);
+            await refreshGroups();
         }
         catch (error) {
             console.log(`Encountered an error : ${error}`)
@@ -107,7 +91,7 @@ function Group() {
 
         try {
             await api.delete(`/api/groups/${id}/leaveGroup`)
-            setIsMember(false);
+            await refreshGroups();
         }
         catch (error) {
             console.log(`Encountered an error : ${error}`)

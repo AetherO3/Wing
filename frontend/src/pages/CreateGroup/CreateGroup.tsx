@@ -1,12 +1,15 @@
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useGroups } from "../../context/GroupsProvider";
 
 function CreateGroup() {
     const [groupName, setGroupName] = useState("");
     const [groupDesc, setGroupDesc] = useState("");
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [error, setError] = useState("");
+    const { refreshGroups } = useGroups();
+
     const nav = useNavigate();
 
 
@@ -15,6 +18,7 @@ function CreateGroup() {
             const response = await api.post("api/groups/create", { name: groupName, topic: groupDesc });
 
             if (response.status == 200) {
+                await refreshGroups();
                 nav(`/group/${response.data.id}`);
             }
 

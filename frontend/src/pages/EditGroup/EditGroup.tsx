@@ -2,6 +2,7 @@ import api from "../../api/api";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useGroups } from "../../context/GroupsProvider";
 
 function EditGroup() {
     const [groupName, setGroupName] = useState("");
@@ -11,6 +12,7 @@ function EditGroup() {
     const [error, setError] = useState("");
     const { id: idParams } = useParams();
     const id = Number(idParams);
+    const {refreshGroups} = useGroups();
     const nav = useNavigate();
 
     useEffect(() => {
@@ -37,6 +39,7 @@ function EditGroup() {
             });
 
             if (response.status == 200) {
+                await refreshGroups();
                 nav(`/group/${id}`);
             }
 
@@ -53,6 +56,7 @@ function EditGroup() {
     async function deleteGroup() {
         try {
             await api.delete(`/api/groups/delete/${id}`)
+            await refreshGroups();
             nav("/");
         } catch (error) {
             console.log(`Error occured ${error}`);

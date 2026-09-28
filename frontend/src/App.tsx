@@ -7,33 +7,36 @@ import EditGroup from './pages/EditGroup/EditGroup'
 import EditUser from './pages/EditUser/EditUser'
 import { Replies } from './pages/Replies/Replies'
 import { AuthProvider } from './context/AuthProvider'
+import { GroupsProvider } from './context/GroupsProvider'
 import { RequireAuth } from './components/RequireAuth'
 import { Home } from './pages/Home/Home'
 
-function GroupRoute(){
-    const {id} = useParams();
+function GroupRoute() {
+    const { id } = useParams();
     return <Group key={id} />;
 }
 
 function App() {
     return (
         <AuthProvider>
-            <div className="app">
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Landing />} >
-                            <Route index element={<Home />} />
-                            <Route element={<RequireAuth />} >
-                                <Route path="/group/:id" element={<GroupRoute/>} />
-                                <Route path="/group/create" element={<CreateGroup />} />
-                                <Route path="/group/edit/:id" element={<EditGroup />} />
-                                <Route path="/group/replies/:id" element={<Replies />} />
-                                <Route path="/user/edit" element={<EditUser />} />
+            <GroupsProvider>
+                <div className="app">
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Landing />} >
+                                <Route index element={<Home />} />
+                                <Route element={<RequireAuth />} >
+                                    <Route path="/group/:id" element={<GroupRoute />} />
+                                    <Route path="/group/create" element={<CreateGroup />} />
+                                    <Route path="/group/edit/:id" element={<EditGroup />} />
+                                    <Route path="/group/replies/:id" element={<Replies />} />
+                                    <Route path="/user/edit" element={<EditUser />} />
+                                </Route>
                             </Route>
-                        </Route>
-                    </Routes >
-                </BrowserRouter >
-            </div>
+                        </Routes >
+                    </BrowserRouter >
+                </div>
+            </GroupsProvider>
         </AuthProvider>
     )
 }

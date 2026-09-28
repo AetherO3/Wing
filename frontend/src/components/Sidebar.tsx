@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import group from "../assets/group.jpg"
-import api from "../api/api"
+import { useGroups } from "../context/GroupsProvider";
 import "./Sidebar.css"
 
-type GroupType = {
-    id: number;
-    name: string;
-};
-
 function Sidebar() {
-    const [groups, setGroups] = useState<GroupType[]>([]);
+    const {groups} = useGroups();
     const nav = useNavigate();
-
-    useEffect(() => { api.get("/api/groups/joinedGroups").then((response) => setGroups(response.data)).catch((error) => console.log(`Error found ${error}`)); } , []);
 
     return (
         <div className="sidebar">

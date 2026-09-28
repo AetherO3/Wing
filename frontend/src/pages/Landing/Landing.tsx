@@ -1,6 +1,6 @@
 import { useAuth } from "../../context/AuthProvider";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import SearchResults from "../Search/SearchResults";
@@ -15,15 +15,22 @@ type GroupResults = {
 
 function Landing() {
     const { isAuthenticated } = useAuth();
-    const [searchResults, setSearchResults] = useState<GroupResults[] | null>(null);
+    const location = useLocation();
+    const [search, setSearch] = useState<{ results: GroupResults[], key: string } | null>(null);
+
+    const searchResults = search && search.key === location.key ? search.results : null;
+
+    function handleSearchResults(results: GroupResults[] | null) {
+        setSearch(results === null ? null : { results, key: location.key });
+    }
 
     return (
         <>
-            { isAuthenticated && <Header onSearchResults={setSearchResults} /> }
+            {isAuthenticated && <Header onSearchResults={handleSearchResults} />}
             <div className="body">
                 {isAuthenticated && <Sidebar />}
                 {isAuthenticated && searchResults != null ?
-                    <SearchResults results={searchResults} clearSearch={() => setSearchResults(null)} />
+                    <SearchResults results={searchResults} clearSearch={() => setSearch(null)} />
                     :
                     <Outlet />
                 }
