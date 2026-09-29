@@ -10,4 +10,5 @@ public interface MessageRepository extends JpaRepository<Messages, Long> {
 
     List<Messages> findByGroupId(Long groupId);
     
+    List<Messages> findByGroupIdOrderByCreateDateTimeDescIdDesc(Long groupId);
 }

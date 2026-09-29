@@ -105,7 +105,7 @@ public class MessageService {
     }
 
     public List<MessageResponseDTO> getGroupMessages(Long id) {
-        List<Messages> messages = messageRepository.findByGroupId(id);
+        List<Messages> messages = messageRepository.findByGroupIdOrderByCreateDateTimeDescIdDesc(id);
 
         return messages.stream()
                 .map(
@@ -117,6 +117,7 @@ public class MessageService {
                                 .stance(message.getStance().toString())
                                 .edited(message.getEdited())
                                 .replyCount(message.getReplies().size())
+                                .createDateTime(message.getCreateDateTime())
                                 .parentId(message.getParent() != null
                                         ? message.getParent().getId()
                                         : null)

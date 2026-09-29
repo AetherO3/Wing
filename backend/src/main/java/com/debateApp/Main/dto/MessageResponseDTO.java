@@ -1,5 +1,7 @@
 package com.debateApp.Main.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,5 @@ public class MessageResponseDTO{
     private String stance;
     private boolean edited;
     private int replyCount;
+    private LocalDateTime createDateTime;
 }
