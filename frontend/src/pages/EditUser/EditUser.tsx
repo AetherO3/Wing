@@ -44,7 +44,7 @@ function EditUser() {
     return (
         <div className="form-page">
             <div className="form-card">
-                <h2>Edit Profile</h2>
+                <h3>Edit Profile</h3>
 
                 <div className="form-fields">
                     <label>
