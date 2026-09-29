@@ -10,7 +10,6 @@
     border: 1px solid var(--surface1);
     border-radius: 6px;
     background-color: var(--base);
-    cursor: pointer;
 }
 
 .searchResultsCard:hover{

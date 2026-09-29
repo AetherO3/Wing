@@ -166,7 +166,6 @@ input[type="radio"]{
     display: flex;
     align-items: center;
     gap: .4rem;
-    cursor: pointer;
 }
 
 .btn-primary, .btn-secondary, .btn-danger{
@@ -174,7 +173,6 @@ input[type="radio"]{
     border-radius: 8px;
     font-weight: 500;
     border: 1px solid transparent;
-    cursor: pointer;
 }
 
 .btn-primary{
