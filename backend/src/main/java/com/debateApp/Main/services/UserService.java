@@ -1,7 +1,5 @@
 package com.debateApp.Main.services;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -27,19 +25,13 @@ public class UserService {
         Users user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found id : " + id));
 
-        return UserResponseDTO.builder()
-                .id(user.getId())
-                .userName(user.getUserName())
-                .email(user.getEmail())
-                .build();
-
+        return toResponse(user);
     }
 
     public UserResponseDTO createUser(CreateUserDTO dto) {
 
-        if (userRepository.existsByUserName(dto.getUserName())) {
+        if (userRepository.existsByUserName(dto.getUserName()))
             throw new ResourceAlreadyExistsException("Username already taken.");
-        }
 
         Users user = new Users();
 
@@ -58,15 +50,16 @@ public class UserService {
     }
 
     @PreAuthorize("#id == authentication.principal")
-    public ResponseEntity<String> deleteUser(Long id, DeleteUserDTO dto) {
+    public void deleteUser(Long id, DeleteUserDTO dto) {
 
-        if (validatePassword(id, dto.getPassword())) {
-            userRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Users user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found, id : " + id));
+
+        if (!validatePassword(user.getPasswordHash(), dto.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
         }
 
-        else
-            throw new BadCredentialsException("Invalid password");
+        userRepository.delete(user);
     }
 
     @PreAuthorize("#id == authentication.principal")
@@ -74,14 +67,16 @@ public class UserService {
         Users user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found id:" + id));
 
+        if (!user.getUserName().equals(dto.getUserName())
+                && userRepository.existsByUserName(dto.getUserName())) {
+            throw new ResourceAlreadyExistsException("Username already taken.");
+        }
+
         user.setUserName(dto.getUserName());
+        user.setEmail(dto.getEmail());
         user = userRepository.save(user);
 
-        return UserResponseDTO.builder()
-                .id(user.getId())
-                .userName(user.getUserName())
-                .email(user.getEmail())
-                .build();
+        return toResponse(user);
     }
 
     @PreAuthorize("#id == authentication.principal")
@@ -89,7 +84,7 @@ public class UserService {
         Users user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found, id : " + id));
 
-        if (validatePassword(id, dto.getOldPassword())) {
+        if (validatePassword(user.getPasswordHash(), dto.getOldPassword())) {
 
             user.setPasswordHash(passwordService.hashPassword(dto.getNewPassword()));
             userRepository.save(user);
@@ -99,13 +94,17 @@ public class UserService {
             throw new BadCredentialsException("Invalid Password.");
     }
 
+    public boolean validatePassword(String passwordHash, String password) {
 
-    public boolean validatePassword(Long id, String password) {
-        Users user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User Not Found id:" + id));
-
-        return passwordService.verifyPassword(password, user.getPasswordHash());
+        return passwordService.verifyPassword(password, passwordHash);
 
     }
 
+    private UserResponseDTO toResponse(Users user) {
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .build();
+    }
 }

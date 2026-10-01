@@ -1,6 +1,6 @@
 package com.debateApp.Main.controllers;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserResponseDTO getMe(Authentication auth){
+    public UserResponseDTO getMe(Authentication auth) {
         Long userId = (Long) auth.getPrincipal();
 
         return getUser(userId);
@@ -35,8 +35,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id, @Valid @RequestBody DeleteUserDTO dto) {
-        return userService.deleteUser(id, dto);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long id, @Valid @RequestBody DeleteUserDTO dto) {
+        userService.deleteUser(id, dto);
     }
 
     @PutMapping("/update/{id}")
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public void changePassword(@PathVariable Long id, @Valid @RequestBody ChangePasswordDTO dto){
+    public void changePassword(@PathVariable Long id, @Valid @RequestBody ChangePasswordDTO dto) {
         userService.changePassword(id, dto);
     }
 }
