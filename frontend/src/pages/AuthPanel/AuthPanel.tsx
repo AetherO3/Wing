@@ -46,6 +46,7 @@ function LoginForm() {
 
     return (
         <form onSubmit={submit} className="auth-fields">
+            <p className="form-message">Login to continue....</p>
             <input type="text" placeholder="UserName" value={username} onChange={(e) => setUsername(e.target.value)} />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <p className="formError">{error}</p>}
@@ -81,6 +82,7 @@ function SignUpForm({ onDone }: { onDone: () => void }) {
 
     return (
         <form onSubmit={submit} className="auth-fields">
+        <p className="form-message">Enter the Details to Sign-up.</p>
             <input type="text" placeholder="UserName" value={userName} onChange={(e) => setUsername(e.target.value)} required />
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
