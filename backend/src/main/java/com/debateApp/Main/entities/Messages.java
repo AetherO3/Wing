@@ -22,7 +22,7 @@ public class Messages{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotBlank(message = "Message name cannot be blank")
     private String message;
     
