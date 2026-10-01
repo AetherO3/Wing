@@ -5,7 +5,7 @@ import './EditUser.css'
 import api from '../../api/api';
 
 function EditUser() {
-    const { user, setIsAuthenticated, setUser} = useAuth();
+    const { user, setIsAuthenticated, setUser } = useAuth();
     const [userName, setUserName] = useState(user?.userName);
     const [email, setEmail] = useState(user?.email);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -18,7 +18,7 @@ function EditUser() {
         }
         else {
             try {
-                api.put(`/api/users/update/${user.id}`, {
+                await api.put(`/api/users/update/${user.id}`, {
                     userName: userName,
                     email: email
                 })
