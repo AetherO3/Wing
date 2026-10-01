@@ -33,6 +33,9 @@ public class UserService {
         if (userRepository.existsByUserName(dto.getUserName()))
             throw new ResourceAlreadyExistsException("Username already taken.");
 
+        if (userRepository.existsByEmail(dto.getEmail()))
+            throw new ResourceAlreadyExistsException("Email already taken.");
+
         Users user = new Users();
 
         user.setUserName(dto.getUserName());
@@ -70,6 +73,11 @@ public class UserService {
         if (!user.getUserName().equals(dto.getUserName())
                 && userRepository.existsByUserName(dto.getUserName())) {
             throw new ResourceAlreadyExistsException("Username already taken.");
+        }
+
+        if (!user.getEmail().equals(dto.getEmail())
+                && userRepository.existsByEmail(dto.getEmail())) {
+            throw new ResourceAlreadyExistsException("Email already taken.");
         }
 
         user.setUserName(dto.getUserName());
