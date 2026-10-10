@@ -17,3 +17,4 @@ spring:
 
 app:
   cookie-secure: ${COOKIE_SECURE:false}
+  cors-origin: ${CORS_ORIGIN:http://localhost:8000}
