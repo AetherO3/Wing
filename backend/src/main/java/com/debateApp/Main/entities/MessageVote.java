@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "MessageVote")
+@Table(name = "MessageVote",uniqueConstraints = @UniqueConstraint(name = "uq_vote_user_message", columnNames = {"user_id", "message_id"}), indexes = @Index  (name = "idx_vote_message_id", columnList = "message_id"))
 @Getter
 @Setter
 @AllArgsConstructor

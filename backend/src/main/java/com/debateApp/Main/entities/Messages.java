@@ -10,7 +10,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@Table(name =  "messages")
+@Table(name =  "messages", indexes = {
+    @Index(name = "idx_messages_group_id", columnList = "group_id"),
+    @Index(name = "idx_messages_parent_id", columnList = "parent_id")
+}
+)
 @Getter
 @Setter
 @AllArgsConstructor
