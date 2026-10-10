@@ -103,7 +103,7 @@ function Group() {
     function addMessage() {
         return (
             <form onSubmit={submit} className="postForm">
-                <textarea className="growInput" id='message' placeholder="Enter Message" onChange={(e) => setMessage(e.target.value)} />
+                <textarea className="growInput" id='message' maxLength={2000} placeholder="Enter Message" onChange={(e) => setMessage(e.target.value)} />
 
                 <div className="stanceGroup">
                     <label className="stanceOption">

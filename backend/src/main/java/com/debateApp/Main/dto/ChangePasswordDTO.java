@@ -13,6 +13,6 @@ public class ChangePasswordDTO {
     private String oldPassword;
 
     @NotBlank
-    @Size(min = 8)
+    @Size(min = 8, max = 72, message = "Password must be 8-72 characters")
     private String newPassword;
 }

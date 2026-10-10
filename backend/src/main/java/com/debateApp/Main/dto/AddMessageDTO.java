@@ -9,6 +9,7 @@ import lombok.*;
 public class AddMessageDTO {
     
     @NotBlank
+    @Size(max = 1000, message = "Message cannot exceed 1000 words.")
     private String message;
 
     @NotNull
