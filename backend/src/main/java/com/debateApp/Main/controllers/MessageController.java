@@ -39,7 +39,7 @@ public class MessageController {
     }
 
     @PostMapping("/edit/message/{id}")
-    public void editMessage(@PathVariable Long id, @RequestBody EditMessageDTO dto) {
+    public void editMessage(@PathVariable Long id, @Valid @RequestBody EditMessageDTO dto) {
         messageService.editMessage(id, dto);
     }
 

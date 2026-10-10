@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +28,13 @@ public class GroupController {
     }
 
     @GetMapping("/search")
-    public Page<GroupResponseDTO> searchGroups(@RequestParam String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-        return groupService.searchGroups(name, PageRequest.of(page, size));
+    public Page<GroupResponseDTO> searchGroups(@RequestParam String name, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, 1), 50);
+        String query = name.length() > 50 ? name.substring(0, 50) : name;
+
+        return groupService.searchGroups(query, PageRequest.of(safePage, safeSize));
     }
 
     @GetMapping("/joinedGroups")
@@ -41,7 +45,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}/leaveGroup")
-    public void leaveGroup(@PathVariable Long id){
+    public void leaveGroup(@PathVariable Long id) {
         groupService.removeMember(id);
     }
 
@@ -51,8 +55,8 @@ public class GroupController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteGroup(@PathVariable Long id) {
-        return groupService.deleteGroup(id);
+    public void deleteGroup(@PathVariable Long id) {
+        groupService.deleteGroup(id);
     }
 
     @PatchMapping("/update/{id}")
