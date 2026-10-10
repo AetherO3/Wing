@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext, useContext, type ReactNode } from "react";
-import api from "../api/api.ts";
+import api, { setUnauthorizedHandler } from "../api/api.ts";
 
 type User = {
     id: number;
@@ -29,6 +29,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
         setUser(response.data);
         setIsAuthenticated(true);
     }
+
+    useEffect(() => {
+        setUnauthorizedHandler(() => {
+            setUser(null);
+            setIsAuthenticated(false);
+        });
+        return () => setUnauthorizedHandler(null);
+    }, []);
 
     useEffect(() => {
         api.get("/api/users/me")
