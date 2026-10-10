@@ -20,5 +20,8 @@ public class MessageResponseDTO{
     private String stance;
     private boolean edited;
     private int replyCount;
+    private long agreeCount;
+    private long disagreeCount;
+    private String myVote;
     private LocalDateTime createDateTime;
 }

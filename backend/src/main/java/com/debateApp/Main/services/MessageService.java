@@ -3,6 +3,7 @@ package com.debateApp.Main.services;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
 import com.debateApp.Main.repositories.*;
 import com.debateApp.Main.dto.MessageResponseDTO;
@@ -16,7 +17,9 @@ import com.debateApp.Main.entities.Groups;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
+    private final MessageVoteRepository messageVoteRepository;
 
     public MessageResponseDTO addMessage(AddMessageDTO dto) {
 
@@ -79,9 +83,7 @@ public class MessageService {
                 .stance(message.getStance().toString())
                 .edited(false)
                 .replyCount(message.getReplies().size())
-                .parentId(message.getParent() != null
-                        ? message.getParent().getId()
-                        : null)
+                .parentId(message.getParent() != null ? message.getParent().getId() : null)
                 .build();
     }
 
@@ -89,40 +91,66 @@ public class MessageService {
         Messages message = messageRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Can not find the message, id : " + id));
 
-        return MessageResponseDTO.builder()
-                .id(message.getId())
-                .message(message.getMessage())
-                .authorId(message.getAuthor().getId())
-                .authorName(message.getAuthor().getUserName())
-                .stance(message.getStance().toString())
-                .edited(message.getEdited())
-                .replyCount(message.getReplies().size())
-                .parentId(message.getParent() != null
-                        ? message.getParent().getId()
-                        : null)
-                .build();
+        return toDtos(List.of(message), currentUserIdOrNull()).get(0);
+    }
+
+    private Long currentUserIdOrNull() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        return (auth != null && auth.getPrincipal() instanceof Long userId) ? userId : null;
+    }
+
+    private List<MessageResponseDTO> toDtos(List<Messages> messages, Long currentUserId) {
+        if (messages.isEmpty())
+            return List.of();
+
+        List<Long> ids = messages.stream().map(Messages::getId).toList();
+
+        Map<Long, Long> replyCounts = new HashMap<>();
+
+        for (MessageRepository.ReplyCount r : messageRepository.countRepliesByParentId(ids)) {
+            replyCounts.put(r.getParentId(), r.getTotal());
+        }
+
+        Map<Long, Long> agreeCounts = new HashMap<>();
+        Map<Long, Long> disagreeCounts = new HashMap<>();
+
+        for (MessageVoteRepository.VoteCount v : messageVoteRepository.countVotesByMessageIds(ids)) {
+            if (v.getStance() == Stance.PRO) {
+                agreeCounts.put(v.getMessageId(), v.getTotal());
+            } else if (v.getStance() == Stance.AGAINST) {
+                disagreeCounts.put(v.getMessageId(), v.getTotal());
+            }
+        }
+
+        Map<Long, String> myVotes = new HashMap<>();
+        if (currentUserId != null) {
+            messageVoteRepository.findByUserIdAndMessageIdIn(currentUserId, ids)
+                    .forEach(v -> myVotes.put(v.getMessageId(), v.getStance().name()));
+        }
+
+        return messages.stream()
+                .map(m -> MessageResponseDTO.builder()
+                        .id(m.getId())
+                        .message(m.getMessage())
+                        .authorId(m.getAuthor().getId())
+                        .authorName(m.getAuthor().getUserName())
+                        .stance(m.getStance().toString())
+                        .edited(m.getEdited())
+                        .replyCount(replyCounts.getOrDefault(m.getId(), 0L).intValue())
+                        .agreeCount(agreeCounts.getOrDefault(m.getId(), 0L))
+                        .disagreeCount(disagreeCounts.getOrDefault(m.getId(), 0L))
+                        .myVote(myVotes.get(m.getId()))
+                        .createDateTime(m.getCreateDateTime())
+                        .parentId(m.getParent() != null ? m.getParent().getId() : null)
+                        .build())
+                .toList();
 
     }
 
     public List<MessageResponseDTO> getGroupMessages(Long id) {
-        List<Messages> messages = messageRepository.findByGroupIdOrderByCreateDateTimeDescIdDesc(id);
 
-        return messages.stream()
-                .map(
-                        message -> MessageResponseDTO.builder()
-                                .id(message.getId())
-                                .message(message.getMessage())
-                                .authorId(message.getAuthor().getId())
-                                .authorName(message.getAuthor().getUserName())
-                                .stance(message.getStance().toString())
-                                .edited(message.getEdited())
-                                .replyCount(message.getReplies().size())
-                                .createDateTime(message.getCreateDateTime())
-                                .parentId(message.getParent() != null
-                                        ? message.getParent().getId()
-                                        : null)
-                                .build())
-                .toList();
+        return toDtos(messageRepository.findByGroupIdOrderByCreateDateTimeDescIdDesc(id), currentUserIdOrNull());
     }
 
     public void deleteMessage(Long id) {
@@ -180,24 +208,10 @@ public class MessageService {
     }
 
     public List<MessageResponseDTO> findReplies(Long id) {
-        Messages messages = messageRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Message not found id : " + id));
+        if (!messageRepository.existsById(id))
+            throw new ResourceNotFoundException("Message not found id : " + id);
 
-        return messages.getReplies().stream()
-                .map(
-                        message -> MessageResponseDTO.builder()
-                                .id(message.getId())
-                                .message(message.getMessage())
-                                .authorId(message.getAuthor().getId())
-                                .authorName(message.getAuthor().getUserName())
-                                .stance(message.getStance().toString())
-                                .edited(message.getEdited())
-                                .replyCount(message.getReplies().size())
-                                .parentId(message.getParent() != null
-                                        ? message.getParent().getId()
-                                        : null)
-                                .build())
-                .toList();
+        return toDtos(messageRepository.findByParentIdOrderByIdAsc(id), currentUserIdOrNull());
     }
 
     public Long findGroupId(Long id) {
