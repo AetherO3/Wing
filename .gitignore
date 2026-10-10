@@ -6,6 +6,15 @@ backend/.mvn/wrapper/maven-wrapper.jar
 !backend/**/src/main/**/target/
 !backend/**/src/test/**/target/
 .env
+.env.*
+!.env.example
+
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+Session.vim
 
 backend/.apt_generated
 backend/.classpath
