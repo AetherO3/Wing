@@ -102,7 +102,7 @@ export function Replies() {
         </div>
 
         <div className="replyBar">
-            <textarea className="growInput" placeholder="Write a reply..." onChange={(e) => setNewReply(e.target.value)} value={newReply} />
+            <textarea className="growInput" maxLength={2000} placeholder="Write a reply..." onChange={(e) => setNewReply(e.target.value)} value={newReply} />
             <div className="stanceGroup">
                 <label className="stanceOption">
                     <input type="radio" name="agreeOrNot" value="PRO" onChange={() => setStance("PRO")} />

@@ -143,7 +143,7 @@ function MessageCard({ message, stance, id, author, edited, authorId, noOfReplie
             {isEditing && (
                 <div className='modal-backdrop'>
                     <div className='message-window editForm'>
-                        <textarea className="growInput" value={editText} onChange={(e) => setEditText(e.target.value)} />
+                        <textarea className="growInput" maxLength={2000} value={editText} onChange={(e) => setEditText(e.target.value)} />
                         <div className="modalButtons">
                             <button className="btn-primary" onClick={saveEdit}>Save</button>
                             <button className="btn-secondary" onClick={() => { setIsEditing(false); setEditText(currentMessage) }}>Cancel</button>
