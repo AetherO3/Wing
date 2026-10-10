@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -97,14 +95,14 @@ public class GroupService {
     }
 
     @Transactional
-    public ResponseEntity<String> deleteGroup(Long id) {
+    public void deleteGroup(Long id) {
         Groups group = groupRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The groups does not exist, id : " + id));
 
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!group.getCreator().getId().equals(userId))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only the author can delete the group!");
+            throw new AccessDeniedException("Only the author can delete the group!");
 
         for (Users user : group.getMembers())
             user.getJoinedGroups().removeIf(g -> g.getId().equals(id));
@@ -116,8 +114,6 @@ public class GroupService {
                 messageRepository.delete(message);
 
         groupRepository.delete(group);
-
-        return ResponseEntity.ok("The group was deleted.");
 
     }
 
