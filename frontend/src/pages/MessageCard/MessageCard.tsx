@@ -13,15 +13,18 @@ type MessageCardProp = {
     edited: boolean;
     authorId: number;
     noOfReplies: number;
+    initailAgreeCount: number;
+    initailDisagreeCount: number;
+    initialMyVote: "PRO" | "AGAINST" | null;
     onStanceChange: (id: number, newStance: "PRO" | "AGAINST") => void;
     onDelete: (id: number) => void;
 };
 
-function MessageCard({ message, stance, id, author, edited, authorId, noOfReplies, onStanceChange, onDelete }: MessageCardProp) {
+function MessageCard({ message, stance, id, author, edited, authorId, noOfReplies, initailAgreeCount, initailDisagreeCount, initialMyVote, onStanceChange, onDelete }: MessageCardProp) {
     const { user } = useAuth();
     const [showMenu, setShowMenu] = useState(false);
-    const [agreeCount, setAgreeCount] = useState(0);
-    const [disagreeCount, setDisagreeCount] = useState(0);
+    const [agreeCount, setAgreeCount] = useState(initailAgreeCount);
+    const [disagreeCount, setDisagreeCount] = useState(initailDisagreeCount);
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [currentMessage, setCurrentMessage] = useState(message);
@@ -29,31 +32,8 @@ function MessageCard({ message, stance, id, author, edited, authorId, noOfReplie
     const [editText, setEditText] = useState(currentMessage);
     const menuRef = useRef<HTMLDivElement>(null);
     const [currentStance, setCurrentStance] = useState(stance);
-    const [myVote, setMyVote] = useState<"PRO" | "AGAINST" | null>(null);
+    const [myVote, setMyVote] = useState<"PRO" | "AGAINST" | null>(initialMyVote);
     const nav = useNavigate();
-
-    useEffect(() => {
-        async function getMyVote() {
-            const response = await api.get(`/api/messagevote/myVote/${id}`);
-            setMyVote(response.data || null);
-        }
-
-        getMyVote();
-    }, [id]);
-
-    useEffect(() => {
-        async function getCounts() {
-            const agreeResponse = await api.get(`/api/messagevote/agreers/${id}`);
-
-            const disagreeResponse = await api.get(`/api/messagevote/disagreers/${id}`);
-
-            setAgreeCount(agreeResponse.data);
-            setDisagreeCount(disagreeResponse.data);
-        }
-
-        getCounts();
-
-    }, [id]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {

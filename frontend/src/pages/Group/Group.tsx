@@ -11,8 +11,9 @@ type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 
 type Message = {
     id: number,
-    agree: number,
-    disagree: number,
+    agreeCount: number,
+    disagreeCount: number,
+    myVote: "PRO" | "AGAINST" | null;
     message: string,
     authorId: number,
     authorName: string,
@@ -222,6 +223,9 @@ function renderFor(fMessages: Message[], handleStanceChange: (id: number, newSta
                     edited={message.edited}
                     authorId={message.authorId}
                     noOfReplies={message.replyCount}
+                    initialMyVote={message.myVote}
+                    initailAgreeCount={message.agreeCount}
+                    initailDisagreeCount={message.disagreeCount}
                     onStanceChange={handleStanceChange}
                     onDelete={deleteMessage}
                 />
@@ -243,6 +247,9 @@ function renderAgainst(aMessages: Message[], handleStanceChange: (id: number, ne
                     edited={message.edited}
                     authorId={message.authorId}
                     noOfReplies={message.replyCount}
+                    initialMyVote={message.myVote}
+                    initailAgreeCount={message.agreeCount}
+                    initailDisagreeCount={message.disagreeCount}
                     onStanceChange={handleStanceChange}
                     onDelete={deleteMessage}
                 />

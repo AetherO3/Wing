@@ -17,6 +17,9 @@ type Message = {
     stance: Stance,
     edited: boolean,
     replyCount: number
+    agreeCount: number;
+    disagreeCount: number;
+    myVote: "PRO" | "AGAINST" | null;
 }
 
 export function Replies() {
@@ -96,6 +99,9 @@ export function Replies() {
                 <MessageCard key={reply.id}
                     message={reply.message} stance={reply.stance} id={reply.id}
                     author={reply.authorName} edited={reply.edited} authorId={reply.authorId}
+                    initialMyVote={reply.myVote}
+                    initailAgreeCount={reply.agreeCount}
+                    initailDisagreeCount={reply.disagreeCount}
                     noOfReplies={reply.replyCount} onStanceChange={setChangeStance} onDelete={onDelete}
                 />
             ))}
