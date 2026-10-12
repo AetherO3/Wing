@@ -1,4 +1,4 @@
-import { useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../context/useAuth";
 import { AuthPanel } from "../AuthPanel/AuthPanel";
 
 export function Home() {

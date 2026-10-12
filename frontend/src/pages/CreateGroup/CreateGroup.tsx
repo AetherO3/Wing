@@ -1,7 +1,7 @@
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useGroups } from "../../context/GroupsProvider";
+import { useGroups } from "../../context/useGroups";
 
 function CreateGroup() {
     const [groupName, setGroupName] = useState("");

@@ -1,4 +1,4 @@
-import { useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../context/useAuth";
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../components/Header";

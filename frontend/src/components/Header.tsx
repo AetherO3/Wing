@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthProvider'
+import { useAuth } from '../context/useAuth'
 import logo from '../assets/logo.png'
 import profile from '../assets/profile.jpg'
 import api from '../api/api'

@@ -1,20 +1,9 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import {useCallback, useEffect, useState, type ReactNode } from "react";
+import { GroupContext, type GroupType } from "./groupsContext";
+import { useAuth } from "./useAuth";
 import api from "../api/api";
-import { useAuth } from "./AuthProvider";
 
-type GroupType = {
-    id: number;
-    name: string;
-};
-
-type GroupContextType = {
-    groups: GroupType[];
-    refreshGroups: () => Promise<void>;
-};
-
-const GroupContext = createContext<GroupContextType | undefined>(undefined);
-
-function GroupsProvider({ children }: { children: ReactNode }) {
+export function GroupsProvider({ children }: { children: ReactNode }) {
     const { isAuthenticated } = useAuth();
     const [groups, setGroups] = useState<GroupType[]>([]);
 
@@ -43,13 +32,3 @@ function GroupsProvider({ children }: { children: ReactNode }) {
     );
 }
 
-function useGroups() {
-    const context = useContext(GroupContext);
-
-    if (context == undefined)
-        throw new Error("useGroups must be used within GroupsProvider");
-
-    return context;
-}
-
-export { useGroups, GroupsProvider };

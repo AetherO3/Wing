@@ -2,7 +2,7 @@ import api from "../../api/api";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useGroups } from "../../context/GroupsProvider";
+import { useGroups } from "../../context/useGroups";
 
 function EditGroup() {
     const [groupName, setGroupName] = useState("");

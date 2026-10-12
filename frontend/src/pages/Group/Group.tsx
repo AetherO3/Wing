@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect, type SubmitEvent } from "react"
-import { useAuth } from "../../context/AuthProvider"
+import { useAuth } from "../../context/useAuth"
 import "./Group.css"
 import MessageCard from "../MessageCard/MessageCard.tsx"
 import api from '../../api/api.ts'
 import profile from "../../assets/profile.jpg"
-import { useGroups } from "../../context/GroupsProvider.tsx"
+import { useGroups } from "../../context/useGroups"
 
 type Stance = "PRO" | "AGAINST" | "NEUTRAL";
 

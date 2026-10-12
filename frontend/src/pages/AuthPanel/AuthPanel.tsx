@@ -1,5 +1,5 @@
 import { useState, type SubmitEvent } from "react";
-import { useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../context/useAuth";
 import { useNavigate } from "react-router-dom";
 import api from '../../api/api';
 import './AuthPanel.css';

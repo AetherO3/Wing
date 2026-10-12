@@ -51,7 +51,7 @@ export function Replies() {
         }
 
         getMessage();
-    }, [id]);
+    }, [id, nav]);
 
 
     useEffect(() => {

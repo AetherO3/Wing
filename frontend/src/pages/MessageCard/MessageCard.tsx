@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import api from '../../api/api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../context/useAuth';
 
 import './MessageCard.css';
 

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../context/useAuth';
 import './EditUser.css'
 import api from '../../api/api';
 

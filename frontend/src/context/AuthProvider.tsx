@@ -1,24 +1,8 @@
-import { useEffect, useState, createContext, useContext, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { AuthContext, type User } from "./authContext.ts";
 import api, { setUnauthorizedHandler } from "../api/api.ts";
 
-type User = {
-    id: number;
-    userName: string;
-    email: string;
-};
-
-type AuthContextType = {
-    user: User | null;
-    isAuthenticated: boolean;
-    loading: boolean;
-    setIsAuthenticated: (value: boolean) => void;
-    setUser: (user: User | null) => void;
-    refreshUser: () => Promise<void>;
-};
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -60,13 +44,3 @@ function AuthProvider({ children }: { children: ReactNode }) {
     );
 }
 
-function useAuth() {
-    const context = useContext(AuthContext);
-
-    if (context === undefined)
-        throw new Error("useAuth must be used within AuthProvider");
-
-    return context;
-}
-
-export { AuthContext, AuthProvider, useAuth };

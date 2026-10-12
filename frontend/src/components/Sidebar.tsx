@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import group from "../assets/group.jpg"
-import { useGroups } from "../context/GroupsProvider";
+import { useGroups } from "../context/useGroups";
 import "./Sidebar.css"
 
 function Sidebar() {
