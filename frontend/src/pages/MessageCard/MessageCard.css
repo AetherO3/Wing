@@ -47,6 +47,11 @@
     background: var(--base);
 }
 
+
+#threeDot:hover{
+    color: white;
+}
+
 .menu-wrapper{
     position: relative;
 }
