@@ -9,11 +9,14 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+    show-sql: ${SHOW-SQL:false}
     properties:
       hibernate:
         format-sql: true
+
+  flyway:
+    baseline-on-migrate: ${FLYWAY_BASELINE:false}
 
 app:
   cookie-secure: ${COOKIE_SECURE:false}
