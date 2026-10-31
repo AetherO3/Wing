@@ -1,4 +1,7 @@
 .DS_Store
+neon.ts 
+package.json
+package-lock.json
 
 backend/HELP.md
 backend/target/
@@ -30,3 +33,5 @@ backend/.vscode/
 frontend/node_modules/
 frontend/dist/
 frontend/.env
+.neon
+node_modules/
