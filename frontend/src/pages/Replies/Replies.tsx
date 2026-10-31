@@ -58,7 +58,7 @@ export function Replies() {
         if (!parentMessage?.id) return;
 
         async function getReplies() {
-            const response = await api.get(`api/messages/replies/${parentMessage?.id}`);
+            const response = await api.get(`/api/messages/replies/${parentMessage?.id}`);
             setReplies(response.data);
         }
 
