@@ -13,13 +13,14 @@ type groupResult = {
     creatorName: string
 };
 
-function Header({ onSearchResults }: { onSearchResults: (results: groupResult[] | null) => void }) {
+function Header({ onSearchResults, onMenuClick }: { onSearchResults: (results: groupResult[] | null) => void, onMenuClick : () => void }) {
     const nav = useNavigate();
     const { user } = useAuth();
 
     return (
         <div className="header">
-            <div> <img src={logo} className='header-logo' alt="logo." /> </div>
+        <button className='menu-btn' onClick={onMenuClick}>☰</button>
+            <div className='header-logo-wrap'> <img src={logo} className='header-logo' alt="logo." /> </div>
 
             <Search onSearchResults={onSearchResults} />
 
@@ -49,7 +50,7 @@ function Search({ onSearchResults }: { onSearchResults: (results: groupResult[] 
     }
 
     return (
-        <form onSubmit={handleSearch}>
+        <form onSubmit={handleSearch} className='header-search'>
             <label htmlFor="search">
                 <input type="text" id="search" placeholder="search....." value={search} onChange={(e) => setSearch(e.target.value)} />
             </label>

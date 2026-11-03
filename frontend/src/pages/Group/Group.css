@@ -8,6 +8,19 @@
     background: var(--mantle);
 }
 
+.group-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: .5rem;
+    min-height: 4rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--surface1);
+    background: var(--mantle);
+    font-size: clamp(18px, 5vw, 32px);
+}
+
 .discussion-area{
     display: flex;
     flex: 1;
@@ -16,25 +29,20 @@
     justify-content: space-around;
 }
 
-.group-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 8%;
-    border-bottom: 1px solid var(--surface1);
-    background: var(--mantle);
-    font-size: 32px;
-}
-
 .group-header-img-and-title{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    min-width: 0;
 }
+
+#group-header-title{
+    overflow-wrap: anywhere;
+    min-width: 0; 
+}
+
 #group-header-img{
-    height: 60px;
-    padding-right: 30px;
-    padding-left: 30px;
+    height: clamp(36px, 8vw, 60px);
+    padding: 0 clamp(10px, 3vw, 30px);
     border-radius: 100%;
 }
 
@@ -42,19 +50,17 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
-    padding-right: 1.5rem;
-    flex-shrink: 0;
+    gap: clamp(.4rem, 1.5vw, 1rem);
+    padding: 0 clamp(.5rem, 2vw, 1.5rem);
+    margin-left: auto;
 }
 
 .button>*{
-    width: 100px;
-    height: 50px;
+    width: clamp(60px, 18vw, 100px);
+    height: clamp(34px, 6vw, 50px);
     border-radius: 25px;
     border: 1px solid var(--accent-border);
-}
-
-.button.join>*, .button.post>*{
+}button.join>*, .button.post>*{
     background: var(--bg);
     color: var(--text);
     border: 1px solid var(--surface0);
@@ -115,17 +121,6 @@
     padding-bottom: 4px;
 }
 
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(2px);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 #radioBtns{
     display: flex;
     justify-content: space-around;
@@ -139,7 +134,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    width: 20rem;
+    width: min(20rem, 85vw);
 }
 
 #textField{

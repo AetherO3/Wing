@@ -17,6 +17,7 @@ function Landing() {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
     const [search, setSearch] = useState<{ results: GroupResults[], key: string } | null>(null);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const searchResults = search && search.key === location.key ? search.results : null;
 
@@ -26,9 +27,9 @@ function Landing() {
 
     return (
         <>
-            {isAuthenticated && <Header onSearchResults={handleSearchResults} />}
+            {isAuthenticated && <Header onSearchResults={handleSearchResults} onMenuClick={() => setSidebarOpen(o => !o)} />}
             <div className="body">
-                {isAuthenticated && <Sidebar />}
+                {isAuthenticated && <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
                 {isAuthenticated && searchResults != null ?
                     <SearchResults results={searchResults} clearSearch={() => setSearch(null)} />
                     :

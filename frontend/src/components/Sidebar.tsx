@@ -3,13 +3,14 @@ import group from "../assets/group.jpg"
 import { useGroups } from "../context/useGroups";
 import "./Sidebar.css"
 
-function Sidebar() {
+function Sidebar({open, onClose} : {open : boolean, onClose: () => void}) {
     const {groups} = useGroups();
     const nav = useNavigate();
 
     return (
-        <div className="sidebar">
-            {
+        <>
+        <div className={`sidebar-backdrop${open ? "open" : ""}`} onClick={onClose} />
+            <div className={`sidebar${open ? "open" : ""}`} onClick={onClose}>{
                 (!groups || groups.length == 0) ?
                     (<div  >
                         No Joined Groups
@@ -24,7 +25,8 @@ function Sidebar() {
                     </div>)
             }
 
-        </div >
+        </div>
+        </>
     );
 }
 
