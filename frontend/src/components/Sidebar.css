@@ -55,14 +55,14 @@
 }
 
 .sidebar-group p{
-min-width: 0;
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .sidebar-backdrop{
-display: none;
+    display: none;
 }
 
 @media (max-width: 768px){

@@ -9,8 +9,8 @@ function Sidebar({open, onClose} : {open : boolean, onClose: () => void}) {
 
     return (
         <>
-        <div className={`sidebar-backdrop${open ? "open" : ""}`} onClick={onClose} />
-            <div className={`sidebar${open ? "open" : ""}`} onClick={onClose}>{
+        <div className={`sidebar-backdrop${open ? " open" : ""}`} onClick={onClose} />
+            <div className={`sidebar${open ? " open" : ""}`} onClick={onClose}>{
                 (!groups || groups.length == 0) ?
                     (<div  >
                         No Joined Groups
