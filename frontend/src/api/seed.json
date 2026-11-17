@@ -1,0 +1,50 @@
+{
+  "currentUserId": 1,
+  "users": [
+    { "id": 1, "userName": "demo_user", "email": "demo@example.com" },
+    { "id": 2, "userName": "prevUser", "email": "prevuser@example.com" },
+    { "id": 3, "userName": "oguser", "email": "oguserd@example.com" },
+    { "id": 4, "userName": "ogoguser", "email": "ogoguser@example.com" }
+  ],
+  "groups": [
+    { "id": 1, "name": "Remote Work", "topic": "Is remote work better than office work?", "creatorId": 2 },
+    { "id": 2, "name": "AI in Schools", "topic": "Should students be allowed to use AI for homework?", "creatorId": 3 },
+    { "id": 3, "name": "Four Day Week", "topic": "Should every company move to a four-day work week?", "creatorId": 1 }
+  ],
+  "members": [
+    { "groupId": 1, "userId": 1 },
+    { "groupId": 1, "userId": 2 },
+    { "groupId": 1, "userId": 3 },
+    { "groupId": 2, "userId": 3 },
+    { "groupId": 2, "userId": 4 },
+    { "groupId": 3, "userId": 1 },
+    { "groupId": 3, "userId": 4 }
+  ],
+  "messages": [
+    { "id": 1, "groupId": 1, "parentId": null, "authorId": 2, "stance": "PRO", "edited": false, "createDateTime": "2026-11-01T09:00:00", "message": "Remote work saves hours of commuting, and that time goes back to focused work and family." },
+    { "id": 2, "groupId": 1, "parentId": null, "authorId": 3, "stance": "AGAINST", "edited": false, "createDateTime": "2026-11-01T09:30:00", "message": "Offices make mentoring and quick questions easier, especially for junior people." },
+    { "id": 3, "groupId": 1, "parentId": 1, "authorId": 3, "stance": "AGAINST", "edited": false, "createDateTime": "2026-11-01T10:15:00", "message": "Commute time is real, but many people end up working longer hours at home instead." },
+    { "id": 4, "groupId": 1, "parentId": 3, "authorId": 2, "stance": "PRO", "edited": true, "createDateTime": "2026-11-01T11:00:00", "message": "That is a boundaries problem, not a remote problem. Clear working hours fix it." },
+    { "id": 5, "groupId": 1, "parentId": 2, "authorId": 1, "stance": "PRO", "edited": false, "createDateTime": "2026-11-02T08:20:00", "message": "Mentoring works fine over scheduled calls and shared documents." },
+    { "id": 6, "groupId": 2, "parentId": null, "authorId": 3, "stance": "PRO", "edited": false, "createDateTime": "2026-11-03T12:00:00", "message": "AI is now a normal tool. Schools should teach students to use it well instead of banning it." },
+    { "id": 7, "groupId": 2, "parentId": null, "authorId": 4, "stance": "AGAINST", "edited": false, "createDateTime": "2026-11-03T12:40:00", "message": "Homework exists to build skills. If AI does the thinking, nothing is learned." },
+    { "id": 8, "groupId": 2, "parentId": 7, "authorId": 3, "stance": "PRO", "edited": false, "createDateTime": "2026-11-03T13:10:00", "message": "Calculators did not end maths. Assignments can be redesigned so thinking still counts." },
+    { "id": 9, "groupId": 3, "parentId": null, "authorId": 1, "stance": "PRO", "edited": false, "createDateTime": "2026-11-04T07:45:00", "message": "Trials show output stays steady while burnout drops with a shorter week." },
+    { "id": 10, "groupId": 3, "parentId": null, "authorId": 4, "stance": "AGAINST", "edited": false, "createDateTime": "2026-11-04T08:30:00", "message": "Customer-facing jobs and hospitals cannot simply close one day a week." },
+    { "id": 11, "groupId": 3, "parentId": 10, "authorId": 1, "stance": "PRO", "edited": false, "createDateTime": "2026-11-04T09:00:00", "message": "Those teams can use rotating schedules. The goal is fewer hours, not a shared day off." }
+  ],
+  "votes": [
+    { "userId": 3, "messageId": 1, "stance": "PRO" },
+    { "userId": 4, "messageId": 1, "stance": "PRO" },
+    { "userId": 1, "messageId": 1, "stance": "PRO" },
+    { "userId": 2, "messageId": 2, "stance": "AGAINST" },
+    { "userId": 4, "messageId": 2, "stance": "PRO" },
+    { "userId": 1, "messageId": 3, "stance": "AGAINST" },
+    { "userId": 2, "messageId": 6, "stance": "PRO" },
+    { "userId": 4, "messageId": 6, "stance": "AGAINST" },
+    { "userId": 1, "messageId": 7, "stance": "AGAINST" },
+    { "userId": 2, "messageId": 9, "stance": "PRO" },
+    { "userId": 4, "messageId": 9, "stance": "PRO" },
+    { "userId": 2, "messageId": 10, "stance": "AGAINST" }
+  ]
+}

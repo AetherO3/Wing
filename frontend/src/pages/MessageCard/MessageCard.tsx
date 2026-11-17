@@ -20,7 +20,7 @@ type MessageCardProp = {
     onDelete: (id: number) => void;
 };
 
-export function MessageCard({ message, stance, id, author, edited, authorId, noOfReplies, initailAgreeCount, initailDisagreeCount, initialMyVote, onStanceChange, onDelete }: MessageCardProp) {
+export default function MessageCard({ message, stance, id, author, edited, authorId, noOfReplies, initailAgreeCount, initailDisagreeCount, initialMyVote, onStanceChange, onDelete }: MessageCardProp) {
     const { user } = useAuth();
     const [showMenu, setShowMenu] = useState(false);
     const [agreeCount, setAgreeCount] = useState(initailAgreeCount);

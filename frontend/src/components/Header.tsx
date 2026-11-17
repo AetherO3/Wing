@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import logo from '../assets/logo.png'
 import profile from '../assets/profile.jpg'
-import api from '../api/api'
+import api, {isDemo} from '../api/api'
 import "./Header.css"
 
 type groupResult = {
@@ -62,6 +62,12 @@ function Logout() {
     const { setUser, setIsAuthenticated } = useAuth();
 
     async function handleLogout() {
+        if(isDemo){
+            sessionStorage.removeItem('demo');
+            window.location.href = '/';
+            return;
+        }
+
         api.post('/auth/logout');
         setUser(null);
         setIsAuthenticated(false);

@@ -51,6 +51,7 @@ function LoginForm() {
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <p className="formError">{error}</p>}
             <button type="submit" className="btn-primary">Login</button>
+            <button type="button" className="btn-secondary" onClick={startDemo}>Try demo</button>
         </form>
     );
 }
@@ -91,4 +92,9 @@ function SignUpForm({ onDone }: { onDone: () => void }) {
             <button type="submit" className="btn-primary">Submit</button>
         </form>
     );
+}
+
+function startDemo(){
+    sessionStorage.setItem("demo", "true");
+    window.location.href="/";
 }
