@@ -7,6 +7,8 @@ A straight to the point way to get and share opinions on topics, with the design
 **Live link:** https://wing-w3ei.onrender.com
 **No signup needed:** click **Try demo** on the login page.
 
+![Wing Demo](docs/demo.gif)
+
 ---
 
 ### Features
