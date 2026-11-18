@@ -3,6 +3,7 @@ import { useAuth } from "../../context/useAuth";
 import { useNavigate } from "react-router-dom";
 import api from '../../api/api';
 import './AuthPanel.css';
+import axios from "axios";
 
 type Tab = "login" | "signup";
 
@@ -39,7 +40,12 @@ function LoginForm() {
             await refreshUser();
             nav("/");
         } catch (error) {
-            setError("Login failed, check your username and password");
+            if(axios.isAxiosError(error) && error.response?.status === 429){
+                    setError("Too many attempts. Please wait a minute and try again.");
+            }
+            else{
+                setError("Login failed, check your username and password");
+            }
             console.log(`Login failed because: ${error}`);
         }
     }
