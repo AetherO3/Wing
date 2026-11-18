@@ -1,4 +1,4 @@
-[CI](https://github.com/AetherO3/Wing/actions/workflows/ci.yml)
+[![CI](https://github.com/AetherO3/Wing/actions/workflows/ci.yml/badge.svg)](https://github.com/AetherO3/Wing/actions/workflows/ci.yml)
 
 # Wing
 
